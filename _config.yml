@@ -1,17 +1,18 @@
 # Configurations
-title:            Jekyll Gitbook
-longtitle:        Jekyll Gitbook
-author:           HE Tao
-email:            sighingnow@gmail.com
+title: Jekyll Gitbook
+longtitle: Jekyll Gitbook
+author: HE Tao
+email: sighingnow@gmail.com
 description: >
   Build Jekyll site with the GitBook style.
 
-version:          1.0
-gitbook_version:  3.2.3
+version: 1.0
+gitbook_version: 3.2.3
 
-url:              'https://sighingnow.github.io'
-baseurl:          '/jekyll-gitbook'
-rss:              RSS
+url: "https://aomaker.github.io"
+# baseurl: "/jekyll-gitbook"
+baseurl: ""
+rss: RSS
 
 # bootstrap: use the remote theme for the site itself
 remote_theme: sighingnow/jekyll-gitbook
@@ -22,23 +23,23 @@ toc:
   h_max: 3
 
 # markdown render engine.
-markdown:         kramdown
+markdown: kramdown
 kramdown:
-  auto_ids:               true
-  input:                  GFM
-  math_engine:            mathjax
-  smart_quotes:           lsquo,rsquo,ldquo,rdquo
-  toc_levels:             1..6
-  syntax_highlighter:     rouge
+  auto_ids: true
+  input: GFM
+  math_engine: mathjax
+  smart_quotes: lsquo,rsquo,ldquo,rdquo
+  toc_levels: 1..6
+  syntax_highlighter: rouge
   syntax_highlighter_opts:
-    guess_lang:           true
+    guess_lang: true
 
 syntax_highlighter_style: colorful
 
-markdown_ext:     markdown,mkdown,mkdn,mkd,md
+markdown_ext: markdown,mkdown,mkdn,mkd,md
 
 # Permalinks
-permalink:        /:categories/:year-:month-:day-:title:output_ext
+permalink: /:categories/:year-:month-:day-:title:output_ext
 
 exclude:
   - _drafts
@@ -50,9 +51,9 @@ collections:
 
 page_width: 800px
 
-destination:      ./_site
-incremental:      false
-regenerate:       true
+destination: ./_site
+incremental: false
+regenerate: true
 
 plugins:
   - jekyll-feed
