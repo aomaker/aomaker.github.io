@@ -1,0 +1,873 @@
+<!DOCTYPE HTML>
+<html lang="en" >
+    <head><meta charset="UTF-8" />
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" /><title>📝编写YAML自动生成用例 · 🦄AoMaker</title><meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="description" content="AoMaker guides.
+" /><meta
+  name="generator"
+  content="Jekyll (using style of GitBook 3.2.3)"
+/><meta name="author" content="Ancient One" /><link rel="stylesheet" href="/assets/gitbook/style.css" />
+<link
+  rel="stylesheet"
+  href="/assets/gitbook/gitbook-plugin-fontsettings/website.css"
+/>
+<link
+  rel="stylesheet"
+  href="/assets/gitbook/gitbook-plugin-search-pro/search.css"
+/>
+<link
+  rel="stylesheet"
+  href="/assets/gitbook/gitbook-plugin-back-to-top-button/plugin.css"
+/>
+
+<!-- <link
+  rel="stylesheet"
+  href="/assets/gitbook/rouge/colorful.css"
+/> -->
+<link
+  rel="stylesheet"
+  href="/assets/gitbook/rouge/pastie.css"
+/>
+
+<link rel="stylesheet" href="/assets/gitbook/custom.css" />
+
+<meta name="HandheldFriendly" content="true" />
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1, user-scalable=no"
+/>
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<link
+  rel="apple-touch-icon-precomposed"
+  sizes="152x152"
+  href="/assets/gitbook/images/apple-touch-icon-precomposed-152.png"
+/>
+<link
+  rel="shortcut icon"
+  href="/assets/gitbook/images/favicon.ico"
+  type="image/x-icon"
+/>
+
+ 
+
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [
+        ["$", "$"],
+        ["\\(", "\\)"],
+      ],
+    },
+    svg: {
+      fontCache: "global",
+    },
+  };
+</script>
+            <link rel="prev" href="/jekyll/2022-05-24-async_api.html" />
+        
+
+        
+            <link rel="next" href="/jekyll/2022-06-30-%E6%B5%81%E9%87%8F%E5%BD%95%E5%88%B6.html" />
+        
+    </head>
+    <body>
+        <div class="book"><div class="book-summary">
+  <nav role="navigation">
+    <div id="book-search-input" role="search">
+      <input type="text" placeholder="Type to search" />
+    </div>
+    <div id="book-search-input-link" role="search">
+      <a href="/assets/search.html">Click to Search</a>
+    </div>
+    <ul class="summary">
+      
+      </li>
+
+      <li class="chapter" data-level="1.1" data-path="">
+        
+        <a href="/"> 🦄AoMaker </a>
+      </li>
+
+      <li class="divider"></li>
+
+      
+      <!-- <p>pages</p> -->
+         
+      </li>
+
+      <li
+        class="chapter"
+        data-level="1.1"
+        data-path="/pages/%E5%BF%AB%E9%80%9F%E5%BC%80%E5%A7%8B/"
+      >
+        
+        <a href="/pages/%E5%BF%AB%E9%80%9F%E5%BC%80%E5%A7%8B/"> ✈️快速开始 </a>
+          
+      </li>
+       
+      </li>
+
+      <li
+        class="chapter"
+        data-level="1.1"
+        data-path="/pages/installation/"
+      >
+        
+        <a href="/pages/installation/"> ⚓安装 </a>
+          
+      </li>
+       
+      <li class="divider"></li>
+        
+      <!-- <p>posts</p> -->
+         
+      </li>
+
+      <li
+        class="chapter"
+        data-level="1.1"
+        data-path="/jekyll/2019-01-29-aomaker%E7%BB%93%E6%9E%84.html"
+      >
+        
+        <a href="/jekyll/2019-01-29-aomaker%E7%BB%93%E6%9E%84.html"> 💎aomaker结构 </a>
+          
+      </li>
+       
+      </li>
+
+      <li
+        class="chapter"
+        data-level="1.1"
+        data-path="/jekyll/2019-04-29-%E5%8F%98%E9%87%8F%E7%AE%A1%E7%90%86.html"
+      >
+        
+        <a href="/jekyll/2019-04-29-%E5%8F%98%E9%87%8F%E7%AE%A1%E7%90%86.html"> ☄️变量管理 </a>
+          
+      </li>
+       
+      </li>
+
+      <li
+        class="chapter"
+        data-level="1.1"
+        data-path="/jekyll/2021-08-10-dependence.html"
+      >
+        
+        <a href="/jekyll/2021-08-10-dependence.html"> 🤖dependence装饰器用法 </a>
+          
+      </li>
+       
+      </li>
+
+      <li
+        class="chapter"
+        data-level="1.1"
+        data-path="/jekyll/2022-05-24-async_api.html"
+      >
+        
+        <a href="/jekyll/2022-05-24-async_api.html"> 👽async_api装饰器用法 </a>
+          
+      </li>
+       
+      <li
+        class="chapter active"
+        data-level="1.2"
+        data-path="/jekyll/2022-06-26-YAML.html"
+      >
+        
+        <a href="/jekyll/2022-06-26-YAML.html"> 📝编写YAML自动生成用例 </a>
+          
+  
+      </li>
+       
+      </li>
+
+      <li
+        class="chapter"
+        data-level="1.1"
+        data-path="/jekyll/2022-06-30-%E6%B5%81%E9%87%8F%E5%BD%95%E5%88%B6.html"
+      >
+        
+        <a href="/jekyll/2022-06-30-%E6%B5%81%E9%87%8F%E5%BD%95%E5%88%B6.html"> 📽️流量录制 </a>
+          
+      </li>
+       
+      </li>
+
+      <li
+        class="chapter"
+        data-level="1.1"
+        data-path="/jekyll/2022-07-10-%E5%A4%9A%E4%BB%BB%E5%8A%A1.html"
+      >
+        
+        <a href="/jekyll/2022-07-10-%E5%A4%9A%E4%BB%BB%E5%8A%A1.html"> 🚀多任务 </a>
+          
+      </li>
+       
+      </li>
+
+      <li
+        class="chapter"
+        data-level="1.1"
+        data-path="/jekyll/2022-07-11-%E6%97%A5%E5%BF%97%E7%B3%BB%E7%BB%9F.html"
+      >
+        
+        <a href="/jekyll/2022-07-11-%E6%97%A5%E5%BF%97%E7%B3%BB%E7%BB%9F.html"> 📘日志系统 </a>
+          
+      </li>
+       
+      </li>
+
+      <li
+        class="chapter"
+        data-level="1.1"
+        data-path="/jekyll/2022-07-11-%E4%B8%80%E9%94%AE%E5%88%87%E6%8D%A2%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83.html"
+      >
+        
+        <a href="/jekyll/2022-07-11-%E4%B8%80%E9%94%AE%E5%88%87%E6%8D%A2%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83.html"> 🐼一键切换运行环境 </a>
+          
+      </li>
+       
+      </li>
+
+      <li
+        class="chapter"
+        data-level="1.1"
+        data-path="/jekyll/2022-07-12-allure%E6%8A%A5%E5%91%8A%E4%BC%98%E5%8C%96.html"
+      >
+        
+        <a href="/jekyll/2022-07-12-allure%E6%8A%A5%E5%91%8A%E4%BC%98%E5%8C%96.html"> 👻Allure报告优化 </a>
+          
+      </li>
+       
+      </li>
+
+      <li
+        class="chapter"
+        data-level="1.1"
+        data-path="/jekyll/2022-07-13-%E6%96%AD%E8%A8%80%E6%89%A9%E5%B1%95.html"
+      >
+        
+        <a href="/jekyll/2022-07-13-%E6%96%AD%E8%A8%80%E6%89%A9%E5%B1%95.html"> 🌊断言扩展 </a>
+          
+      </li>
+       
+      </li>
+
+      <li
+        class="chapter"
+        data-level="1.1"
+        data-path="/jekyll/2022-07-14-%E9%9B%86%E6%88%90%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C.html"
+      >
+        
+        <a href="/jekyll/2022-07-14-%E9%9B%86%E6%88%90%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C.html"> 集成数据库操作 </a>
+          
+      </li>
+       
+      </li>
+
+      <li
+        class="chapter"
+        data-level="1.1"
+        data-path="/jekyll/2022-07-15-%E4%BC%81%E4%B8%9A%E5%BE%AE%E4%BF%A1%E9%80%9A%E7%9F%A5.html"
+      >
+        
+        <a href="/jekyll/2022-07-15-%E4%BC%81%E4%B8%9A%E5%BE%AE%E4%BF%A1%E9%80%9A%E7%9F%A5.html"> 📢企业微信通知 </a>
+          
+      </li>
+       
+      <li class="divider"></li>
+        
+
+      <li>
+        <a
+          href="https://github.com/ae86sen/aomaker"
+          target="blank"
+          class="gitbook-link"
+        >
+          ⭐Star it Now!
+        </a>
+      </li>
+    </ul>
+  </nav>
+</div>
+<div class="book-body">
+                <div class="book-header" role="navigation">
+                    <!-- Title -->
+                    <h1>
+                        <i class="fa fa-circle-o-notch fa-spin"></i>
+                        
+                            <a href="." >📝编写YAML自动生成用例</a>
+                        
+                    </h1>
+                </div>
+
+                <div class="body-inner"><div class="page-wrapper" tabindex="-1" role="main">
+    
+
+    <div class="page-inner">
+        <div id="book-search-results">
+            <div class="search-noresults">
+                <section class="normal markdown-section">
+                    
+                        <h1 id="/jekyll/YAML">📝编写YAML自动生成用例</h1>
+                    
+
+                    <p><code class="language-plaintext highlighter-rouge">aomaker</code>提供了一套<code class="language-plaintext highlighter-rouge">YAML</code>模板语法，只要遵循规定语法，就可以不用写代码，直接通过<code class="language-plaintext highlighter-rouge">YAML</code>文件直接翻译为<code class="language-plaintext highlighter-rouge">pytest</code>风格的代码文件。</p>
+
+<p><strong>YAML语法介绍示例：</strong></p>
+
+<ul>
+  <li><strong>testcase_class_name（必填）</strong>:指定测试类名称</li>
+  <li><strong>description（可选）</strong>：用例描述</li>
+  <li><strong>testcase_name（必填</strong>）：指定测试类下的测试方法名称</li>
+  <li><strong>config（可选）</strong>：配置全局变量（配置文件中的全局变量），采用锚点标记的方式，下文可以直接引用</li>
+</ul>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 示例</span>
+<span class="c1"># 标记锚点</span>
+<span class="na">config</span><span class="pi">:</span> <span class="nl">&amp;config</span>
+  <span class="na">zone</span><span class="pi">:</span> <span class="s2">"</span><span class="s">self.config.get('zone')"</span>
+<span class="na">steps</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">class_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">job'</span>
+    <span class="na">method_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">submit_job'</span>
+    <span class="na">request</span><span class="pi">:</span>
+      <span class="s">...</span>
+      <span class="s">data</span><span class="err">:</span>
+        <span class="na">params</span><span class="pi">:</span>
+          <span class="na">service</span><span class="pi">:</span> <span class="s">hpc</span>
+          <span class="s">...</span>
+          <span class="c1"># 引用锚点</span>
+          <span class="na">&lt;&lt;</span><span class="pi">:</span> <span class="nv">*config</span> <span class="c1"># 等同于 zone："self.config.get('zone')"</span>
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p><strong>steps</strong>：测试场景所包含的所有接口列表，列表中每一个元素即代表一个接口请求信息。（先后顺序代表接口请求顺序）steps中每个元素中至少有3个字段：</p>
+
+    <ul>
+      <li>
+        <p><strong>class_name（必填）</strong>：指定ao的类名</p>
+      </li>
+      <li>
+        <p><strong>method_name（必填）</strong>：指定ao类下的方法名，即接口名称</p>
+      </li>
+      <li>
+        <p><strong>request（必填）</strong>: 接口请求信息</p>
+      </li>
+      <li>
+        <p><strong>dependent_api（可选）</strong>：指明该接口的依赖接口，以列表形式接收，可以接收多个依赖，按先后顺序调用，每个依赖需要指明的参数如下：</p>
+
+        <ul>
+          <li>
+            <p><em>module</em>（必填）: 依赖接口的所在模块，从<code class="language-plaintext highlighter-rouge">apis</code>模块导入，如<code class="language-plaintext highlighter-rouge">apis.cluster</code></p>
+          </li>
+          <li>
+            <p><em>api（必填）</em>: 依赖接口的方法名称，如<code class="language-plaintext highlighter-rouge">list</code></p>
+          </li>
+          <li>
+            <p><em>extract（必填）</em>: 需要从依赖接口中提取的参数</p>
+          </li>
+          <li>
+            <p><em>api_params（可选）</em>：依赖接口所需要的参数，以字典形式接收</p>
+
+            <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cluster_type: 'ehpc'
+</code></pre></div>            </div>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 示例</span>
+<span class="nn">...</span>
+<span class="na">steps</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">class_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">job'</span>
+    <span class="na">method_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">submit_job'</span>
+    <span class="na">dependent_api</span><span class="pi">:</span>
+      <span class="c1"># 指明依赖apis.cluster模块下的list方法</span>
+      <span class="pi">-</span> <span class="na">module</span><span class="pi">:</span> <span class="s">apis.cluster</span>
+        <span class="na">api</span><span class="pi">:</span> <span class="s">list</span>
+        <span class="na">extract</span><span class="pi">:</span> <span class="s2">"</span><span class="s">cluster_id"</span> <span class="c1"># 提取的参数名</span>
+        <span class="na">api_params</span><span class="pi">:</span> 
+          <span class="na">cluster_type</span><span class="pi">:</span> <span class="s1">'</span><span class="s">ehpc'</span> <span class="c1"># 依赖接口所需要外部传入的参数</span>
+      <span class="c1"># 指明依赖apis.queue模块下的get_queue_list方法</span>
+      <span class="pi">-</span> <span class="na">module</span><span class="pi">:</span> <span class="s">apis.queue</span>
+        <span class="na">api</span><span class="pi">:</span> <span class="s">get_queue_list</span>
+        <span class="na">extract</span><span class="pi">:</span> <span class="s2">"</span><span class="s">ehpc_queue_id"</span>
+</code></pre></div></div>
+
+<ul>
+  <li><strong>dependent_params（可选）</strong>：指明该接口，需要从依赖接口中引用什么变量，并以什么<code class="language-plaintext highlighter-rouge">jsonpath</code>表达式提取。以列表形式接收（注意：当指明dependent_params，就必须同时指明dependent_api），每个依赖参数需要指明的参数如下：
+    <ul>
+      <li><em>params（必填）</em>：指明需要提取的依赖参数名</li>
+      <li><em>jsonpath（必填）</em>：指明提取依赖参数的<code class="language-plaintext highlighter-rouge">jsonpath</code>表达式</li>
+      <li><em>index（可选</em>）：<code class="language-plaintext highlighter-rouge">jsonpath</code>表达式提取出的值是<code class="language-plaintext highlighter-rouge">list</code>，可以根据自身需求指明需要提取哪个，默认值为<code class="language-plaintext highlighter-rouge">0</code></li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 示例</span>
+<span class="nn">...</span>
+<span class="na">steps</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">class_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">job'</span>
+    <span class="na">method_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">submit_job'</span>
+    <span class="na">dependent_api</span><span class="pi">:</span>
+      <span class="s">...</span>
+    <span class="na">dependent_params</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">params</span><span class="pi">:</span> <span class="s2">"</span><span class="s">hpc_cluster_id"</span> <span class="c1"># 依赖的参数名，注意下面引用时，就是用该名称</span>
+        <span class="na">jsonpath</span><span class="pi">:</span> <span class="s2">"</span><span class="s">$..cluster_id"</span> <span class="c1"># 从依赖接口的响应中根据该表达式提取依赖参数</span>
+      <span class="pi">-</span> <span class="na">params</span><span class="pi">:</span> <span class="s2">"</span><span class="s">hpcqueue_id"</span> 
+        <span class="na">jsonpath</span><span class="pi">:</span> <span class="s2">"</span><span class="s">$..hpcqueue_id"</span>
+<span class="err"> </span><span class="na">request</span><span class="pi">:</span>
+      <span class="s">...</span>
+      <span class="s">data</span><span class="err">:</span>
+        <span class="na">params</span><span class="pi">:</span>
+          <span class="s">...</span>
+          <span class="s">cluster_id</span><span class="err">:</span> <span class="s2">"</span><span class="s">$hpc_cluster_id$"</span> <span class="c1"># 通过$dependent_params中的params$进行引用</span>
+          <span class="na">hpcqueue_id</span><span class="pi">:</span> <span class="s2">"</span><span class="s">$hpcqueue_id$"</span>
+</code></pre></div></div>
+
+<ul>
+  <li><strong>data_driven（可选）</strong>：若该接口需要做数据驱动，可以通过该参数指明。 一个业务场景中，若多个接口都有data_driven参数，那么会自动进行参数组合，生成多条这个业务场景的测试数据。 不仅如此，凡是接口中带有<code class="language-plaintext highlighter-rouge">data_driven</code>，<strong>同时还会生成单接口测试数据。</strong></li>
+</ul>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 示例</span>
+<span class="nn">...</span>
+<span class="na">steps</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">class_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">job'</span>
+    <span class="na">method_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">submit_job'</span>
+    <span class="na">data_driven</span><span class="pi">:</span> <span class="c1"># 指明需要数据驱动的参数</span>
+      <span class="na">cmd_line</span><span class="pi">:</span> <span class="pi">[</span><span class="s2">"</span><span class="s">sleep</span><span class="nv"> </span><span class="s">10</span><span class="nv"> </span><span class="s">"</span><span class="pi">,</span><span class="s2">"</span><span class="s">sleep</span><span class="nv"> </span><span class="s">15</span><span class="nv"> </span><span class="s">"</span><span class="pi">,</span><span class="s2">"</span><span class="s">sleep</span><span class="nv"> </span><span class="s">30</span><span class="nv"> </span><span class="s">"</span><span class="pi">,</span><span class="nv">....</span><span class="pi">]</span> <span class="c1"># 参数名：参数组</span>
+    <span class="s">...</span>
+    <span class="na">request</span><span class="pi">:</span>
+      <span class="s">...</span>
+      <span class="s">data</span><span class="err">:</span>
+        <span class="na">params</span><span class="pi">:</span>
+          <span class="s">...</span>
+          <span class="s"># test_data['cmd_line']的方式标记该参数是需要数据驱动的参数</span>
+          <span class="s">cmd_line</span><span class="err">:</span> <span class="s2">"</span><span class="s">test_data['cmd_line']"</span>
+</code></pre></div></div>
+
+<ul>
+  <li><strong>assert（可选）</strong>：若需要对该接口的响应结果进行断言，可添加此参数，以列表形式接收。</li>
+</ul>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 示例</span>
+<span class="nn">...</span>
+<span class="na">steps</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">class_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">job'</span>
+    <span class="na">method_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">submit_job'</span>
+    <span class="s">...</span>
+    <span class="na">request</span><span class="pi">:</span>
+      <span class="s">...</span>
+    <span class="na">assert</span><span class="pi">:</span> 
+      <span class="pi">-</span> <span class="na">eq</span><span class="pi">:</span> <span class="pi">[</span> <span class="s1">'</span><span class="s">ret_code'</span><span class="pi">,</span><span class="nv">0</span> <span class="pi">]</span> <span class="c1"># [jsonpath表达式（实际结果）,jsonpath索引(可不写，默认为0),预期结果]</span>
+      <span class="pi">-</span> <span class="na">neq</span><span class="pi">:</span> <span class="pi">[</span> <span class="s1">'</span><span class="s">$..hpcjob_uuid'</span><span class="pi">,</span><span class="nv">null</span> <span class="pi">]</span> 
+</code></pre></div></div>
+
+<p><em>ps：支持的断言器可在</em><code class="language-plaintext highlighter-rouge">_aomaker.base.base_testcase_</code><em>中查看。</em></p>
+
+<p><strong>YAML完整实例</strong></p>
+
+<p><em>demo.yaml</em></p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">testcase_class_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">smoke2'</span>
+<span class="na">description</span><span class="pi">:</span> <span class="s1">'</span><span class="s">hpc冒烟'</span>
+<span class="na">testcase_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">hpc_smoke'</span>
+<span class="na">config</span><span class="pi">:</span> <span class="nl">&amp;config</span>
+  <span class="na">zone</span><span class="pi">:</span> <span class="s2">"</span><span class="s">self.config.get('zone')"</span>
+  <span class="na">owner</span><span class="pi">:</span> <span class="s2">"</span><span class="s">self.config.get('owner')"</span>
+  <span class="na">user_id</span><span class="pi">:</span> <span class="s2">"</span><span class="s">self.config.get('owner')"</span>
+  <span class="na">run_user</span><span class="pi">:</span> <span class="s2">"</span><span class="s">self.config.get('owner')"</span>
+<span class="na">steps</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">class_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">cluster'</span>
+    <span class="na">method_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">list'</span>
+    <span class="na">request</span><span class="pi">:</span>
+      <span class="na">api_path</span><span class="pi">:</span> <span class="s">/portal_api/</span>
+      <span class="na">method</span><span class="pi">:</span> <span class="s">POST</span>
+      <span class="na">params</span><span class="pi">:</span>
+        <span class="na">action</span><span class="pi">:</span> <span class="s">cluster/list</span>
+      <span class="na">data</span><span class="pi">:</span>
+        <span class="na">params</span><span class="pi">:</span>
+          <span class="na">service</span><span class="pi">:</span> <span class="s">hpc</span>
+          <span class="na">action</span><span class="pi">:</span> <span class="s">cluster/list</span>
+          <span class="na">status</span><span class="pi">:</span> <span class="pi">[</span> <span class="s2">"</span><span class="s">active"</span> <span class="pi">]</span>
+          <span class="na">sort_key</span><span class="pi">:</span> <span class="s2">"</span><span class="s">create_time"</span>
+          <span class="na">verbose</span><span class="pi">:</span> <span class="m">1</span>
+          <span class="na">limit</span><span class="pi">:</span> <span class="m">10</span>
+          <span class="na">offset</span><span class="pi">:</span> <span class="m">0</span>
+          <span class="na">reverse</span><span class="pi">:</span> <span class="m">1</span>
+          <span class="na">cluster_type</span><span class="pi">:</span> <span class="s2">"</span><span class="s">ehpc"</span>
+          <span class="na">&lt;&lt;</span><span class="pi">:</span> <span class="nv">*config</span>
+        <span class="na">method</span><span class="pi">:</span> <span class="s">GET</span>
+    <span class="na">assert</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">ge</span><span class="pi">:</span> <span class="pi">[</span> <span class="s1">'</span><span class="s">$..total_count'</span><span class="pi">,</span><span class="nv">0</span> <span class="pi">]</span>
+
+  <span class="pi">-</span> <span class="na">class_name</span><span class="pi">:</span> <span class="s">cluster</span>
+    <span class="na">method_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">list_node'</span>
+    <span class="na">dependent_params</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">params</span><span class="pi">:</span> <span class="s2">"</span><span class="s">hpc_cluster_id"</span>
+        <span class="na">jsonpath</span><span class="pi">:</span> <span class="s2">"</span><span class="s">$..cluster_id"</span>
+        <span class="na">index</span><span class="pi">:</span> <span class="m">0</span>
+    <span class="na">request</span><span class="pi">:</span>
+      <span class="na">api_path</span><span class="pi">:</span> <span class="s">/portal_api/</span>
+      <span class="na">method</span><span class="pi">:</span> <span class="s">POST</span>
+      <span class="na">params</span><span class="pi">:</span>
+        <span class="na">action</span><span class="pi">:</span> <span class="s">cluster/listNodes</span>
+      <span class="na">data</span><span class="pi">:</span>
+        <span class="na">params</span><span class="pi">:</span>
+          <span class="na">action</span><span class="pi">:</span> <span class="s">cluster/listNodes</span>
+          <span class="na">service</span><span class="pi">:</span> <span class="s">hpc</span>
+          <span class="na">status</span><span class="pi">:</span>
+            <span class="pi">-</span> <span class="s">active</span>
+            <span class="pi">-</span> <span class="s">stopped</span>
+            <span class="pi">-</span> <span class="s">pending</span>
+          <span class="na">sort_key</span><span class="pi">:</span> <span class="s">role</span>
+          <span class="na">reverse</span><span class="pi">:</span> <span class="m">1</span>
+          <span class="na">verbose</span><span class="pi">:</span> <span class="m">1</span>
+          <span class="na">limit</span><span class="pi">:</span> <span class="m">10</span>
+          <span class="na">offset</span><span class="pi">:</span> <span class="m">0</span>
+          <span class="na">cluster_id</span><span class="pi">:</span> <span class="s2">"</span><span class="s">$hpc_cluster_id$"</span>
+          <span class="na">&lt;&lt;</span><span class="pi">:</span> <span class="nv">*config</span>
+        <span class="na">method</span><span class="pi">:</span> <span class="s">GET</span>
+  <span class="pi">-</span> <span class="na">class_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">user'</span>
+    <span class="na">method_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">user_list'</span>
+    <span class="na">dependent_params</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">params</span><span class="pi">:</span> <span class="s2">"</span><span class="s">hpc_cluster_id"</span>
+        <span class="na">jsonpath</span><span class="pi">:</span> <span class="s2">"</span><span class="s">$..cluster_id"</span>
+        <span class="na">index</span><span class="pi">:</span> <span class="m">0</span>
+    <span class="na">request</span><span class="pi">:</span>
+      <span class="na">api_path</span><span class="pi">:</span> <span class="s">/portal_api/</span>
+      <span class="na">method</span><span class="pi">:</span> <span class="s">POST</span>
+      <span class="na">params</span><span class="pi">:</span>
+        <span class="na">action</span><span class="pi">:</span> <span class="s">user</span>
+      <span class="na">data</span><span class="pi">:</span>
+        <span class="na">params</span><span class="pi">:</span>
+          <span class="na">service</span><span class="pi">:</span> <span class="s">hpc</span>
+          <span class="na">action</span><span class="pi">:</span> <span class="s">user/list</span>
+          <span class="na">limit</span><span class="pi">:</span> <span class="m">10</span>
+          <span class="na">offset</span><span class="pi">:</span> <span class="m">0</span>
+          <span class="na">sort_key</span><span class="pi">:</span> <span class="s1">'</span><span class="s">create_time'</span>
+          <span class="na">reverse</span><span class="pi">:</span> <span class="m">1</span>
+          <span class="na">cluster_id</span><span class="pi">:</span> <span class="s2">"</span><span class="s">$hpc_cluster_id$"</span>
+          <span class="na">&lt;&lt;</span><span class="pi">:</span> <span class="nv">*config</span>
+        <span class="na">method</span><span class="pi">:</span> <span class="s">GET</span>
+  <span class="pi">-</span> <span class="na">class_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">user'</span>
+    <span class="na">method_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">add_user'</span>
+    <span class="na">dependent_params</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">params</span><span class="pi">:</span> <span class="s2">"</span><span class="s">hpc_cluster_id"</span>
+        <span class="na">jsonpath</span><span class="pi">:</span> <span class="s2">"</span><span class="s">$..cluster_id"</span>
+        <span class="na">index</span><span class="pi">:</span> <span class="m">0</span>
+    <span class="na">data_driven</span><span class="pi">:</span>
+      <span class="na">username</span><span class="pi">:</span> <span class="pi">[</span> <span class="nv">admin7</span><span class="pi">,</span><span class="nv">admin8</span><span class="pi">,</span><span class="nv">admin9</span> <span class="pi">]</span>
+      <span class="na">password</span><span class="pi">:</span> <span class="pi">[</span> <span class="nv">zhu!!jie</span><span class="pi">,</span><span class="nv">zhu@@jie</span><span class="pi">,</span><span class="nv">zhu@10jie</span> <span class="pi">]</span>
+    <span class="na">request</span><span class="pi">:</span>
+      <span class="na">api_path</span><span class="pi">:</span> <span class="s">/portal_api/</span>
+      <span class="na">method</span><span class="pi">:</span> <span class="s">POST</span>
+      <span class="na">params</span><span class="pi">:</span>
+        <span class="na">action</span><span class="pi">:</span> <span class="s">user/addUser</span>
+      <span class="na">data</span><span class="pi">:</span>
+        <span class="na">params</span><span class="pi">:</span>
+          <span class="na">service</span><span class="pi">:</span> <span class="s">hpc</span>
+          <span class="na">action</span><span class="pi">:</span> <span class="s">user/addUser</span>
+          <span class="na">mod</span><span class="pi">:</span> <span class="s1">'</span><span class="s">755'</span>
+          <span class="na">username</span><span class="pi">:</span> <span class="s2">"</span><span class="s">test_data['username']"</span>
+          <span class="na">password</span><span class="pi">:</span> <span class="s2">"</span><span class="s">test_data['password']"</span>
+          <span class="na">cluster_id</span><span class="pi">:</span> <span class="s2">"</span><span class="s">$hpc_cluster_id$"</span>
+          <span class="na">&lt;&lt;</span><span class="pi">:</span> <span class="nv">*config</span>
+    <span class="na">assert</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">eq</span><span class="pi">:</span> <span class="pi">[</span> <span class="s1">'</span><span class="s">ret_code'</span><span class="pi">,</span><span class="nv">0</span> <span class="pi">]</span>
+  <span class="pi">-</span> <span class="na">class_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">user'</span>
+    <span class="na">method_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">modify_user'</span>
+    <span class="na">dependent_params</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">params</span><span class="pi">:</span> <span class="s2">"</span><span class="s">hpc_cluster_id"</span>
+        <span class="na">jsonpath</span><span class="pi">:</span> <span class="s2">"</span><span class="s">$..cluster_id"</span>
+        <span class="na">index</span><span class="pi">:</span> <span class="m">0</span>
+    <span class="na">data_driven</span><span class="pi">:</span>
+      <span class="na">username</span><span class="pi">:</span> <span class="pi">[</span> <span class="nv">admin7</span><span class="pi">,</span><span class="nv">admin8</span><span class="pi">,</span><span class="nv">admin9</span> <span class="pi">]</span>
+    <span class="na">request</span><span class="pi">:</span>
+      <span class="na">api_path</span><span class="pi">:</span> <span class="s">/portal_api/</span>
+      <span class="na">method</span><span class="pi">:</span> <span class="s">POST</span>
+      <span class="na">params</span><span class="pi">:</span>
+        <span class="na">action</span><span class="pi">:</span> <span class="s">user/modifyUser</span>
+      <span class="na">data</span><span class="pi">:</span>
+        <span class="na">params</span><span class="pi">:</span>
+          <span class="na">service</span><span class="pi">:</span> <span class="s">hpc</span>
+          <span class="na">action</span><span class="pi">:</span> <span class="s">user/modifyUser</span>
+          <span class="na">new_password</span><span class="pi">:</span> <span class="s">Zhu@@@88jie</span>
+          <span class="na">username</span><span class="pi">:</span> <span class="s2">"</span><span class="s">test_data['username']"</span>
+          <span class="na">cluster_id</span><span class="pi">:</span> <span class="s2">"</span><span class="s">$hpc_cluster_id$"</span>
+          <span class="na">&lt;&lt;</span><span class="pi">:</span> <span class="nv">*config</span>
+    <span class="na">assert</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">eq</span><span class="pi">:</span> <span class="pi">[</span> <span class="s1">'</span><span class="s">ret_code'</span><span class="pi">,</span><span class="nv">0</span> <span class="pi">]</span>
+  <span class="pi">-</span> <span class="na">class_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">user'</span>
+    <span class="na">method_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">delete_user'</span>
+    <span class="na">dependent_params</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">params</span><span class="pi">:</span> <span class="s2">"</span><span class="s">hpc_cluster_id"</span>
+        <span class="na">jsonpath</span><span class="pi">:</span> <span class="s2">"</span><span class="s">$..cluster_id"</span>
+        <span class="na">index</span><span class="pi">:</span> <span class="m">0</span>
+    <span class="na">data_driven</span><span class="pi">:</span>
+      <span class="na">username</span><span class="pi">:</span> <span class="pi">[</span> <span class="nv">admin7</span><span class="pi">,</span><span class="nv">admin8</span><span class="pi">,</span><span class="nv">admin9</span> <span class="pi">]</span>
+    <span class="na">request</span><span class="pi">:</span>
+      <span class="na">api_path</span><span class="pi">:</span> <span class="s">/portal_api/</span>
+      <span class="na">method</span><span class="pi">:</span> <span class="s">POST</span>
+      <span class="na">params</span><span class="pi">:</span>
+        <span class="na">action</span><span class="pi">:</span> <span class="s">user/deleteUser</span>
+      <span class="na">data</span><span class="pi">:</span>
+        <span class="na">params</span><span class="pi">:</span>
+          <span class="na">service</span><span class="pi">:</span> <span class="s">hpc</span>
+          <span class="na">action</span><span class="pi">:</span> <span class="s">user/deleteUser</span>
+          <span class="na">username</span><span class="pi">:</span> <span class="s2">"</span><span class="s">test_data['username']"</span>
+          <span class="na">cluster_id</span><span class="pi">:</span> <span class="s2">"</span><span class="s">$hpc_cluster_id$"</span>
+          <span class="na">&lt;&lt;</span><span class="pi">:</span> <span class="nv">*config</span>
+    <span class="na">assert</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">eq</span><span class="pi">:</span> <span class="pi">[</span> <span class="s1">'</span><span class="s">ret_code'</span><span class="pi">,</span><span class="nv">0</span> <span class="pi">]</span>
+
+  <span class="pi">-</span> <span class="na">class_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">queue'</span>
+    <span class="na">method_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">get_queue_list'</span>
+    <span class="na">dependent_params</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">params</span><span class="pi">:</span> <span class="s2">"</span><span class="s">hpc_cluster_id"</span>
+        <span class="na">jsonpath</span><span class="pi">:</span> <span class="s2">"</span><span class="s">$..cluster_id"</span>
+        <span class="na">index</span><span class="pi">:</span> <span class="m">0</span>
+    <span class="na">request</span><span class="pi">:</span>
+      <span class="na">api_path</span><span class="pi">:</span> <span class="s">/portal_api/</span>
+      <span class="na">method</span><span class="pi">:</span> <span class="s">POST</span>
+      <span class="na">params</span><span class="pi">:</span>
+        <span class="na">action</span><span class="pi">:</span> <span class="s">queue/ehpc/getQueueList</span>
+      <span class="na">data</span><span class="pi">:</span>
+        <span class="na">params</span><span class="pi">:</span>
+          <span class="na">service</span><span class="pi">:</span> <span class="s">hpc</span>
+          <span class="na">action</span><span class="pi">:</span> <span class="s">queue/ehpc/getQueueList</span>
+          <span class="na">limit</span><span class="pi">:</span> <span class="m">10</span>
+          <span class="na">offset</span><span class="pi">:</span> <span class="m">0</span>
+          <span class="na">sort_key</span><span class="pi">:</span> <span class="s">create_time</span>
+          <span class="na">reverse</span><span class="pi">:</span> <span class="m">1</span>
+          <span class="na">pageSize</span><span class="pi">:</span> <span class="m">100</span>
+          <span class="na">is_active</span><span class="pi">:</span> <span class="m">1</span>
+          <span class="na">cluster_id</span><span class="pi">:</span> <span class="s2">"</span><span class="s">$hpc_cluster_id$"</span>
+          <span class="na">&lt;&lt;</span><span class="pi">:</span> <span class="nv">*config</span>
+        <span class="na">method</span><span class="pi">:</span> <span class="s">GET</span>
+    <span class="na">assert</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">eq</span><span class="pi">:</span> <span class="pi">[</span> <span class="s1">'</span><span class="s">ret_code'</span><span class="pi">,</span><span class="nv">0</span> <span class="pi">]</span>
+
+  <span class="pi">-</span> <span class="na">class_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">job'</span>
+    <span class="na">method_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">submit_ehpc_job'</span>
+    <span class="na">dependent_api</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">module</span><span class="pi">:</span> <span class="s">apis.cluster</span>
+        <span class="na">api</span><span class="pi">:</span> <span class="s">list</span>
+        <span class="na">extract</span><span class="pi">:</span> <span class="s2">"</span><span class="s">cluster_id"</span>
+        <span class="na">api_params</span><span class="pi">:</span>
+          <span class="na">cluster_type</span><span class="pi">:</span> <span class="s1">'</span><span class="s">ehpc'</span>
+      <span class="pi">-</span> <span class="na">module</span><span class="pi">:</span> <span class="s">apis.queue</span>
+        <span class="na">api</span><span class="pi">:</span> <span class="s">get_queue_list</span>
+        <span class="na">extract</span><span class="pi">:</span> <span class="s2">"</span><span class="s">ehpc_queue_id"</span>
+    <span class="na">dependent_params</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">params</span><span class="pi">:</span> <span class="s2">"</span><span class="s">hpc_cluster_id"</span>
+        <span class="na">jsonpath</span><span class="pi">:</span> <span class="s2">"</span><span class="s">$..cluster_id"</span>
+      <span class="pi">-</span> <span class="na">params</span><span class="pi">:</span> <span class="s2">"</span><span class="s">hpcqueue_id"</span>
+        <span class="na">jsonpath</span><span class="pi">:</span> <span class="s2">"</span><span class="s">$..hpcqueue_id"</span>
+    <span class="na">data_driven</span><span class="pi">:</span>
+      <span class="na">cmd_line</span><span class="pi">:</span> <span class="pi">[</span> <span class="s1">'</span><span class="s">sleep</span><span class="nv"> </span><span class="s">10'</span><span class="pi">,</span><span class="s1">'</span><span class="s">sleep</span><span class="nv"> </span><span class="s">5'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">sleep</span><span class="nv"> </span><span class="s">15'</span> <span class="pi">]</span>
+    <span class="na">request</span><span class="pi">:</span>
+      <span class="na">api_path</span><span class="pi">:</span> <span class="s">/portal_api/</span>
+      <span class="na">method</span><span class="pi">:</span> <span class="s">POST</span>
+      <span class="na">params</span><span class="pi">:</span>
+        <span class="na">action</span><span class="pi">:</span> <span class="s">job/submitJob</span>
+      <span class="na">data</span><span class="pi">:</span>
+        <span class="na">params</span><span class="pi">:</span>
+          <span class="na">service</span><span class="pi">:</span> <span class="s">hpc</span>
+          <span class="na">action</span><span class="pi">:</span> <span class="s">job/submitJob</span>
+          <span class="na">cmd_line_type</span><span class="pi">:</span> <span class="s">input</span>
+          <span class="na">name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">mitm</span><span class="nv"> </span><span class="s">work'</span>
+          <span class="na">priority</span><span class="pi">:</span> <span class="m">1</span>
+          <span class="na">cmd_line</span><span class="pi">:</span> <span class="s2">"</span><span class="s">test_data['cmd_line']"</span>
+          <span class="na">cluster_id</span><span class="pi">:</span> <span class="s2">"</span><span class="s">$hpc_cluster_id$"</span>
+          <span class="na">hpcqueue_id</span><span class="pi">:</span> <span class="s2">"</span><span class="s">$hpcqueue_id$"</span>
+          <span class="na">&lt;&lt;</span><span class="pi">:</span> <span class="nv">*config</span>
+    <span class="na">assert</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">eq</span><span class="pi">:</span> <span class="pi">[</span> <span class="s1">'</span><span class="s">ret_code'</span><span class="pi">,</span><span class="nv">0</span> <span class="pi">]</span>
+      <span class="pi">-</span> <span class="na">neq</span><span class="pi">:</span> <span class="pi">[</span> <span class="s1">'</span><span class="s">hpcjob_uuid'</span><span class="pi">,</span><span class="nv">null</span> <span class="pi">]</span>
+
+
+</code></pre></div></div>
+
+<p>将该<code class="language-plaintext highlighter-rouge">demo.yaml</code>文件放在工程根目录下的<code class="language-plaintext highlighter-rouge">yamlcase</code>文件夹下，然后命令行进入到工程根目录下，执行命令：</p>
+
+<p><code class="language-plaintext highlighter-rouge">aomaker mcase yamlcase\demo.yaml</code>后，<code class="language-plaintext highlighter-rouge">aomake</code>r会直接将yaml文件中的描述，转化为对应代码文件。</p>
+
+<p>在<code class="language-plaintext highlighter-rouge">apis</code>目录下生成接口文件：</p>
+
+<p><a href="https://imgtu.com/i/jRLHNd"><img src="https://s1.ax1x.com/2022/07/13/jRLHNd.png" alt="jRLHNd.png" /></a></p>
+
+<p><em>cluster.py</em></p>
+
+<p><a href="https://imgtu.com/i/jRLL9I"><img src="https://s1.ax1x.com/2022/07/13/jRLL9I.md.png" alt="jRLL9I.md.png" /></a></p>
+
+<p>数据文件包括单场景和业务场景：</p>
+
+<p><a href="https://imgtu.com/i/jRLO3t"><img src="https://s1.ax1x.com/2022/07/13/jRLO3t.png" alt="jRLO3t.png" /></a></p>
+
+<p><em>smoke2.yaml</em></p>
+
+<p><a href="https://imgtu.com/i/jRLXgP"><img src="https://s1.ax1x.com/2022/07/13/jRLXgP.png" alt="jRLXgP.png" /></a></p>
+
+<p>生成的测试文件，包括单接口和业务场景case：</p>
+
+<p><a href="https://imgtu.com/i/jRLjjf"><img src="https://s1.ax1x.com/2022/07/13/jRLjjf.png" alt="jRLjjf.png" /></a></p>
+
+<p><em>test_smoke2.py</em></p>
+
+<p><img src="https://s1.ax1x.com/2022/07/13/jRLxu8.md.png" alt="jRLxu8.md.png" /></p>
+
+                </section>
+            </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div></div>
+    </div>
+</div>
+
+                        <a href="/jekyll/2022-05-24-async_api.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: 👽async_api装饰器用法">
+                            <i class="fa fa-angle-left"></i>
+                        </a>
+                    
+
+                    
+                        <a href="/jekyll/2022-06-30-%E6%B5%81%E9%87%8F%E5%BD%95%E5%88%B6.html" class="navigation navigation-next navigation-unique" aria-label="Next page: 📽️流量录制">
+                            <i class="fa fa-angle-right"></i>
+                        </a>
+                    
+                </div>
+            </div>
+
+            <script>
+            var gitbook = gitbook || [];
+            gitbook.push(function() {
+                gitbook.page.hasChanged({
+    "page": {
+        "title": "Introduction",
+        "level": "1.1",
+        "depth": 1,
+        
+        "next": {
+            "title": "📽️流量录制",
+            "level": "1.2",
+            "depth": 1,
+            "path": "_posts/2022-06-30-流量录制.md",
+            "ref": "_posts/2022-06-30-流量录制.md",
+            "articles": []
+        },
+        
+        "dir": "ltr"
+    },    "config": {
+        "plugins": ["fontsettings", "highlight", "livereload", "lunr", "search", "sharing", "theme-default", "livereload"],
+        "styles": {
+            "ebook": "styles/ebook.css",
+            "epub": "styles/epub.css",
+            "mobi": "styles/mobi.css",
+            "pdf": "styles/pdf.css",
+            "print": "styles/print.css",
+            "website": "styles/website.css"
+        },
+        "pluginsConfig": {
+            "fontsettings": {
+                "family": "sans",
+                "size": 2,
+                "theme": "white"
+            },
+            "highlight": {},
+            "livereload": {},
+            "lunr": {
+                "ignoreSpecialCharacters": false,
+                "maxIndexSize": 1000000
+            },
+            "search": {},
+            "sharing": {
+                "all": ["facebook", "google", "twitter", "weibo", "instapaper"],
+                "facebook": true,
+                "google": false,
+                "instapaper": false,
+                "twitter": true,
+                "vk": false,
+                "weibo": false
+            },
+            "theme-default": {
+                "showLevel": false,
+                "styles": {
+                    "ebook": "styles/ebook.css",
+                    "epub": "styles/epub.css",
+                    "mobi": "styles/mobi.css",
+                    "pdf": "styles/pdf.css",
+                    "print": "styles/print.css",
+                    "website": "styles/website.css"
+                }
+            }
+        },
+        "theme": "default",
+        "author": "Tao He",
+        "pdf": {
+            "pageNumbers": true,
+            "fontSize": 12,
+            "fontFamily": "Arial",
+            "paperSize": "a4",
+            "chapterMark": "pagebreak",
+            "pageBreaksBefore": "/",
+            "margin": {
+                "right": 62,
+                "left": 62,
+                "top": 56,
+                "bottom": 56
+            }
+        },
+        "structure": {
+            "langs": "LANGS.md",
+            "readme": "README.md",
+        },
+        "variables": {},
+        "title": "🦄AoMaker",
+        "language": "en",
+        "gitbook": "*"
+    },
+    "file": {
+        "path": "_posts/2022-06-26-YAML.md",
+        "mtime": "2022-06-26 00:00:00 +0800",
+        "type": "markdown"
+    },
+    "gitbook": {
+        "version": "3.2.3",
+        "time": "2022-07-28 23:52:07 +0800"
+    },
+    "basePath": "",
+    "book": {
+        "language": ""
+    }
+});
+            });
+            </script>
+        </div><script src="/assets/gitbook/gitbook.js"></script>
+<script src="/assets/gitbook/theme.js"></script>
+
+<script src="/assets/gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+<script src="/assets/gitbook/gitbook-plugin-sharing/buttons.js"></script>
+
+<!-- <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+<script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+<script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+<script src="../gitbook/gitbook-plugin-search/search.js"></script> -->
+
+<script src="/assets/gitbook/gitbook-plugin-search-pro/jquery.mark.min.js"></script>
+<script src="/assets/gitbook/gitbook-plugin-search-pro/search.js"></script>
+<script src="/assets/gitbook/gitbook-plugin-back-to-top-button/plugin.js"></script>
+
+<script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+</body>
+</html>

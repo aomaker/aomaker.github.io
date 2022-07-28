@@ -1,0 +1,205 @@
+I"�C<h1 id="创建项目">创建项目</h1>
+
+<p>在命令行输入<code class="language-plaintext highlighter-rouge">aomaker startproject projectname</code>即可。</p>
+
+<h1 id="项目结构">项目结构</h1>
+
+<p><img src="https://s1.ax1x.com/2022/07/13/jRLIBD.png" alt="jRLIBD.png" /></p>
+
+<ul>
+  <li>apis：接口层，存放接口文件</li>
+  <li>conf
+    <ul>
+      <li>config.yaml：配置文件，如环境、账户、数据库连接、全局变量等信息</li>
+      <li>utils.yaml：工具配置，如企业微信webhook配置</li>
+    </ul>
+  </li>
+  <li>data
+    <ul>
+      <li>api _data：单接口用例测试数据</li>
+      <li>scenario_data：场景用例测试数据</li>
+    </ul>
+  </li>
+  <li>database
+    <ul>
+      <li>aomaker.db： 全局变量和依赖变量存储库</li>
+    </ul>
+  </li>
+  <li>logs：日志存放</li>
+  <li>reports：测试报告</li>
+  <li>testcases
+    <ul>
+      <li>test_api：单接口用例文件</li>
+      <li>test_scenario：场景用例文件</li>
+    </ul>
+  </li>
+  <li>yamlcase：yaml自动转代码</li>
+  <li>conftest.py：pytest插件注册</li>
+  <li>login.py：登录配置</li>
+  <li>pytest.ini：pytest配置文件</li>
+  <li>run.py：项目主启动文件</li>
+</ul>
+
+<h1 id="修改配置文件">修改配置文件</h1>
+
+<p><em>conf/config.yaml</em></p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 当前运行环境</span>
+<span class="na">env</span><span class="pi">:</span> <span class="s">test</span>
+<span class="c1"># test环境配置</span>
+<span class="na">test</span><span class="pi">:</span>
+  <span class="na">account</span><span class="pi">:</span>
+    <span class="na">pwd</span><span class="pi">:</span> <span class="m">123456</span>
+    <span class="na">user</span><span class="pi">:</span> <span class="s">aomaker002</span>
+  <span class="na">host</span><span class="pi">:</span> <span class="s">http://test.aomaker.com</span>
+<span class="c1"># release环境配置</span>
+<span class="na">release</span><span class="pi">:</span>
+  <span class="na">account</span><span class="pi">:</span>
+    <span class="na">pwd</span><span class="pi">:</span> <span class="m">123456</span>
+    <span class="na">user</span><span class="pi">:</span> <span class="s">aomaker001</span>
+  <span class="na">host</span><span class="pi">:</span> <span class="s">http://release.aomaker.com</span>
+</code></pre></div></div>
+
+<p>在这里需要配置好项目的环境信息，上述示例是最基础的配置，如果有其它配置，直接在对应环境下加键值对即可。</p>
+
+<p><strong>注：<code class="language-plaintext highlighter-rouge">account</code> 和<code class="language-plaintext highlighter-rouge">host</code> 是最基础的配置，请不要更改<code class="language-plaintext highlighter-rouge">key</code> 的名字。</strong></p>
+
+<h1 id="配置登录">配置登录</h1>
+
+<p>关于登录和请求头鉴权的处理，需要在项目根目录下的<code class="language-plaintext highlighter-rouge">login.py</code>模块下配置处理，<code class="language-plaintext highlighter-rouge">login.py</code>模块下预置了一个<code class="language-plaintext highlighter-rouge">Login</code>的class和两个方法：<code class="language-plaintext highlighter-rouge">login</code>和<code class="language-plaintext highlighter-rouge">make_headers</code></p>
+
+<p><em>login.py</em></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">requests</span> <span class="kn">import</span> <span class="n">request</span>
+
+<span class="kn">from</span> <span class="nn">aomaker.fixture</span> <span class="kn">import</span> <span class="n">BaseLogin</span>
+
+
+<span class="k">class</span> <span class="nc">Login</span><span class="p">(</span><span class="n">BaseLogin</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">login</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">resp_login</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">return</span> <span class="n">resp_login</span>
+
+    <span class="k">def</span> <span class="nf">make_headers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resp_login</span><span class="p">):</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">'Cookie'</span><span class="p">:</span> <span class="sa">f</span><span class="s">'csrftoken=aomakerniubility'</span><span class="p">}</span>
+        <span class="k">return</span> <span class="n">headers</span>
+</code></pre></div></div>
+
+<p>需要注意的是，上面是一个基础模板，<code class="language-plaintext highlighter-rouge">login</code>和<code class="language-plaintext highlighter-rouge">make_headers</code>两个方法必须实现，你需要改的是两个方法内的内部逻辑，即<code class="language-plaintext highlighter-rouge">login</code>方法 需要构造登录，并return登录接口的响应；<code class="language-plaintext highlighter-rouge">make_headers</code>方法需要构造鉴权所需要的头部信息。</p>
+
+<p>此外，<code class="language-plaintext highlighter-rouge">BaseLogin</code>中读取了<code class="language-plaintext highlighter-rouge">config.yaml</code>配置文件中的环境信息、账户信息以及host信息，所以在<code class="language-plaintext highlighter-rouge">Login</code>中可以直接引用。</p>
+
+<p>当<code class="language-plaintext highlighter-rouge">login.py</code>中配置好了登录，在启动测试任务前，会自动去登录和配置请求头，请求头的配置会被读取的<code class="language-plaintext highlighter-rouge">BaseApi</code>的实例属性中，所有的接口类是继承于<code class="language-plaintext highlighter-rouge">BaseApi</code>的，所以所有的接口都可以直接调用基类<code class="language-plaintext highlighter-rouge">BaseApi</code>中的所有实例属性，包括：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">BaseApi</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># cache表的连接对象
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">cache</span> <span class="o">=</span> <span class="n">Cache</span><span class="p">()</span>
+        <span class="c1"># config表的连接对象
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">().</span><span class="n">get_all</span><span class="p">()</span>
+        <span class="c1"># 配置文件中当前环境的host
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">_host</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">config</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'host'</span><span class="p">)</span>
+        <span class="c1"># login.py中配置的请求头
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">_headers</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">cache</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'headers'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h1 id="编写ao">编写ao</h1>
+
+<p>基于<code class="language-plaintext highlighter-rouge">aomaker</code>的核心编排思想：<strong>ao，api object，</strong>即所有接口都被封装成对象，同类型的接口为一个<code class="language-plaintext highlighter-rouge">class</code>，比如集群的增删改查接口，那么“集群”这个<code class="language-plaintext highlighter-rouge">class</code>下，对应着“增、删、改、查”四个<code class="language-plaintext highlighter-rouge">method</code>，也就是四个接口，每个<code class="language-plaintext highlighter-rouge">method</code>下，就是对这个接口的http协议进行填充，举个例子：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 所有接口类都继承于BaseApi
+</span><span class="kn">from</span> <span class="nn">aomaker.base.base_api</span> <span class="kn">import</span> <span class="n">BaseApi</span>
+
+<span class="c1"># 作业类，作业相关的接口都封装在该类下
+</span><span class="k">class</span> <span class="nc">Job</span><span class="p">(</span><span class="n">BaseApi</span><span class="p">):</span>
+    <span class="c1"># 提交作业接口
+</span>    <span class="k">def</span> <span class="nf">submit_hpc_job</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">body</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">"service"</span><span class="p">:</span> <span class="s">"hpc"</span><span class="p">,</span>
+            <span class="s">"action"</span><span class="p">:</span> <span class="s">"job/submitJob"</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="c1"># 构造http请求协议体
+</span>        <span class="c1"># 需要注意的是：
+</span>        <span class="c1"># 请求体中，不用指明host和headers，因为在baseapi中已经封装好了，
+</span>        <span class="c1"># 当发送请求时，会自动加上host和headers
+</span>        <span class="n">http_data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">"method"</span><span class="p">:</span> <span class="s">"post"</span><span class="p">,</span>
+            <span class="s">"api_path"</span><span class="p">:</span> <span class="s">"/portal_api"</span><span class="p">,</span>
+            <span class="s">"params"</span><span class="p">:</span> <span class="p">{</span><span class="s">'action'</span><span class="p">:</span> <span class="s">'job/submitJob'</span><span class="p">},</span>
+            <span class="s">"data"</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s">'params'</span><span class="p">:</span> <span class="n">json</span><span class="p">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">body</span><span class="p">)</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="c1"># 发送接口请求（Baseapi提供）
+</span>        <span class="c1"># 返回json格式数据，如果响应数据不是json格式，会返回txt格式
+</span>        <span class="c1"># 
+</span>        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">send_http</span><span class="p">(</span><span class="n">http_data</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">resp</span>
+</code></pre></div></div>
+
+<h1 id="编写case">编写case</h1>
+
+<p>case文件编写在工程根目录下的<code class="language-plaintext highlighter-rouge">testcases</code>下，该目录下分为单接口case：<code class="language-plaintext highlighter-rouge">test_api</code>目录和场景case：<code class="language-plaintext highlighter-rouge">test_scenario</code>目录，根据自己需要在对应目录下编写case，这里以单接口为例：</p>
+
+<p><em>testcases/test_api/test_job.py</em></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pytest</span>
+<span class="kn">import</span> <span class="nn">allure</span>
+<span class="c1"># 导入BaseTestcase基类，该类提供内置断言方式
+</span><span class="kn">from</span> <span class="nn">aomaker.base.base_testcase</span> <span class="kn">import</span> <span class="n">BaseTestcase</span>
+<span class="c1"># 导入data_maker工具方法，帮助读取数据文件，进行数据驱动
+</span><span class="kn">from</span> <span class="nn">aomaker.aomaker</span> <span class="kn">import</span> <span class="n">data_maker</span>
+
+<span class="kn">from</span> <span class="nn">apis.job</span> <span class="kn">import</span> <span class="n">job</span>
+
+<span class="c1"># 测试类继承基类
+</span><span class="k">class</span> <span class="nc">TestJob</span><span class="p">(</span><span class="n">BaseTestcase</span><span class="p">):</span>
+    <span class="o">@</span><span class="n">allure</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="s">"提交hpc作业"</span><span class="p">)</span>
+    <span class="o">@</span><span class="n">pytest</span><span class="p">.</span><span class="n">mark</span><span class="p">.</span><span class="n">hpc</span>
+    <span class="c1"># 解析数据文件，获取数据驱动的参数列表，data_maker接收三个参数：
+</span>    <span class="c1"># 1.数据文件的相对路径（相对工程根目录）
+</span>    <span class="c1"># 2.数据文件中的类名key
+</span>    <span class="c1"># 3.数据文件中的方法名key
+</span>    <span class="o">@</span><span class="n">pytest</span><span class="p">.</span><span class="n">mark</span><span class="p">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s">"test_data"</span><span class="p">,</span> <span class="n">data_maker</span><span class="p">(</span><span class="s">"data/api_data/job.yaml"</span><span class="p">,</span> <span class="s">"job"</span><span class="p">,</span> <span class="s">"hpc_submit_job"</span><span class="p">))</span>
+    <span class="k">def</span> <span class="nf">test_hpc_submit_job</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">test_data</span><span class="p">):</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="n">job</span><span class="p">.</span><span class="n">submit_hpc_job</span><span class="p">(</span><span class="n">test_data</span><span class="p">)</span>
+        <span class="n">ret_code</span> <span class="o">=</span> <span class="n">resp</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">"ret_code"</span><span class="p">)</span>
+        <span class="c1"># 基类提供的断言方法
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">assert_eq</span><span class="p">(</span><span class="n">ret_code</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">assert_schema</span><span class="p">(</span><span class="n">resp</span><span class="p">,</span> <span class="s">'submit_hpc_job'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h1 id="运行用例">运行用例</h1>
+
+<p>测试用例提供两种运行方式：</p>
+
+<ul>
+  <li>cli：<code class="language-plaintext highlighter-rouge">arun</code> 或<code class="language-plaintext highlighter-rouge">aomaker run</code> ，支持pytest的所有参数</li>
+  <li>run.py:</li>
+</ul>
+
+<p><em>run.py</em></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">aomaker.runner</span> <span class="kn">import</span> <span class="n">run</span>
+
+<span class="c1"># 导入登录类
+</span><span class="kn">from</span> <span class="nn">login</span> <span class="kn">import</span> <span class="n">Login</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="c1"># 第一个参数为列表，接收pytest支持的所有参数
+</span>    <span class="n">run</span><span class="p">([</span><span class="s">'-m ehpc'</span><span class="p">],</span> <span class="n">login</span><span class="o">=</span><span class="n">Login</span><span class="p">())</span>
+</code></pre></div></div>
+
+<h1 id="查看用例结果">查看用例结果</h1>
+
+<p><code class="language-plaintext highlighter-rouge">aomaker</code> 默认安装了<code class="language-plaintext highlighter-rouge">pytest-allure</code> 插件，运行完成后会自动收集<code class="language-plaintext highlighter-rouge">allure</code> 报告。（请确保运行环境已安装<code class="language-plaintext highlighter-rouge">allure</code> ）</p>
+
+<p>报告会收集在<code class="language-plaintext highlighter-rouge">reports</code> 目录下：</p>
+
+<p><a href="https://imgtu.com/i/vCpjR1"><img src="https://s1.ax1x.com/2022/07/28/vCpjR1.png" alt="vCpjR1.png" /></a></p>
+
+<p>如果不想使用<code class="language-plaintext highlighter-rouge">allure</code> ，也支持其它所有<code class="language-plaintext highlighter-rouge">pytest</code> 报告插件，可以自行使用。</p>
+:ET

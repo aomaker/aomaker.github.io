@@ -1,0 +1,2 @@
+I"L<p><code class="language-plaintext highlighter-rouge">aomaker</code> 提供了多线程和多进程两种方式来加速用例运行速度，提供了三种粒度来合理控制线程/进程worker，此外，多线程模式下，对<code class="language-plaintext highlighter-rouge">allure</code> 报告也做了完美兼容。</p>
+:ET

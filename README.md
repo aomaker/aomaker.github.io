@@ -1,180 +1,84 @@
 ---
 layout: home
-title: Jekyll Gitbook Theme
+title: AoMaker简介
 permalink: /
 ---
 
-Make Jelly site have a GitBook look!
+![jRL5nO.md.png](https://s1.ax1x.com/2022/07/13/jRL5nO.md.png)
 
-## Demo
+> Quickly Arrange,Quickly Test!
 
-Live demo on Github Pages: [https://sighingnow.github.io/jekyll-gitbook](https://sighingnow.github.io/jekyll-gitbook)
+[![pyversions](https://img.shields.io/pypi/pyversions/httprunner.svg)](https://pypi.python.org/pypi/httprunner)
 
-[![Jekyll Themes](https://img.shields.io/badge/featured%20on-JekyllThemes-red.svg)](https://jekyll-themes.com/jekyll-gitbook/)
+# 核心思想
 
-## Why Jekyll with GitBook
+**AoMaker**，即 Api object Maker，那什么是**API Object**呢？
 
-GitBook is an amazing frontend style to present and organize contents (such as book chapters
-and blogs) on Web. The typical to deploy GitBook at [Github Pages][1]
-is building HTML files locally and then push to Github repository, usually to the `gh-pages`
-branch. It's quite annoying to repeat such workload and make it hard for people do version
-control via git for when there are generated HTML files to be staged in and out.
+**API Object**是**Page Object**设计模式在接口测试上的一种延伸，顾名思义，这里是将各种基础接口进行了一层抽象封装，将其作为 object，通过不同的 API 对象调用来组装成不同的业务流场景。
 
-This theme takes style definition out of generated GitBook site and provided the template
-for Jekyll to rendering markdown documents to HTML, thus the whole site can be deployed
-to [Github Pages][1] without generating and uploading HTML bundle every time when there are
-changes to the original repo.
+举个简单例子：
 
-## How to Get Started
+有一个购物车功能，它有如下接口：
 
-This theme can be used just as other [Jekyll themes][1] and support [remote theme][12],
-see [the official guide][13] as well.
+- add，将物品添加到购物车
+- list，查看购物车内所有物品
+- delete，清空购物车内所有物品
 
-You can introduce this jekyll theme into your own site by either
+那么，我们通过`ao` 的思想来封装这个功能所有接口：
 
-- [Fork][3] this repository and add your markdown posts to the `_posts` folder.
-- Use as a remote theme in your [`_config.yml`][14](just like what we do for this
-  site itself),
+```python
+    class ShoppingTrolley:
+        def add(self):
+            """添加物品到购物车"""
+            pass
 
-```yaml
-remote_theme: sighingnow/jekyll-gitbook
+        def delete(self):
+            """清空购物车"""
+            pass
+
+        def list(self):
+            """查看购物车内所有物品"""
+            pass
 ```
 
-### Deploy Locally with Jekyll Serve
+当我们需要测试购物车的增-查-删流程时，只需要实例化`ShoppingTrolley` 类，通过调用对应的接口对象，即可完成业务场景的组装：
 
-This theme can be ran locally using Ruby and Gemfiles.
-
-[Testing your GitHub Pages site locally with Jekyll](https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/testing-your-github-pages-site-locally-with-jekyll) - GitHub
-
-## Full-text search
-
-The search functionality in jekyll-gitbook theme is powered by the [gitbook-plugin-search-pro][5] plugin and is enabled by default.
-
-[https://sighingnow.github.io/jekyll-gitbook/?q=generated](https://sighingnow.github.io/jekyll-gitbook/?q=generated)
-
-## Code highlight
-
-The code highlight style is configurable the following entry in `_config.yaml`:
-
-```yaml
-syntax_highlighter_style: colorful
+```python
+    class TestShoppingTrolley:
+        def test_shopping(self):
+            """测试购物车增-查-删流程"""
+            st = ShoppingTrolley()
+            # 1.添加物品到购物车
+            st.add()
+            # 2.查看购物车内物品
+            st.list()
+            # 3.清空购物车
+            st.delete()
 ```
 
-The default code highlight style is `colorful`, the full supported styles can be found from [the rouge repository][6]. Customized
-style can be added to [./assets/gitbook/rouge/](./assets/gitbook/rouge/).
+解释了**API Object**，那**Maker**又怎么理解呢？**Maker**其实就是框架本身提供各种辅助手段帮助快速的去编排`ao` 和`case` 。
 
-## How to generate TOC
+# 定位
 
-The jekyll-gitbook theme leverages [jekyll-toc][4] to generate the *Contents* for the page.
-The TOC feature is not enabled by default. To use the TOC feature, modify the TOC
-configuration in `_config.yml`:
+一款基于`pytest` ，将接口通过**ao 对象**方式来编排管理的接口自动化框架，核心定位就是基于`ao` 思想，让测试人员能快速完成自动化项目搭建和脚本的编写，快速开始测试。
 
-```yaml
-toc:
-    enabled: true
-    h_min: 1
-    h_max: 3
-```
+# 特性
 
-## Google Analytics, etc.
+- 提供 CLI 命令
+- 提供脚手架一键安装，开箱即用
+- 变量管理简单
+- 可使用 HAR/Swagger 等一键生成 ao 和 case
+- 三种方式快速编写 ao 和 case
+- 支持多进程和多线程
+- 丰富的断言
+- 支持流量录制
+- 支持 pytest 所有用法和插件
+- allure 报告优化
+- 测试报告消息通知
+- ...
 
-The jekyll-gitboook theme supports embedding the [Google Analytics][7], [CNZZ][8] and [Application Insights][9] website analytical tools with the following
-minimal configuration in `_config.yaml`:
+# 交流
 
-```yaml
-tracker:
-  google_analytics: "<YOUR GOOGLE ANALYTICS KEY, e.g, UA-xxxxxx-x>"
-```
+如果对该框架感兴趣以及有更多好的想法，欢迎交流探讨~
 
-Similarly, CNZZ can be added with the following configuration in `_config.yaml`
-
-```yaml
-tracker:
-  cnzz: "<YOUR CNZZ ANALYTICS KEY, e.g., xxxxxxxx>"
-```
-
-Application Insights can be added with the following configuration in `_config.yaml`
-
-```yaml
-tracker:
-  application_insights: "<YOUR APPLICATION INSIGHTS CONNECTION STRING>"
-```
-
-## Extra StyleSheet or Javascript elements
-
-You can add extra CSS or JavaScript references using configuration collections:
-
-- extra_css: for additional style sheets. If the url does not start by http, the path must be relative to the root of the site, without a starting `/`.
-- extra_header_js: for additional scripts to be included in the `<head>` tag, after the `extra_css` has been added. If the url does not start by http, the path must be relative to the root of the site, without a starting `/`.
-- extra_footer_js: for additional scripts to be included at the end of the HTML document, just before the site tracking script. If the url does not start by http, the path must be relative to the root of the site, without a starting `/`.
-
-## Customizing font settings
-
-The fonts can be customized by modifying the `.book.font-family-0` and `.book.font-family-1` entry in [`./assets/gitbook/custom.css`][10],
-
-```css
-.book.font-family-0 {
-    font-family: Georgia, serif;
-}
-.book.font-family-1 {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
-```
-
-## Tips, Warnings and Dangers blocks
-
-The jekyll-gitbook theme supports customized kramdown attributes (`{: .block-tip }`, `{: .block-warning }`,
-`{: .block-danger }`) like that displayed in [the discord.js website][11]. The marker can be used like
-
-```markdown
-> ##### TIP
->
-> This guide is last tested with @napi-rs/canvas^0.1.20, so make sure you have
-> this or a similar version after installation.
-{: .block-tip }
-```
-
-Rendered page can be previewed from
-
-[https://sighingnow.github.io/jekyll-gitbook/jekyll/2022-06-30-tips_warnings_dangers.html](https://sighingnow.github.io/jekyll-gitbook/jekyll/2022-06-30-tips_warnings_dangers.html)
-
-## Cover image inside pages
-
-The jekyll-gitbook theme supports adding a cover image to a specific page by adding
-a `cover` field to the page metadata:
-
-```diff
-  ---
-  title: Page with cover image
-  author: Tao He
-  date: 2022-05-24
-  category: Jekyll
-  layout: post
-+ cover: /assets/jekyll-gitbook/dinosaur.gif
-  ---
-```
-
-The effect can be previewed from
-
-[https://sighingnow.github.io/jekyll-gitbook/jekyll/2022-05-24-page_cover.html](https://sighingnow.github.io/jekyll-gitbook/jekyll/2022-05-24-page_cover.html)
-
-## License
-
-This work is open sourced under the Apache License, Version 2.0.
-
-Copyright 2019 Tao He.
-
-[1]: https://pages.github.com
-[2]: https://pages.github.com/themes
-[3]: https://github.com/sighingnow/jekyll-gitbook/fork
-[4]: https://github.com/allejo/jekyll-toc
-[5]: https://github.com/gitbook-plugins/gitbook-plugin-search-pro
-[6]: https://github.com/rouge-ruby/rouge/tree/master/lib/rouge/themes
-[7]: https://analytics.google.com/analytics/web/
-[8]: https://www.cnzz.com/
-[9]: https://docs.microsoft.com/en-us/azure/azure-monitor/app/app-insights-overview
-[10]: https://github.com/sighingnow/jekyll-gitbook/blob/master/gitbook/custom.css
-[11]: https://discordjs.guide/popular-topics/canvas.html#setting-up-napi-rs-canvas
-[12]: https://rubygems.org/gems/jekyll-remote-theme
-[13]: https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/adding-a-theme-to-your-github-pages-site-using-jekyll
-[14]: https://github.com/sighingnow/jekyll-gitbook/blob/master/_config.yml
+[![v9XorQ.jpg](https://s1.ax1x.com/2022/07/28/v9XorQ.jpg)](https://imgtu.com/i/v9XorQ)

@@ -1,0 +1,42 @@
+I"H<p><code class="language-plaintext highlighter-rouge">aomaker</code>提供了一套全新日志系统，这套日志系统将会记录<code class="language-plaintext highlighter-rouge">aomaker</code>所有关键节点信息，比如：</p>
+
+<p>测试任务开始前的初始化配置</p>
+
+<p><a href="https://imgtu.com/i/jRO9EQ"><img src="https://s1.ax1x.com/2022/07/13/jRO9EQ.md.png" alt="jRO9EQ.md.png" /></a></p>
+
+<p>每个接口的入参、出参以及该接口的依赖调用信息和后置异步接口处理信息</p>
+
+<p><a href="https://imgtu.com/i/jROCNj"><img src="https://s1.ax1x.com/2022/07/13/jROCNj.md.png" alt="jROCNj.md.png" /></a></p>
+
+<p>多线程/进程模式下的每个子线程/进程的woker名称，线程/进程数量，每个线程/进程的启动参数</p>
+
+<p><a href="https://imgtu.com/i/jROFCn"><img src="https://s1.ax1x.com/2022/07/13/jROFCn.md.png" alt="jROFCn.md.png" /></a></p>
+
+<p>测试结束后，后置清理信息</p>
+
+<p><a href="https://imgtu.com/i/jROP4s"><img src="https://s1.ax1x.com/2022/07/13/jROP4s.md.png" alt="jROP4s.md.png" /></a></p>
+
+<p>此外，所有日志会同时分别输出到三个地方：</p>
+
+<ul>
+  <li>控制台</li>
+  <li>日志文件，所有日志会被记录到项目根目录下<code class="language-plaintext highlighter-rouge">logs\log.log</code>中，记录级别为<code class="language-plaintext highlighter-rouge">debug</code>，<code class="language-plaintext highlighter-rouge">rotation=10MB</code></li>
+  <li>allure报告，每个接口请求的相关日志都会被记录且展示到<code class="language-plaintext highlighter-rouge">allure</code>报告中，详见下文</li>
+</ul>
+
+<p><strong>如果你需要在工程项目中记录一些自己需要的日志信息</strong>，直接导入<code class="language-plaintext highlighter-rouge">aomaker</code>提供的日志<code class="language-plaintext highlighter-rouge">handler</code>即可：<code class="language-plaintext highlighter-rouge">from aomaker.log import logger</code>，这个<code class="language-plaintext highlighter-rouge">logger</code>的用法和<code class="language-plaintext highlighter-rouge">loguru</code>完全一样。</p>
+
+<p><strong>控制台打印的日志级别默认为</strong><code class="language-plaintext highlighter-rouge">debug</code><strong>，如果你想改变默认级别，</strong>在命令行使用<code class="language-plaintext highlighter-rouge">arun</code>命令时，加上<code class="language-plaintext highlighter-rouge">-l level</code>即可，比如只想打印<code class="language-plaintext highlighter-rouge">info</code>及其以上的日志，使用<code class="language-plaintext highlighter-rouge">arun -l info</code>即可。</p>
+
+<p>支持的级别：</p>
+
+<ul>
+  <li>trace</li>
+  <li>debug</li>
+  <li>info</li>
+  <li>success</li>
+  <li>warning</li>
+  <li>error</li>
+  <li>critical</li>
+</ul>
+:ET

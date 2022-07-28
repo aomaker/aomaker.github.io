@@ -1,0 +1,165 @@
+I"�0<p>如果不想写代码，也不想<code class="language-plaintext highlighter-rouge">YAML</code> ，那么用流量录制吧。</p>
+
+<p><code class="language-plaintext highlighter-rouge">aomaker</code>提供<code class="language-plaintext highlighter-rouge">aomaker record</code>或者<code class="language-plaintext highlighter-rouge">arec</code>来录制浏览器上的流量，录制完成后，会自动在<code class="language-plaintext highlighter-rouge">yamlcase</code>目录下生成一份<code class="language-plaintext highlighter-rouge">xxx.yaml</code>文件，其中记录了请求调用信息，因为记录的是原始流量，如果你想让case固化，则需要按照<code class="language-plaintext highlighter-rouge">aomaker</code>提供的<code class="language-plaintext highlighter-rouge">YAML语法</code>去将必要的参数进行参数化改造。</p>
+
+<h1 id="流量录制">流量录制</h1>
+
+<p>1.打开浏览器（以<code class="language-plaintext highlighter-rouge">Chrome</code>为例），修改浏览器代理，将代理改为<code class="language-plaintext highlighter-rouge">aomaker</code>代理的端口地址。</p>
+
+<p>有两种方式：</p>
+
+<ul>
+  <li>在浏览器设置中，修改浏览器代理为127.0.0.0:8082（不推荐）</li>
+  <li>安装浏览器插件<strong>Proxy SwitchyOmega</strong>，在插件中配置<code class="language-plaintext highlighter-rouge">aomaker</code>代理，并将代理切换为<code class="language-plaintext highlighter-rouge">aomaker</code>。</li>
+</ul>
+
+<p><img src="https://cdn.jsdelivr.net/gh/ae86sen/mypic2/am.png" alt="" /></p>
+
+<p>该插件可以非常轻松的管理代理并切换多个代理，非常方便好用，强烈推荐~</p>
+
+<p>2.<strong>进入到工程根目录下</strong>，执行<code class="language-plaintext highlighter-rouge">aomaker record</code>命令</p>
+
+<p>格式：</p>
+
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">aomaker</span><span class="w"> </span><span class="nx">record</span><span class="w"> </span><span class="p">[</span><span class="nt">-h</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="nt">-f</span><span class="w"> </span><span class="p">[</span><span class="n">FILTER_STR</span><span class="p">]]</span><span class="w"> </span><span class="p">[</span><span class="nt">-p</span><span class="w"> </span><span class="p">[</span><span class="n">PORT</span><span class="p">]]</span><span class="w"> </span><span class="p">[</span><span class="nt">--flow-detail</span><span class="w"> </span><span class="p">[</span><span class="n">LEVEL</span><span class="p">]]</span><span class="w"> </span><span class="p">[</span><span class="nt">--save_response</span><span class="w"> </span><span class="p">[</span><span class="n">SAVE_RESPONSE</span><span class="p">]]</span><span class="w"> </span><span class="p">[</span><span class="nt">--save_headers</span><span class="w"> </span><span class="p">[</span><span class="n">SAVE_HEADERS</span><span class="p">]]</span><span class="w"> </span><span class="p">[</span><span class="n">file_name</span><span class="p">]</span><span class="w">
+</span></code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">aomaker record</code>有一个简写命令，<code class="language-plaintext highlighter-rouge">arec</code>，两者等效。</p>
+
+<p>执行<code class="language-plaintext highlighter-rouge">aomaker record xxx.yaml</code>后，<code class="language-plaintext highlighter-rouge">aomaker</code>将开始录制，此时只需要在浏览器中去操作需要转化成的自动化用例的业务场景即可。</p>
+
+<p><img src="https://cdn.jsdelivr.net/gh/ae86sen/mypic2/rec.png" alt="" /></p>
+
+<p>录制完成后，在控制台按<code class="language-plaintext highlighter-rouge">ctrl+c</code>即可退出录制，输出的文件将放在工程根目录下的<code class="language-plaintext highlighter-rouge">yamlcase</code>目录中。</p>
+
+<p>参数说明：</p>
+
+<ul>
+  <li><strong>-f, –filter_str</strong></li>
+</ul>
+
+<p>指定过滤字段，如<code class="language-plaintext highlighter-rouge">-f "console.shanhe.com"</code>，即表示代理只捕获url中含有<code class="language-plaintext highlighter-rouge">"console.shanhe.com"</code>的请求。</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>也可以同时指定多个过滤字段（过滤表达式参考下面），用”</td>
+      <td>“分割即可，多个条件直接是”and”关系，如<code class="language-plaintext highlighter-rouge">-f "console.shanhe.com | ~hq method:/alarm"</code>，表示代理只捕获url中含有<code class="language-plaintext highlighter-rouge">"console.shanhe.com"</code>和请求头中有<code class="language-plaintext highlighter-rouge">"method:/alarm"</code>的请求。</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>附支持的过滤表达式：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">The</span> <span class="n">following</span> <span class="n">operators</span> <span class="n">are</span> <span class="n">understood</span><span class="p">:</span>
+
+        <span class="o">~</span><span class="n">q</span>          <span class="n">Request</span>
+        <span class="o">~</span><span class="n">s</span>          <span class="n">Response</span>
+
+    <span class="n">Headers</span><span class="p">:</span>
+
+        <span class="n">Patterns</span> <span class="n">are</span> <span class="n">matched</span> <span class="n">against</span> <span class="s">"name: value"</span> <span class="n">strings</span><span class="p">.</span> <span class="n">Field</span> <span class="n">names</span> <span class="n">are</span>
+        <span class="nb">all</span><span class="o">-</span><span class="n">lowercase</span><span class="p">.</span>
+
+        <span class="o">~</span><span class="n">a</span>          <span class="n">Asset</span> <span class="n">content</span><span class="o">-</span><span class="nb">type</span> <span class="ow">in</span> <span class="n">response</span><span class="p">.</span> <span class="n">Asset</span> <span class="n">content</span> <span class="n">types</span> <span class="n">are</span><span class="p">:</span>
+                        <span class="n">text</span><span class="o">/</span><span class="n">javascript</span>
+                        <span class="n">application</span><span class="o">/</span><span class="n">x</span><span class="o">-</span><span class="n">javascript</span>
+                        <span class="n">application</span><span class="o">/</span><span class="n">javascript</span>
+                        <span class="n">text</span><span class="o">/</span><span class="n">css</span>
+                        <span class="n">image</span><span class="o">/*</span>
+                        <span class="n">application</span><span class="o">/</span><span class="n">x</span><span class="o">-</span><span class="n">shockwave</span><span class="o">-</span><span class="n">flash</span>
+        <span class="o">~</span><span class="n">h</span> <span class="n">rex</span>      <span class="n">Header</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">either</span> <span class="n">request</span> <span class="ow">or</span> <span class="n">response</span>
+        <span class="o">~</span><span class="n">hq</span> <span class="n">rex</span>     <span class="n">Header</span> <span class="ow">in</span> <span class="n">request</span>
+        <span class="o">~</span><span class="n">hs</span> <span class="n">rex</span>     <span class="n">Header</span> <span class="ow">in</span> <span class="n">response</span>
+
+        <span class="o">~</span><span class="n">b</span> <span class="n">rex</span>      <span class="n">Expression</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">body</span> <span class="n">of</span> <span class="n">either</span> <span class="n">request</span> <span class="ow">or</span> <span class="n">response</span>
+        <span class="o">~</span><span class="n">bq</span> <span class="n">rex</span>     <span class="n">Expression</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">body</span> <span class="n">of</span> <span class="n">request</span>
+        <span class="o">~</span><span class="n">bs</span> <span class="n">rex</span>     <span class="n">Expression</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">body</span> <span class="n">of</span> <span class="n">response</span>
+        <span class="o">~</span><span class="n">t</span> <span class="n">rex</span>      <span class="n">Shortcut</span> <span class="k">for</span> <span class="n">content</span><span class="o">-</span><span class="nb">type</span> <span class="n">header</span><span class="p">.</span>
+
+        <span class="o">~</span><span class="n">d</span> <span class="n">rex</span>      <span class="n">Request</span> <span class="n">domain</span>
+        <span class="o">~</span><span class="n">m</span> <span class="n">rex</span>      <span class="n">Method</span>
+        <span class="o">~</span><span class="n">u</span> <span class="n">rex</span>      <span class="n">URL</span>
+        <span class="o">~</span><span class="n">c</span> <span class="n">CODE</span>     <span class="n">Response</span> <span class="n">code</span><span class="p">.</span>
+        <span class="n">rex</span>         <span class="n">Equivalent</span> <span class="n">to</span> <span class="o">~</span><span class="n">u</span> <span class="n">rex</span>
+</code></pre></div></div>
+
+<ul>
+  <li><strong>-p,–port</strong></li>
+</ul>
+
+<p>指定<code class="language-plaintext highlighter-rouge">aomaker</code>代理端口，默认为8082。</p>
+
+<ul>
+  <li><strong>–flow-detail</strong></li>
+</ul>
+
+<p>指定代理录制时记录日志信息的详细程度，一共0~4五个等级，详细程度依次递增，默认为0。</p>
+
+<ul>
+  <li><strong>–save_response</strong></li>
+</ul>
+
+<p>指定录制流量时，是否保存响应结果，0为保存，1为不保存，默认为0。</p>
+
+<ul>
+  <li><strong>–save_headers</strong></li>
+</ul>
+
+<p>指定录制流量时，是否保存请求头，0为保存，1为不保存，默认为1。</p>
+
+<ul>
+  <li><strong>file_name</strong></li>
+</ul>
+
+<p>该参数为<strong>必填</strong>参数，指定录制流量的输出文件（YAML格式），需要注意指定文件名是需要添加后缀”.yaml”或”.yml”，文件将保存在项目根目录的<code class="language-plaintext highlighter-rouge">yamlcase</code>目录下。</p>
+
+<p><strong>har文件解析</strong></p>
+
+<p>如果不使用流量录制的方式，也可以通过浏览器<code class="language-plaintext highlighter-rouge">F12</code>，<code class="language-plaintext highlighter-rouge">fiddler</code>，<code class="language-plaintext highlighter-rouge">Charles</code>等场景抓包工具导出的<code class="language-plaintext highlighter-rouge">.har</code>文件，<code class="language-plaintext highlighter-rouge">aomaker</code>支持将<code class="language-plaintext highlighter-rouge">har</code>文件解析为<code class="language-plaintext highlighter-rouge">YAML</code>格式的功能，使用命令<code class="language-plaintext highlighter-rouge">aomaker har2y</code>即可。</p>
+
+<p><strong>参数说明：</strong></p>
+
+<ul>
+  <li><strong>har_path</strong></li>
+</ul>
+
+<p>指定.har文件位置</p>
+
+<ul>
+  <li><strong>yaml_path</strong></li>
+</ul>
+
+<p>指定转化的.yaml文件输出位置</p>
+
+<ul>
+  <li><strong>–filter_str</strong></li>
+</ul>
+
+<p>har文件转化为yaml文件时，所需要筛选的字段</p>
+
+<ul>
+  <li><strong>–exclude_str</strong></li>
+</ul>
+
+<p>har文件转化为yaml文件时，所需要排除的字段</p>
+
+<ul>
+  <li><strong>–save_response</strong></li>
+</ul>
+
+<p>指定har文件转化为yaml文件时，是否保存响应结果，0为保存，1为不保存，默认为0。</p>
+
+<ul>
+  <li><strong>–save_headers</strong></li>
+</ul>
+
+<p>指定har文件转化为yaml文件时，是否保存请求头，0为保存，1为不保存，默认为1。</p>
+
+<h1 id="修改yaml文件">修改YAML文件</h1>
+
+<p>录制的流量将保存在项目根目录的<code class="language-plaintext highlighter-rouge">yamlcase</code>目录下。</p>
+
+<p>具体修改方法参考上一章。</p>
+
+:ET

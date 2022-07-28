@@ -1,0 +1,23 @@
+I"m<p>为了对多任务运行测试用例有更好的支持，<code class="language-plaintext highlighter-rouge">aomaker</code> 采用了本地数据库<code class="language-plaintext highlighter-rouge">sqlite</code>的方案来存储管理变量，<code class="language-plaintext highlighter-rouge">sqlite</code>是一个非常轻量的本地文件数据库，可以直接访问存储文件，而且不需要任何安装配置~</p>
+
+<blockquote>
+  <p>SQLite是一个进程内的库，实现了自给自足的、无服务器的、零配置的、事务性的 SQL 数据库引擎。它是一个零配置的数据库，这意味着与其他数据库不一样，您不需要在系统中配置。
+就像其他数据库，SQLite 引擎不是一个独立的进程，可以按应用程序需求进行静态或动态连接。SQLite 直接访问其存储文件。</p>
+</blockquote>
+
+<p>当使用aomaker创建完脚手架后，会在<code class="language-plaintext highlighter-rouge">database</code>目录下创建<code class="language-plaintext highlighter-rouge">aomaker.db</code>数据库文件，并且aomaker内置了三张数据表，来分别管理全局变量、接口依赖参数、jsonschema，这三张表分别是：</p>
+
+<ul>
+  <li>config：存储配置文件中的全局变量，如账户信息，环境host等配置信息，当启动测试任务后，会根据当前选择的测试环境，自动读取<code class="language-plaintext highlighter-rouge">config.yaml</code>中的配置存到<code class="language-plaintext highlighter-rouge">config</code>表中，该配置会固化不清理，除非更改了测试环境。</li>
+  <li>cache：存储测试过程中上下游接口之间的依赖接口的响应，会搭配后文将要讲到的<code class="language-plaintext highlighter-rouge">dependece</code>装饰器使用 。当一个依赖接口被调用后，会存储它完整的response·，如果后续有其它接口也依赖这个接口，那么该接口将不会再被调用，而是直接从该接口存储的response中去读取需要的依赖参数。整个测试任务结束后，会自动清理<code class="language-plaintext highlighter-rouge">cache</code>表。</li>
+  <li>schema：存储接口的<code class="language-plaintext highlighter-rouge">jsonschema</code>信息，当一个接口第一次被调用后，会自动从它的<code class="language-plaintext highlighter-rouge">response</code>中解析出<code class="language-plaintext highlighter-rouge">response.json()</code>的<code class="language-plaintext highlighter-rouge">jsonschema</code>，在用例层进行断言时，可以对此次接口响应的结构体与<code class="language-plaintext highlighter-rouge">schema</code>表中存储的结构体进行比较，检测是否有参数变动。（后文细讲）</li>
+</ul>
+
+<p>三张表的结构其实都非常简单，就是键值对：</p>
+
+<p><a href="https://imgtu.com/i/jRL7AH"><img src="https://s1.ax1x.com/2022/07/13/jRL7AH.png" alt="jRL7AH.png" /></a></p>
+
+<p>在<code class="language-plaintext highlighter-rouge">aomaker</code>的<code class="language-plaintext highlighter-rouge">baseapi</code>中，初始化了<code class="language-plaintext highlighter-rouge">cache</code>和<code class="language-plaintext highlighter-rouge">config</code>两张表的连接对象，因为所有接口都是继承于<code class="language-plaintext highlighter-rouge">baseapi</code>的，所以所有接口都可以通过<code class="language-plaintext highlighter-rouge">self.config</code>和<code class="language-plaintext highlighter-rouge">self.cache</code>来拿到连接对象，当有了连接对象就可以通过封装好的<code class="language-plaintext highlighter-rouge">set()</code>和<code class="language-plaintext highlighter-rouge">get()</code>方法来存取变量了。</p>
+
+<p>另外，三张表的数据读写，都是做了线程安全的，在多线程模式下也能保证数据安全。</p>
+:ET

@@ -1,0 +1,82 @@
+I"a<p><img src="https://s1.ax1x.com/2022/07/13/jRL5nO.md.png" alt="jRL5nO.md.png" /></p>
+
+<blockquote>
+  <p>Quickly Arrange,Quickly Test!</p>
+</blockquote>
+
+<p><a href="https://pypi.org/project/aomaker/"><img src="https://img.shields.io/pypi/v/httprunner.svg" alt="pypi version" /></a><a href="https://pypi.python.org/pypi/httprunner"><img src="https://img.shields.io/pypi/pyversions/httprunner.svg" alt="pyversions" /></a></p>
+
+<h1 id="核心思想">核心思想</h1>
+
+<p><strong>AoMaker</strong>，即 Api object Maker，那什么是<strong>API Object</strong>呢？</p>
+
+<p><strong>API Object</strong>是<strong>Page Object</strong>设计模式在接口测试上的一种延伸，顾名思义，这里是将各种基础接口进行了一层抽象封装，将其作为 object，通过不同的 API 对象调用来组装成不同的业务流场景。</p>
+
+<p>举个简单例子：</p>
+
+<p>有一个购物车功能，它有如下接口：</p>
+
+<ul>
+  <li>add，将物品添加到购物车</li>
+  <li>list，查看购物车内所有物品</li>
+  <li>delete，清空购物车内所有物品</li>
+</ul>
+
+<p>那么，我们通过<code class="language-plaintext highlighter-rouge">ao</code> 的思想来封装这个功能所有接口：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">class</span> <span class="nc">ShoppingTrolley</span><span class="p">:</span>
+        <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="s">"""添加物品到购物车"""</span>
+            <span class="k">pass</span>
+
+        <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="s">"""清空购物车"""</span>
+            <span class="k">pass</span>
+
+        <span class="k">def</span> <span class="nf">list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="s">"""查看购物车内所有物品"""</span>
+            <span class="k">pass</span>
+</code></pre></div></div>
+
+<p>当我们需要测试购物车的增-查-删流程时，只需要实例化<code class="language-plaintext highlighter-rouge">ShoppingTrolley</code> 类，通过调用对应的接口对象，即可完成业务场景的组装：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">class</span> <span class="nc">TestShoppingTrolley</span><span class="p">:</span>
+        <span class="k">def</span> <span class="nf">test_shopping</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="s">"""测试购物车增-查-删流程"""</span>
+            <span class="n">st</span> <span class="o">=</span> <span class="n">ShoppingTrolley</span><span class="p">()</span>
+            <span class="c1"># 1.添加物品到购物车
+</span>            <span class="n">st</span><span class="p">.</span><span class="n">add</span><span class="p">()</span>
+            <span class="c1"># 2.查看购物车内物品
+</span>            <span class="n">st</span><span class="p">.</span><span class="nb">list</span><span class="p">()</span>
+            <span class="c1"># 3.清空购物车
+</span>            <span class="n">st</span><span class="p">.</span><span class="n">delete</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>解释了<strong>API Object</strong>，那<strong>Maker</strong>又怎么理解呢？<strong>Maker</strong>其实就是框架本身提供各种辅助手段帮助快速的去编排<code class="language-plaintext highlighter-rouge">ao</code> 和<code class="language-plaintext highlighter-rouge">case</code> 。</p>
+
+<h1 id="定位">定位</h1>
+
+<p>一款基于<code class="language-plaintext highlighter-rouge">pytest</code> ，将接口通过<strong>ao 对象</strong>方式来编排管理的接口自动化框架，核心定位就是基于<code class="language-plaintext highlighter-rouge">ao</code> 思想，让测试人员能快速完成自动化项目搭建和脚本的编写，快速开始测试。</p>
+
+<h1 id="特性">特性</h1>
+
+<ul>
+  <li>提供 CLI 命令</li>
+  <li>提供脚手架一键安装，开箱即用</li>
+  <li>变量管理简单</li>
+  <li>可使用 HAR/Swagger 等一键生成 ao 和 case</li>
+  <li>三种方式快速编写 ao 和 case</li>
+  <li>支持多进程和多线程</li>
+  <li>丰富的断言</li>
+  <li>支持流量录制</li>
+  <li>支持 pytest 所有用法和插件</li>
+  <li>allure 报告优化</li>
+  <li>测试报告消息通知</li>
+</ul>
+
+<h1 id="交流">交流</h1>
+
+<p>如果对该框架感兴趣以及有更多好的想法，欢迎交流探讨~</p>
+
+<p><a href="https://imgtu.com/i/v9XorQ"><img src="https://s1.ax1x.com/2022/07/28/v9XorQ.jpg" alt="v9XorQ.jpg" /></a></p>
+:ET

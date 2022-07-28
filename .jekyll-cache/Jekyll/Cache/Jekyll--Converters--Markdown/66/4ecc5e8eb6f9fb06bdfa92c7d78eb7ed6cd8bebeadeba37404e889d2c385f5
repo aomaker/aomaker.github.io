@@ -1,0 +1,2 @@
+I"�<p><code class="language-plaintext highlighter-rouge">aomaker</code>提供了一套<code class="language-plaintext highlighter-rouge">YAML</code>模板语法，只要遵循规定语法，就可以不用写代码，直接通过<code class="language-plaintext highlighter-rouge">YAML</code>文件直接翻译为<code class="language-plaintext highlighter-rouge">pytest</code>风格的代码文件。</p>
+:ET

@@ -1,0 +1,265 @@
+I"�f<h1 id="内置断言">内置断言</h1>
+
+<p><code class="language-plaintext highlighter-rouge">aomaker</code>的所有测试类，都继承于<code class="language-plaintext highlighter-rouge">aomaker</code>提供的<code class="language-plaintext highlighter-rouge">BaseTestcase</code>类，这个测试类内置了一些常见的断言方式：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">BaseTestcase</span><span class="p">:</span>
+
+    <span class="o">@</span><span class="nb">staticmethod</span>
+    <span class="k">def</span> <span class="nf">assert_eq</span><span class="p">(</span><span class="n">actual_value</span><span class="p">,</span> <span class="n">expected_value</span><span class="p">):</span>
+        <span class="s">"""
+        equals
+        """</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="n">actual_value</span> <span class="o">==</span> <span class="n">expected_value</span>
+        <span class="k">except</span> <span class="nb">AssertionError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="p">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s">"eq断言失败，预期结果：</span><span class="si">{</span><span class="n">expected_value</span><span class="si">}</span><span class="s">，实际结果：</span><span class="si">{</span><span class="n">actual_value</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">e</span>
+
+    <span class="o">@</span><span class="nb">staticmethod</span>
+    <span class="k">def</span> <span class="nf">assert_gt</span><span class="p">(</span><span class="n">actual_value</span><span class="p">,</span> <span class="n">expected_value</span><span class="p">):</span>
+        <span class="s">"""
+        greater than
+        """</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="n">actual_value</span> <span class="o">&gt;</span> <span class="n">expected_value</span>
+        <span class="k">except</span> <span class="nb">AssertionError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="p">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s">"gt断言失败，预期结果：</span><span class="si">{</span><span class="n">expected_value</span><span class="si">}</span><span class="s">，实际结果：</span><span class="si">{</span><span class="n">actual_value</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">e</span>
+
+    <span class="o">@</span><span class="nb">staticmethod</span>
+    <span class="k">def</span> <span class="nf">assert_lt</span><span class="p">(</span><span class="n">actual_value</span><span class="p">,</span> <span class="n">expected_value</span><span class="p">):</span>
+        <span class="s">"""
+        less than
+        """</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="n">actual_value</span> <span class="o">&lt;</span> <span class="n">expected_value</span>
+        <span class="k">except</span> <span class="nb">AssertionError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="p">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s">"lt断言失败，预期结果：</span><span class="si">{</span><span class="n">expected_value</span><span class="si">}</span><span class="s">，实际结果：</span><span class="si">{</span><span class="n">actual_value</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">e</span>
+
+    <span class="o">@</span><span class="nb">staticmethod</span>
+    <span class="k">def</span> <span class="nf">assert_neq</span><span class="p">(</span><span class="n">actual_value</span><span class="p">,</span> <span class="n">expected_value</span><span class="p">):</span>
+        <span class="s">"""
+        not equals
+        """</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="n">actual_value</span> <span class="o">!=</span> <span class="n">expected_value</span>
+        <span class="k">except</span> <span class="nb">AssertionError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="p">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s">"neq断言失败，预期结果：</span><span class="si">{</span><span class="n">expected_value</span><span class="si">}</span><span class="s">，实际结果：</span><span class="si">{</span><span class="n">actual_value</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">e</span>
+
+    <span class="o">@</span><span class="nb">staticmethod</span>
+    <span class="k">def</span> <span class="nf">assert_ge</span><span class="p">(</span><span class="n">actual_value</span><span class="p">,</span> <span class="n">expected_value</span><span class="p">):</span>
+        <span class="s">"""
+        greater than or equals
+        """</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="n">actual_value</span> <span class="o">&gt;=</span> <span class="n">expected_value</span>
+        <span class="k">except</span> <span class="nb">AssertionError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="p">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s">"ge断言失败，预期结果：</span><span class="si">{</span><span class="n">expected_value</span><span class="si">}</span><span class="s">，实际结果：</span><span class="si">{</span><span class="n">actual_value</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">e</span>
+
+    <span class="o">@</span><span class="nb">staticmethod</span>
+    <span class="k">def</span> <span class="nf">assert_le</span><span class="p">(</span><span class="n">actual_value</span><span class="p">,</span> <span class="n">expected_value</span><span class="p">):</span>
+        <span class="s">"""
+        less than or equals
+        """</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="n">actual_value</span> <span class="o">&lt;=</span> <span class="n">expected_value</span>
+        <span class="k">except</span> <span class="nb">AssertionError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="p">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s">"le断言失败，预期结果：</span><span class="si">{</span><span class="n">expected_value</span><span class="si">}</span><span class="s">，实际结果：</span><span class="si">{</span><span class="n">actual_value</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">e</span>
+
+    <span class="o">@</span><span class="nb">staticmethod</span>
+    <span class="k">def</span> <span class="nf">assert_contains</span><span class="p">(</span><span class="n">actual_value</span><span class="p">,</span> <span class="n">expected_value</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span>
+            <span class="n">expected_value</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">)</span>
+        <span class="p">),</span> <span class="s">"expect_value should be list/tuple/dict/str/bytes type"</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="n">expected_value</span> <span class="ow">in</span> <span class="n">actual_value</span>
+        <span class="k">except</span> <span class="nb">AssertionError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="p">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s">"contains断言失败，预期结果：</span><span class="si">{</span><span class="n">expected_value</span><span class="si">}</span><span class="s">，实际结果：</span><span class="si">{</span><span class="n">actual_value</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">e</span>
+</code></pre></div></div>
+
+<h1 id="jsonschema介绍">jsonschema介绍</h1>
+
+<p>此外，在2.0中还加入了<code class="language-plaintext highlighter-rouge">jsonschema</code>断言。</p>
+
+<p>有时，我们的接口响应数据体积会非常庞大，字段也非常多，我们常规的断言可能只会去关注某几个关键字段，但是这不够健壮，有时候后端“悄悄咪咪”加了某个字段或者删了某个字段或者改了某个字段的类型，我们可能很难察觉到，这就会导致一些隐藏的bug逃逸，所以我们需要加强断言的健壮度，要对整个响应内容结构有一个基本的把控。</p>
+
+<p>怎么做呢，这就需要用到<code class="language-plaintext highlighter-rouge">jsonschema</code>了。</p>
+
+<blockquote>
+  <p>JSON Schema是基于JSON格式，用于定义JSON数据结构以及校验JSON数据内容。 JSON Schema官网地址：<a href="https://link.zhihu.com/?target=http%3A//json-schema.org/">http://json-schema.org/</a></p>
+</blockquote>
+
+<p>比如有一个json字符串：</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"aomaker"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"age"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"desc"</span><span class="p">:</span><span class="w"> </span><span class="s2">"api framework"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>这其中<code class="language-plaintext highlighter-rouge">name</code>和<code class="language-plaintext highlighter-rouge">age</code>是必填字段，字段类型分别是<code class="language-plaintext highlighter-rouge">string</code>和<code class="language-plaintext highlighter-rouge">int</code>，可选字段是<code class="language-plaintext highlighter-rouge">desc</code>，字段类型是<code class="language-plaintext highlighter-rouge">string</code>，假如我想要每个这样的json字符串，都符合上面的约束，那我怎么自动去校验呢？这就需要安装<code class="language-plaintext highlighter-rouge">jsonschema</code>的语法去写约束条件。</p>
+
+<p><strong>jsonchema语法</strong></p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"$schema"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://json-schema.org/draft-04/schema#"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"TestInfo"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"some information about test"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"object"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"properties"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Name of the test"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nl">"age"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"age of test"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"required"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="s2">"name"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"age"</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p><strong>开始校验</strong></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">jsonschema</span> <span class="kn">import</span> <span class="n">validate</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">"name"</span><span class="p">:</span> <span class="s">"aomaker"</span><span class="p">,</span>
+    <span class="s">"age"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="s">"desc"</span><span class="p">:</span> <span class="s">"api framework"</span>
+<span class="p">}</span>
+<span class="n">schema</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">"$schema"</span><span class="p">:</span> <span class="s">"http://json-schema.org/draft-04/schema#"</span><span class="p">,</span>
+    <span class="s">"title"</span><span class="p">:</span> <span class="s">"TestInfo"</span><span class="p">,</span>
+    <span class="s">"description"</span><span class="p">:</span> <span class="s">"some information about test"</span><span class="p">,</span>
+    <span class="s">"type"</span><span class="p">:</span> <span class="s">"object"</span><span class="p">,</span>
+    <span class="s">"properties"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s">"name"</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s">"description"</span><span class="p">:</span> <span class="s">"Name of the test"</span><span class="p">,</span>
+            <span class="s">"type"</span><span class="p">:</span> <span class="s">"string"</span>
+        <span class="p">},</span>
+        <span class="s">"age"</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s">"description"</span><span class="p">:</span> <span class="s">"age of test"</span><span class="p">,</span>
+            <span class="s">"type"</span><span class="p">:</span> <span class="s">"integer"</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="s">"required"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s">"name"</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+
+<span class="n">validate</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">schema</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>如果校验通过，会没有返回，也没有报错。</p>
+
+<p>假如不小心把<code class="language-plaintext highlighter-rouge">age</code>传成了字符串<code class="language-plaintext highlighter-rouge">"2"</code>，<code class="language-plaintext highlighter-rouge">jsonschema</code>检测到后，会立即报错</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jsonschema.exceptions.ValidationError: '2' is not of type 'integer'
+
+Failed validating 'type' in schema['properties']['age']:
+{'description': 'age of test', 'type': 'integer'}
+
+On instance['age']:
+    '2'
+</code></pre></div></div>
+
+<p>假如不小心没有传必填字段<code class="language-plaintext highlighter-rouge">name</code>，也会立即报错</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jsonschema.exceptions.ValidationError: 'name' is a required property
+
+Failed validating 'required' in schema:
+    {'$schema': 'http://json-schema.org/draft-04/schema#',
+     'description': 'some information about test',
+     'properties': {'age': {'description': 'age of test',
+                            'type': 'integer'},
+                    'name': {'description': 'Name of the test',
+                             'type': 'string'}},
+     'required': ['name', 'age'],
+     'title': 'TestInfo',
+     'type': 'object'}
+
+On instance:
+    {'age': 2, 'desc': 'api framework'}
+</code></pre></div></div>
+
+<p>通过这种手段是不是对我们测试过的接口更有信心了？</p>
+
+<h1 id="扩展jsonschema断言">扩展jsonschema断言</h1>
+
+<p><strong>但是~</strong>有没有发现，<code class="language-plaintext highlighter-rouge">jsonschema</code>虽然很好，但是你得手动去写<code class="language-plaintext highlighter-rouge">jsonschema</code>校验语法，上面的示例还好，只有几个字段，但实际业务中，响应的字段可能要比这个多得多得多吧？那每个接口这么去写，成本也太高了！</p>
+
+<p><strong>所以，</strong> <code class="language-plaintext highlighter-rouge">aomaker</code>提供了一种手段，可以自动去生成<code class="language-plaintext highlighter-rouge">jsonschema</code>校验语法~其实上文有提到过，<code class="language-plaintext highlighter-rouge">aomaker.db</code>数据库中，有一张表叫<code class="language-plaintext highlighter-rouge">schema</code>，其实它就是存放请求过的每个接口响应的<code class="language-plaintext highlighter-rouge">jsonschema</code>校验语法的。<code class="language-plaintext highlighter-rouge">aomaker</code>会自动记录每个请求第一次返回响应时的<code class="language-plaintext highlighter-rouge">jsonschema</code>，当在case层去做断言时，<code class="language-plaintext highlighter-rouge">aomaker</code>提供了一个<code class="language-plaintext highlighter-rouge">jsonschema</code>的断言在<code class="language-plaintext highlighter-rouge">BaseTestcase</code>中：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">BaseTestcase</span><span class="p">:</span>
+    <span class="p">...</span>
+    <span class="o">@</span><span class="nb">staticmethod</span>
+    <span class="k">def</span> <span class="nf">assert_schema</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="n">api_name</span><span class="p">):</span>
+        <span class="s">"""
+        Assert JSON Schema
+        :param instance: 请求响应结果
+        :param api_name: 存放在schema表中的对应key名
+        :return: 
+        """</span>
+        <span class="n">json_schema</span> <span class="o">=</span> <span class="n">Schema</span><span class="p">().</span><span class="n">get</span><span class="p">(</span><span class="n">api_name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">json_schema</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">logger</span><span class="p">.</span><span class="n">error</span><span class="p">(</span><span class="s">'jsonschema未找到！'</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">SchemaNotFound</span><span class="p">(</span><span class="n">api_name</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">validate</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="n">json_schema</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">msg</span><span class="p">:</span>
+            <span class="n">logger</span><span class="p">.</span><span class="n">error</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="nb">AssertionError</span>
+</code></pre></div></div>
+
+<p>在case层进行断言：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">TestJob</span><span class="p">(</span><span class="n">BaseTestcase</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">test_hpc_submit_job</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="n">job</span><span class="p">.</span><span class="n">submit_hpc_job</span><span class="p">()</span>
+        <span class="n">ret_code</span> <span class="o">=</span> <span class="n">resp</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">"ret_code"</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">assert_eq</span><span class="p">(</span><span class="n">ret_code</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="c1"># schema断言
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">assert_schema</span><span class="p">(</span><span class="n">resp</span><span class="p">,</span> <span class="s">'submit_hpc_job'</span><span class="p">)</span>
+
+</code></pre></div></div>
+
+<p>会根据第二个参数，去<code class="language-plaintext highlighter-rouge">schema</code>表中取对应key的<code class="language-plaintext highlighter-rouge">jsonschema</code></p>
+
+<p><em>schema表</em></p>
+
+<p><a href="https://imgtu.com/i/jROZuT"><img src="https://s1.ax1x.com/2022/07/13/jROZuT.md.png" alt="jROZuT.md.png" /></a></p>
+
+<p>需要注意的是，<code class="language-plaintext highlighter-rouge">schema</code>表中的<code class="language-plaintext highlighter-rouge">jsonschema</code>是在接口被调用的时候自动存储的，所以不需要手动操作，但是也是因为这个原因，有可能会存储接口异常时的响应的结构体，所以当要做jsonschema断言时，请检查该表，确保该表对应接口的jsonschema是符合预期的，当然，aomaker也提供了一个<code class="language-plaintext highlighter-rouge">genson()</code>方法，你可以通过该方法手动获取预期的<code class="language-plaintext highlighter-rouge">jsonschema</code>，然后自己存储到<code class="language-plaintext highlighter-rouge">schema</code>表中，<code class="language-plaintext highlighter-rouge">schema</code>表是固化不会自动清理的，你可以持续校正和维护该表。</p>
+
+<h1 id="如何使用genson">如何使用<code class="language-plaintext highlighter-rouge">genson</code></h1>
+
+<p>只需要传入json字符串，<code class="language-plaintext highlighter-rouge">genson</code> 会自动返回其<code class="language-plaintext highlighter-rouge">jsonschema</code>。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 导入genson
+</span><span class="kn">from</span> <span class="nn">aomaker.aomaker</span> <span class="kn">import</span> <span class="n">genson</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">"age"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="s">"desc"</span><span class="p">:</span> <span class="s">"api framework"</span>
+<span class="p">}</span>
+
+<span class="n">schema</span> <span class="o">=</span> <span class="n">genson</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">schema</span><span class="p">)</span>
+
+<span class="c1"># 输出：
+# {'$schema': 'http://json-schema.org/schema#', 'type': 'object', 'properties': {'age': {'type': 'integer'}, 'desc': {'type': 'string'}}, 'required': ['age', 'desc']}
+</span></code></pre></div></div>
+:ET

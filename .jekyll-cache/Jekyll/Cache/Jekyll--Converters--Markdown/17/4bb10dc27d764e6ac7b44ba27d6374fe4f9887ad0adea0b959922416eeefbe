@@ -1,0 +1,97 @@
+I"�%<p>在做接口测试时，有时我们需要去查询业务数据库，做一些数据相关的校验，所以<code class="language-plaintext highlighter-rouge">aomaker</code>集成了一些数据库的相关操作，目前支持 <code class="language-plaintext highlighter-rouge">sqlite</code>和<code class="language-plaintext highlighter-rouge">mysql</code>两种数据库的一些常规操作。</p>
+
+<h1 id="如何使用以mysql为例">如何使用？（以mysql为例）</h1>
+
+<p>先在配置文件<code class="language-plaintext highlighter-rouge">conf/config.yaml</code>中配置对应环境的数据库连接信息：</p>
+
+<p><em>config.yaml</em></p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">env</span><span class="pi">:</span> <span class="s">test</span>
+<span class="na">test</span><span class="pi">:</span>
+  <span class="na">account</span><span class="pi">:</span>
+    <span class="na">pwd</span><span class="pi">:</span> <span class="s">test01</span>
+    <span class="na">user</span><span class="pi">:</span> <span class="s">test01</span>
+  <span class="na">host</span><span class="pi">:</span> <span class="s">http://test.aomaker.com</span>
+  <span class="c1"># 配置数据库信息</span>
+  <span class="na">mysql</span><span class="pi">:</span>
+    <span class="na">host</span><span class="pi">:</span> <span class="s">localhost</span>
+    <span class="na">user</span><span class="pi">:</span> <span class="s">admin</span>
+    <span class="na">password</span><span class="pi">:</span> <span class="m">123456</span>
+    <span class="na">port</span><span class="pi">:</span> <span class="m">3306</span>
+</code></pre></div></div>
+
+<p>一般以<code class="language-plaintext highlighter-rouge">pytest</code>本地插件的方式去封装获取数据库连接对象的方法，在<code class="language-plaintext highlighter-rouge">conftest.py</code>下，封装一个mysql连接插件：</p>
+
+<p><em>conftest.py</em></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pytest</span>
+<span class="kn">from</span> <span class="nn">aomaker.database.mysql</span> <span class="kn">import</span> <span class="n">Mysql</span>
+<span class="kn">from</span> <span class="nn">aomaker.cache</span> <span class="kn">import</span> <span class="n">config</span>
+
+
+<span class="o">@</span><span class="n">pytest</span><span class="p">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s">"class"</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">connect_mysql</span><span class="p">():</span>
+    <span class="c1"># 读取数据库配置信息
+</span>    <span class="n">mysql_conf</span> <span class="o">=</span> <span class="n">config</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'mysql'</span><span class="p">)</span>
+    <span class="c1"># 创建mysql连接对象
+</span>    <span class="n">db</span> <span class="o">=</span> <span class="n">Mysql</span><span class="p">(</span><span class="o">**</span><span class="n">mysql_conf</span><span class="p">)</span>
+    <span class="k">yield</span> <span class="n">db</span>
+    <span class="c1"># 测试结束后，关闭游标对象和数据库连接
+</span>    <span class="n">db</span><span class="p">.</span><span class="n">close</span><span class="p">()</span>
+    
+</code></pre></div></div>
+
+<p>本地插件做好后，在用例层直接传入数据库连接对象：</p>
+
+<p><em>test_demo.py</em></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">TestDemo</span><span class="p">(</span><span class="n">BaseTestcase</span><span class="p">):</span>
+    <span class="c1"># 以参数形式传入数据库连接插件
+</span>    <span class="k">def</span> <span class="nf">test_demo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">connect_mysql</span><span class="p">):</span>
+        <span class="c1"># 获取数据库连接对象
+</span>        <span class="n">db</span> <span class="o">=</span> <span class="n">connect_mysql</span>
+        <span class="c1"># 通过数据连接对象操作数据库
+</span>        <span class="n">sql_res</span> <span class="o">=</span> <span class="n">db</span><span class="p">.</span><span class="n">get_all</span><span class="p">(</span><span class="s">"select * from xxx"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>aomaker内置的mysql：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Mysql</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="c1"># 连接到数据库
+</span>        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">con</span> <span class="o">=</span> <span class="n">pymysql</span><span class="p">.</span><span class="n">connect</span><span class="p">(</span><span class="n">charset</span><span class="o">=</span><span class="s">"utf8"</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">except</span> <span class="nb">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="p">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s">'数据库连接失败，连接参数：</span><span class="si">{</span><span class="n">kwargs</span><span class="si">}</span><span class="s">'</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">e</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># 创建一个游标
+</span>            <span class="bp">self</span><span class="p">.</span><span class="n">cur</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">con</span><span class="p">.</span><span class="n">cursor</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">get_one</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sql</span><span class="p">):</span>
+        <span class="s">"""获取查询到的第一条数据"""</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">con</span><span class="p">.</span><span class="n">commit</span><span class="p">()</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">cur</span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">cur</span><span class="p">.</span><span class="n">fetchone</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">get_all</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sql</span><span class="p">):</span>
+        <span class="s">"""获取sql语句查询到的所有数据"""</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">con</span><span class="p">.</span><span class="n">commit</span><span class="p">()</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">cur</span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">cur</span><span class="p">.</span><span class="n">fetchall</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">count</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sql</span><span class="p">):</span>
+        <span class="s">"""获取sql语句查询到的数量"""</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">con</span><span class="p">.</span><span class="n">commit</span><span class="p">()</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">cur</span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">res</span>
+
+    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># 关闭游标对象
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">cur</span><span class="p">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="c1"># 断开连接
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">con</span><span class="p">.</span><span class="n">close</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>如果有其它数据库需求，可以自行扩展，使用方式同上。</p>
+:ET

@@ -1,0 +1,24 @@
+I"y<p>测试环境一般会有多套，但是每套环境上的测试代码基本上是不会变的，所以我们需要有一个入口来控制切换当前测试代码的环境，这个入口在配置文件<code class="language-plaintext highlighter-rouge">config.yaml</code>中的<code class="language-plaintext highlighter-rouge">env</code>字段。</p>
+
+<p><em>config.yaml</em></p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 控制环境切换入口</span>
+<span class="na">env</span><span class="pi">:</span> <span class="s">test</span>
+<span class="na">test</span><span class="pi">:</span>
+  <span class="na">account</span><span class="pi">:</span>
+    <span class="na">pwd</span><span class="pi">:</span> <span class="s">test01</span>
+    <span class="na">user</span><span class="pi">:</span> <span class="s">test01</span>
+  <span class="na">host</span><span class="pi">:</span> <span class="s">http://test.aomaker.com</span>
+<span class="na">release</span><span class="pi">:</span>
+  <span class="na">account</span><span class="pi">:</span>
+    <span class="na">pwd</span><span class="pi">:</span> <span class="s">test02</span>
+    <span class="na">user</span><span class="pi">:</span> <span class="s">test02</span>
+  <span class="na">host</span><span class="pi">:</span> <span class="s">http://release.aomaker.com</span>
+</code></pre></div></div>
+
+<p>比如当前的测试环境是<code class="language-plaintext highlighter-rouge">test</code>，我现在想切换到<code class="language-plaintext highlighter-rouge">release</code>环境，那我只需要改<code class="language-plaintext highlighter-rouge">env:release</code>即可。</p>
+
+<p>此外，<code class="language-plaintext highlighter-rouge">aomaker</code>还提供了<code class="language-plaintext highlighter-rouge">cli</code>命令来切换环境，用法：</p>
+
+<p><code class="language-plaintext highlighter-rouge">arun -e release</code>或者<code class="language-plaintext highlighter-rouge">aomaker run -e release</code>，即通过<code class="language-plaintext highlighter-rouge">-e env_name</code>来切换</p>
+:ET

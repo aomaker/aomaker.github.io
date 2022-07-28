@@ -1,0 +1,36 @@
+I"$<h1 id="当接口是异步接口怎么做判断异步结果">当接口是异步接口，怎么做判断异步结果？</h1>
+
+<p><code class="language-plaintext highlighter-rouge">aomaker</code>提供了<code class="language-plaintext highlighter-rouge">@async_api</code>来标记异步接口，示例如下：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">aomaker.base.base_api</span> <span class="kn">import</span> <span class="n">BaseApi</span>
+<span class="kn">from</span> <span class="nn">aomaker.aomaker</span> <span class="kn">import</span> <span class="n">dependence</span><span class="p">,</span> <span class="n">async_api</span>
+
+<span class="kn">from</span> <span class="nn">apis.cluster</span> <span class="kn">import</span> <span class="n">cluster</span>
+
+<span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">wait_job</span>
+
+
+<span class="k">class</span> <span class="nc">Job</span><span class="p">(</span><span class="n">BaseApi</span><span class="p">):</span>
+
+    <span class="o">@</span><span class="n">async_api</span><span class="p">(</span><span class="n">wait_job</span><span class="p">,</span> <span class="s">'hpcjob_uuid'</span><span class="p">)</span>
+    <span class="o">@</span><span class="n">dependence</span><span class="p">(</span><span class="n">cluster</span><span class="p">.</span><span class="n">get_cluster_list</span><span class="p">,</span> <span class="s">'hpc_cluster_id'</span><span class="p">,</span> <span class="n">cluster_type</span><span class="o">=</span><span class="s">'hpc'</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">submit_hpc_job</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">test_data</span><span class="p">):</span>
+        <span class="p">...</span>
+        <span class="k">return</span> <span class="n">resp</span>
+</code></pre></div></div>
+
+<p><strong>使用步骤：</strong></p>
+
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">from aomaker.aomaker import async_api</code>导入<code class="language-plaintext highlighter-rouge">@async_api</code>装饰器</li>
+  <li><code class="language-plaintext highlighter-rouge">@async_api</code>装饰器接收两个必传参数：
+    <ol>
+      <li>第一个参数，自己编写的轮询函数</li>
+      <li>第二个参数，从目标接口的响应中根据jsonpath表达式提取异步任务id</li>
+      <li>非必填参数，<code class="language-plaintext highlighter-rouge">jsonpath</code>表达式提取出的值是<code class="language-plaintext highlighter-rouge">list</code>，可以根据自身需求指明需要提取哪个，默认值为<code class="language-plaintext highlighter-rouge">0</code></li>
+    </ol>
+  </li>
+</ol>
+
+<p>当一个接口被打上这个标记，那么会在接口被请求完成后，会开始执行自己编写的轮询函数，来判断该异步接口的异步任务结果是否得到预期结果。</p>
+:ET

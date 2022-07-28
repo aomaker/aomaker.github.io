@@ -1,0 +1,2 @@
+I"b<p>测试环境一般会有多套，但是每套环境上的测试代码基本上是不会变的，所以我们需要有一个入口来控制切换当前测试代码的环境，这个入口在配置文件<code class="language-plaintext highlighter-rouge">config.yaml</code>中的<code class="language-plaintext highlighter-rouge">env</code>字段。</p>
+:ET

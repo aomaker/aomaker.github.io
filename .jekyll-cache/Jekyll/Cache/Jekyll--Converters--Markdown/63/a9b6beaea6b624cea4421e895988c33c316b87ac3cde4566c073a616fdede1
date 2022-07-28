@@ -1,0 +1,83 @@
+I"%$<h1 id="当该接口有依赖接口参数中有依赖上个接口的返回怎么办">当该接口有依赖接口，参数中有依赖上个接口的返回怎么办？</h1>
+
+<p><code class="language-plaintext highlighter-rouge">aomaker</code>提供了一个依赖接口装饰器：<code class="language-plaintext highlighter-rouge">@dependence</code>，只需要标记依赖哪个接口，就会在请求该接口前，先去请求依赖接口，并将依赖的返回保存在<code class="language-plaintext highlighter-rouge">cahce</code>中，具体用法：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">json</span>
+
+
+<span class="kn">from</span> <span class="nn">aomaker.base.base_api</span> <span class="kn">import</span> <span class="n">BaseApi</span>
+<span class="c1"># 从aomaker导入depedence装饰器
+</span><span class="kn">from</span> <span class="nn">aomaker.aomaker</span> <span class="kn">import</span> <span class="n">dependence</span>
+<span class="c1"># 导入依赖接口的接口对象
+</span><span class="kn">from</span> <span class="nn">apis.cluster</span> <span class="kn">import</span> <span class="n">cluster</span>
+
+
+<span class="k">class</span> <span class="nc">Job</span><span class="p">(</span><span class="n">BaseApi</span><span class="p">):</span>
+    <span class="c1"># dependence标记依赖参数
+</span>    <span class="o">@</span><span class="n">dependence</span><span class="p">(</span><span class="n">cluster</span><span class="p">.</span><span class="n">get_cluster_list</span><span class="p">,</span> <span class="s">'hpc_cluster_id'</span><span class="p">,</span> <span class="n">cluster_type</span><span class="o">=</span><span class="s">'hpc'</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">submit_hpc_job</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">test_data</span><span class="p">):</span>
+        <span class="n">body</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="c1"># 从cache中获取依赖参数
+</span>            <span class="s">"cluster_id"</span><span class="p">:</span> <span class="bp">self</span><span class="p">.</span><span class="n">cache</span><span class="p">.</span><span class="n">get_by_jsonpath</span><span class="p">(</span><span class="s">'hpc_cluster_id'</span><span class="p">,</span> <span class="n">jsonpath_expr</span><span class="o">=</span><span class="s">'$..cluster_id'</span><span class="p">),</span>
+            <span class="s">"hpcqueue_id"</span><span class="p">:</span> <span class="bp">self</span><span class="p">.</span><span class="n">cache</span><span class="p">.</span><span class="n">get_by_jsonpath</span><span class="p">(</span><span class="s">'hpc_queue_id'</span><span class="p">,</span> <span class="n">jsonpath_expr</span><span class="o">=</span><span class="s">'$..hpcqueue_id'</span><span class="p">),</span>
+            <span class="s">"scheduler_queue_name"</span><span class="p">:</span> <span class="s">"medium"</span><span class="p">,</span>
+            <span class="s">"cmd_line"</span><span class="p">:</span> <span class="n">test_data</span><span class="p">[</span><span class="s">"cmd_line"</span><span class="p">]</span>
+        <span class="p">}</span>
+        <span class="n">http_data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">"method"</span><span class="p">:</span> <span class="s">"post"</span><span class="p">,</span>
+            <span class="s">"api_path"</span><span class="p">:</span> <span class="s">"/portal_api"</span><span class="p">,</span>
+            <span class="s">"params"</span><span class="p">:</span> <span class="p">{</span><span class="s">'action'</span><span class="p">:</span> <span class="s">'job/submitJob'</span><span class="p">},</span>
+            <span class="s">"data"</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s">'params'</span><span class="p">:</span> <span class="n">json</span><span class="p">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">body</span><span class="p">)</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">send_http</span><span class="p">(</span><span class="n">http_data</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">resp</span>
+</code></pre></div></div>
+
+<p><strong>使用步骤：</strong></p>
+
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">from aomaker.aomaker import dependence</code>导入装饰器</li>
+  <li>导入依赖接口对象</li>
+  <li>在模板接口上使用<code class="language-plaintext highlighter-rouge">@dependence</code> 装饰器，该装饰器接收2个必传参数：
+    <ol>
+      <li>第一个参数，依赖接口对象</li>
+      <li>第二个参数，需要从依赖接口响应中提取的参数名</li>
+      <li>如果依赖接口本身需要从外部传入参数，那么可以以关键字参数的形式传入</li>
+    </ol>
+  </li>
+  <li>在body中，当需要引用依赖接口的参数时，直接调用<code class="language-plaintext highlighter-rouge">self.cache.get_by_jsonpath</code>方法，该方法接收2个必传参数：
+    <ol>
+      <li>第一个参数，依赖参数的参数名，即<code class="language-plaintext highlighter-rouge">cache</code>表中的<code class="language-plaintext highlighter-rouge">key</code>名</li>
+      <li>第二个参数，从依赖接口的响应中，提取出依赖参数值的<code class="language-plaintext highlighter-rouge">jsonpath</code>表达式</li>
+      <li>非必填，<code class="language-plaintext highlighter-rouge">jsonpath</code>表达式提取出的值是<code class="language-plaintext highlighter-rouge">list</code>，可以根据自身需求指明需要提取哪个，默认值为<code class="language-plaintext highlighter-rouge">0</code></li>
+    </ol>
+  </li>
+</ol>
+
+<p>​	    如果要提取的值，不需要使用<code class="language-plaintext highlighter-rouge">jsonpath</code> 来提取，也可以使用<code class="language-plaintext highlighter-rouge">self.cache.get(key_name)</code> 提取。</p>
+
+<h1 id="如果依赖的接口是同一个类的方法怎么办">如果依赖的接口，是同一个类的方法怎么办？</h1>
+
+<p><code class="language-plaintext highlighter-rouge">@dependence</code>的第一个参数需要以字符串的形式传入，如<code class="language-plaintext highlighter-rouge">"Job.job_list"</code>，同时，还需要告诉装饰器，接口对象来自哪个模块，传入<code class="language-plaintext highlighter-rouge">imp_module="apis.job"</code>。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Job</span><span class="p">(</span><span class="n">BaseApi</span><span class="p">):</span>
+    <span class="c1"># dependence标记依赖参数
+</span>    <span class="o">@</span><span class="n">dependence</span><span class="p">(</span><span class="s">"Job.job_list"</span><span class="p">,</span> <span class="s">'job_id'</span><span class="p">,</span><span class="n">imp_module</span><span class="o">=</span><span class="s">"apis.job"</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">submit_hpc_job</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">test_data</span><span class="p">):</span>
+</code></pre></div></div>
+
+<h1 id="如果有多个依赖接口怎么办">如果有多个依赖接口，怎么办？</h1>
+
+<p>只需要继续加“帽子”即可，需要注意装饰器的执行顺序是<strong>从上往下</strong>执行。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Job</span><span class="p">(</span><span class="n">BaseApi</span><span class="p">):</span>
+    <span class="c1"># 依赖从上往下执行
+</span>    <span class="o">@</span><span class="n">dependence</span><span class="p">(</span><span class="n">cluster</span><span class="p">.</span><span class="n">get_cluster_list</span><span class="p">,</span> <span class="s">'hpc_cluster_id'</span><span class="p">,</span> <span class="n">cluster_type</span><span class="o">=</span><span class="s">'hpc'</span><span class="p">)</span>
+    <span class="o">@</span><span class="n">dependence</span><span class="p">(</span><span class="n">queue</span><span class="p">.</span><span class="n">get_queue_list</span><span class="p">,</span> <span class="s">'hpc_queue_id'</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">submit_hpc_job</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">test_data</span><span class="p">):</span>
+        <span class="p">...</span>
+        <span class="k">return</span> <span class="n">resp</span>
+</code></pre></div></div>
+:ET

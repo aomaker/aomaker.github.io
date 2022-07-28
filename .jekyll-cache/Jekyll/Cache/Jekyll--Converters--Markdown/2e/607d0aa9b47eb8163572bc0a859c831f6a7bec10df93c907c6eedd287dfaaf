@@ -1,0 +1,29 @@
+I"�<p><code class="language-plaintext highlighter-rouge">aomaker</code> 已上传到<code class="language-plaintext highlighter-rouge">pypi</code> ，所以安装非常简单。</p>
+
+<ul>
+  <li>第一次安装</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install </span>aomaker
+</code></pre></div></div>
+
+<ul>
+  <li>安装最新版本</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">U</span> <span class="n">aomaker</span>
+</code></pre></div></div>
+
+<ul>
+  <li>查看是否安装成功</li>
+</ul>
+
+<p>直接命令行输入<code class="language-plaintext highlighter-rouge">aomaker</code></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>aomaker
+</code></pre></div></div>
+
+<p>能看到<code class="language-plaintext highlighter-rouge">aomaker</code> logo即安装成功。</p>
+
+<p><a href="https://imgtu.com/i/v9vVkn"><img src="https://s1.ax1x.com/2022/07/28/v9vVkn.png" alt="v9vVkn.png" /></a></p>
+:ET

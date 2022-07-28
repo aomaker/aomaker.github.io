@@ -1,0 +1,41 @@
+I"D	<p>当执行完测试任务后，<code class="language-plaintext highlighter-rouge">aomaker</code>提供直接将测试报告发送到企业微信的功能。</p>
+
+<h3 id="使用方法">使用方法</h3>
+
+<p>先在<code class="language-plaintext highlighter-rouge">conf\utils.yaml</code>下配置企业微信的<code class="language-plaintext highlighter-rouge">webhook</code></p>
+
+<p><em>utils.yaml</em></p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">wechat</span><span class="pi">:</span> 
+    <span class="na">webhook</span><span class="pi">:</span> <span class="s">https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=xxx</span>
+</code></pre></div></div>
+
+<p>在<code class="language-plaintext highlighter-rouge">run.py</code>文件下，</p>
+
+<p><em>run.py</em></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">aomaker.runner</span> <span class="kn">import</span> <span class="n">run</span>
+<span class="c1"># 导入企业微信通知类
+</span><span class="kn">from</span> <span class="nn">aomaker.send_msg.wechat</span> <span class="kn">import</span> <span class="n">WeChatSend</span>
+
+<span class="kn">from</span> <span class="nn">login</span> <span class="kn">import</span> <span class="n">Login</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">run</span><span class="p">([</span><span class="s">'-m demo'</span><span class="p">],</span> <span class="n">login</span><span class="o">=</span><span class="n">Login</span><span class="p">())</span>
+    <span class="c1"># 发送测试报告到企业微信
+</span>    <span class="n">WeChatSend</span><span class="p">().</span><span class="n">send_msg</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">WeChatSend类</code>有几个可选实例属性：</p>
+
+<ul>
+  <li>tester：可设置测试负责人名称</li>
+  <li>title：可设置通知标题</li>
+  <li>report_address：可设置查看报告详情地址</li>
+</ul>
+
+<p>效果</p>
+
+<p><a href="https://imgtu.com/i/vCnrff"><img src="https://s1.ax1x.com/2022/07/28/vCnrff.png" alt="vCnrff.png" /></a></p>
+:ET

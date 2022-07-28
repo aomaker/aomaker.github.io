@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html lang="en" >
     <head><meta charset="UTF-8" />
-<meta content="text/html; charset=utf-8" http-equiv="Content-Type" /><title>AoMaker简介 · 🦄AoMaker</title><meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" /><title>☄️变量管理 · 🦄AoMaker</title><meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="description" content="AoMaker guides.
 " /><meta
   name="generator"
@@ -64,9 +64,11 @@
     },
   };
 </script>
+            <link rel="prev" href="/jekyll/2019-01-29-aomaker%E7%BB%93%E6%9E%84.html" />
+        
 
         
-            <link rel="next" href="/jekyll/2019-01-29-aomaker%E7%BB%93%E6%9E%84.html" />
+            <link rel="next" href="/jekyll/2021-08-10-dependence.html" />
         
     </head>
     <body>
@@ -80,7 +82,9 @@
     </div>
     <ul class="summary">
       
-      <li class="chapter active" data-level="1.1" data-path="">
+      </li>
+
+      <li class="chapter" data-level="1.1" data-path="">
         
         <a href="/"> 🦄AoMaker </a>
       </li>
@@ -130,16 +134,15 @@
           
       </li>
        
-      </li>
-
       <li
-        class="chapter"
-        data-level="1.1"
+        class="chapter active"
+        data-level="1.2"
         data-path="/jekyll/2019-04-29-%E5%8F%98%E9%87%8F%E7%AE%A1%E7%90%86.html"
       >
         
         <a href="/jekyll/2019-04-29-%E5%8F%98%E9%87%8F%E7%AE%A1%E7%90%86.html"> ☄️变量管理 </a>
           
+  
       </li>
        
       </li>
@@ -295,7 +298,7 @@
                     <h1>
                         <i class="fa fa-circle-o-notch fa-spin"></i>
                         
-                            <a href="." >AoMaker简介</a>
+                            <a href="." >☄️变量管理</a>
                         
                     </h1>
                 </div>
@@ -308,91 +311,31 @@
             <div class="search-noresults">
                 <section class="normal markdown-section">
                     
-                        <h1 id="">AoMaker简介</h1>
+                        <h1 id="/jekyll/变量管理">☄️变量管理</h1>
                     
 
-                    <p><img src="https://s1.ax1x.com/2022/07/13/jRL5nO.md.png" alt="jRL5nO.md.png" /></p>
+                    <p>为了对多任务运行测试用例有更好的支持，<code class="language-plaintext highlighter-rouge">aomaker</code> 采用了本地数据库<code class="language-plaintext highlighter-rouge">sqlite</code>的方案来存储管理变量，<code class="language-plaintext highlighter-rouge">sqlite</code>是一个非常轻量的本地文件数据库，可以直接访问存储文件，而且不需要任何安装配置~</p>
 
 <blockquote>
-  <p>Quickly Arrange,Quickly Test!</p>
+  <p>SQLite是一个进程内的库，实现了自给自足的、无服务器的、零配置的、事务性的 SQL 数据库引擎。它是一个零配置的数据库，这意味着与其他数据库不一样，您不需要在系统中配置。
+就像其他数据库，SQLite 引擎不是一个独立的进程，可以按应用程序需求进行静态或动态连接。SQLite 直接访问其存储文件。</p>
 </blockquote>
 
-<p><a href="https://pypi.python.org/pypi/httprunner"><img src="https://img.shields.io/pypi/pyversions/httprunner.svg" alt="pyversions" /></a></p>
-
-<h1 id="核心思想">核心思想</h1>
-
-<p><strong>AoMaker</strong>，即 Api object Maker，那什么是<strong>API Object</strong>呢？</p>
-
-<p><strong>API Object</strong>是<strong>Page Object</strong>设计模式在接口测试上的一种延伸，顾名思义，这里是将各种基础接口进行了一层抽象封装，将其作为 object，通过不同的 API 对象调用来组装成不同的业务流场景。</p>
-
-<p>举个简单例子：</p>
-
-<p>有一个购物车功能，它有如下接口：</p>
+<p>当使用aomaker创建完脚手架后，会在<code class="language-plaintext highlighter-rouge">database</code>目录下创建<code class="language-plaintext highlighter-rouge">aomaker.db</code>数据库文件，并且aomaker内置了三张数据表，来分别管理全局变量、接口依赖参数、jsonschema，这三张表分别是：</p>
 
 <ul>
-  <li>add，将物品添加到购物车</li>
-  <li>list，查看购物车内所有物品</li>
-  <li>delete，清空购物车内所有物品</li>
+  <li>config：存储配置文件中的全局变量，如账户信息，环境host等配置信息，当启动测试任务后，会根据当前选择的测试环境，自动读取<code class="language-plaintext highlighter-rouge">config.yaml</code>中的配置存到<code class="language-plaintext highlighter-rouge">config</code>表中，该配置会固化不清理，除非更改了测试环境。</li>
+  <li>cache：存储测试过程中上下游接口之间的依赖接口的响应，会搭配后文将要讲到的<code class="language-plaintext highlighter-rouge">dependece</code>装饰器使用 。当一个依赖接口被调用后，会存储它完整的response·，如果后续有其它接口也依赖这个接口，那么该接口将不会再被调用，而是直接从该接口存储的response中去读取需要的依赖参数。整个测试任务结束后，会自动清理<code class="language-plaintext highlighter-rouge">cache</code>表。</li>
+  <li>schema：存储接口的<code class="language-plaintext highlighter-rouge">jsonschema</code>信息，当一个接口第一次被调用后，会自动从它的<code class="language-plaintext highlighter-rouge">response</code>中解析出<code class="language-plaintext highlighter-rouge">response.json()</code>的<code class="language-plaintext highlighter-rouge">jsonschema</code>，在用例层进行断言时，可以对此次接口响应的结构体与<code class="language-plaintext highlighter-rouge">schema</code>表中存储的结构体进行比较，检测是否有参数变动。（后文细讲）</li>
 </ul>
 
-<p>那么，我们通过<code class="language-plaintext highlighter-rouge">ao</code> 的思想来封装这个功能所有接口：</p>
+<p>三张表的结构其实都非常简单，就是键值对：</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">class</span> <span class="nc">ShoppingTrolley</span><span class="p">:</span>
-        <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-            <span class="s">"""添加物品到购物车"""</span>
-            <span class="k">pass</span>
+<p><a href="https://imgtu.com/i/jRL7AH"><img src="https://s1.ax1x.com/2022/07/13/jRL7AH.png" alt="jRL7AH.png" /></a></p>
 
-        <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-            <span class="s">"""清空购物车"""</span>
-            <span class="k">pass</span>
+<p>在<code class="language-plaintext highlighter-rouge">aomaker</code>的<code class="language-plaintext highlighter-rouge">baseapi</code>中，初始化了<code class="language-plaintext highlighter-rouge">cache</code>和<code class="language-plaintext highlighter-rouge">config</code>两张表的连接对象，因为所有接口都是继承于<code class="language-plaintext highlighter-rouge">baseapi</code>的，所以所有接口都可以通过<code class="language-plaintext highlighter-rouge">self.config</code>和<code class="language-plaintext highlighter-rouge">self.cache</code>来拿到连接对象，当有了连接对象就可以通过封装好的<code class="language-plaintext highlighter-rouge">set()</code>和<code class="language-plaintext highlighter-rouge">get()</code>方法来存取变量了。</p>
 
-        <span class="k">def</span> <span class="nf">list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-            <span class="s">"""查看购物车内所有物品"""</span>
-            <span class="k">pass</span>
-</code></pre></div></div>
-
-<p>当我们需要测试购物车的增-查-删流程时，只需要实例化<code class="language-plaintext highlighter-rouge">ShoppingTrolley</code> 类，通过调用对应的接口对象，即可完成业务场景的组装：</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">class</span> <span class="nc">TestShoppingTrolley</span><span class="p">:</span>
-        <span class="k">def</span> <span class="nf">test_shopping</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-            <span class="s">"""测试购物车增-查-删流程"""</span>
-            <span class="n">st</span> <span class="o">=</span> <span class="n">ShoppingTrolley</span><span class="p">()</span>
-            <span class="c1"># 1.添加物品到购物车
-</span>            <span class="n">st</span><span class="p">.</span><span class="n">add</span><span class="p">()</span>
-            <span class="c1"># 2.查看购物车内物品
-</span>            <span class="n">st</span><span class="p">.</span><span class="nb">list</span><span class="p">()</span>
-            <span class="c1"># 3.清空购物车
-</span>            <span class="n">st</span><span class="p">.</span><span class="n">delete</span><span class="p">()</span>
-</code></pre></div></div>
-
-<p>解释了<strong>API Object</strong>，那<strong>Maker</strong>又怎么理解呢？<strong>Maker</strong>其实就是框架本身提供各种辅助手段帮助快速的去编排<code class="language-plaintext highlighter-rouge">ao</code> 和<code class="language-plaintext highlighter-rouge">case</code> 。</p>
-
-<h1 id="定位">定位</h1>
-
-<p>一款基于<code class="language-plaintext highlighter-rouge">pytest</code> ，将接口通过<strong>ao 对象</strong>方式来编排管理的接口自动化框架，核心定位就是基于<code class="language-plaintext highlighter-rouge">ao</code> 思想，让测试人员能快速完成自动化项目搭建和脚本的编写，快速开始测试。</p>
-
-<h1 id="特性">特性</h1>
-
-<ul>
-  <li>提供 CLI 命令</li>
-  <li>提供脚手架一键安装，开箱即用</li>
-  <li>变量管理简单</li>
-  <li>可使用 HAR/Swagger 等一键生成 ao 和 case</li>
-  <li>三种方式快速编写 ao 和 case</li>
-  <li>支持多进程和多线程</li>
-  <li>丰富的断言</li>
-  <li>支持流量录制</li>
-  <li>支持 pytest 所有用法和插件</li>
-  <li>allure 报告优化</li>
-  <li>测试报告消息通知</li>
-  <li>…</li>
-</ul>
-
-<h1 id="交流">交流</h1>
-
-<p>如果对该框架感兴趣以及有更多好的想法，欢迎交流探讨~</p>
-
-<p><a href="https://imgtu.com/i/v9XorQ"><img src="https://s1.ax1x.com/2022/07/28/v9XorQ.jpg" alt="v9XorQ.jpg" /></a></p>
+<p>另外，三张表的数据读写，都是做了线程安全的，在多线程模式下也能保证数据安全。</p>
 
                 </section>
             </div><div class="search-results">
@@ -407,7 +350,13 @@
     </div>
 </div>
 
-                        <a href="/jekyll/2019-01-29-aomaker%E7%BB%93%E6%9E%84.html" class="navigation navigation-next navigation-unique" aria-label="Next page: 💎aomaker结构">
+                        <a href="/jekyll/2019-01-29-aomaker%E7%BB%93%E6%9E%84.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: 💎aomaker结构">
+                            <i class="fa fa-angle-left"></i>
+                        </a>
+                    
+
+                    
+                        <a href="/jekyll/2021-08-10-dependence.html" class="navigation navigation-next navigation-unique" aria-label="Next page: 🤖dependence装饰器用法">
                             <i class="fa fa-angle-right"></i>
                         </a>
                     
@@ -423,14 +372,12 @@
         "level": "1.1",
         "depth": 1,
         
-
-        
         "next": {
-            "title": "💎aomaker结构",
+            "title": "🤖dependence装饰器用法",
             "level": "1.2",
             "depth": 1,
-            "path": "_posts/2019-01-29-aomaker结构.md",
-            "ref": "_posts/2019-01-29-aomaker结构.md",
+            "path": "_posts/2021-08-10-dependence.md",
+            "ref": "_posts/2021-08-10-dependence.md",
             "articles": []
         },
         
@@ -505,8 +452,8 @@
         "gitbook": "*"
     },
     "file": {
-        "path": "README.md",
-        "mtime": "",
+        "path": "_posts/2019-04-29-变量管理.md",
+        "mtime": "2019-04-29 00:00:00 +0800",
         "type": "markdown"
     },
     "gitbook": {

@@ -1,0 +1,2 @@
+I"�<p>在做接口测试时，有时我们需要去查询业务数据库，做一些数据相关的校验，所以<code class="language-plaintext highlighter-rouge">aomaker</code>集成了一些数据库的相关操作，目前支持 <code class="language-plaintext highlighter-rouge">sqlite</code>和<code class="language-plaintext highlighter-rouge">mysql</code>两种数据库的一些常规操作。</p>
+:ET

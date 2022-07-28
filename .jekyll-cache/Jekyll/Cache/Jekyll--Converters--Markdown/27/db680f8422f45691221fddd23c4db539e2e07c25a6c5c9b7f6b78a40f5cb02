@@ -1,0 +1,178 @@
+I"�(<p><code class="language-plaintext highlighter-rouge">aomaker</code> 提供了多线程和多进程两种方式来加速用例运行速度，提供了三种粒度来合理控制线程/进程worker，此外，多线程模式下，对<code class="language-plaintext highlighter-rouge">allure</code> 报告也做了完美兼容。</p>
+
+<p><img src="https://s1.ax1x.com/2022/07/13/jRLzDS.md.png" alt="jRLzDS.md.png" /></p>
+
+<h1 id="多线程推荐">多线程（推荐）</h1>
+
+<h5 id="启动方式">启动方式</h5>
+
+<p><code class="language-plaintext highlighter-rouge">aomaker</code>提供了两种启动多线程：<strong>CLI</strong>和<strong>run.py</strong></p>
+
+<ol>
+  <li>cli</li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>multi-run:
+--mp, --multi-process
+specifies a multi-process running mode.
+--mt, --multi-thread  specifies a multi-thread running mode.
+--dist-suite DIST_SUITE
+specifies a dist mode for per worker.
+--dist-file DIST_FILE
+specifies a dist mode for per worker.
+--dist-mark DIST_MARK [DIST_MARK ...]
+specifies a dist mode for per worker.
+
+</code></pre></div></div>
+
+<p>命令行输入：<code class="language-plaintext highlighter-rouge">arun --mt --dist-xxx xxx</code>或者<code class="language-plaintext highlighter-rouge">aomaker run --mt --dist-xxx</code></p>
+
+<ol>
+  <li>run.py</li>
+</ol>
+
+<p><em>run.py</em></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">login</span> <span class="kn">import</span> <span class="n">Login</span>
+
+<span class="kn">from</span> <span class="nn">aomaker.runner</span> <span class="kn">import</span> <span class="n">threads_run</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">threads_run</span><span class="p">([</span><span class="s">'-m ehpc'</span><span class="p">,</span><span class="s">'-m hpc'</span><span class="p">],</span> <span class="n">login</span><span class="o">=</span><span class="n">Login</span><span class="p">())</span>
+</code></pre></div></div>
+
+<h5 id="分配模式">分配模式</h5>
+
+<p>为了更加精细和合理的去分配任务给子线程，<code class="language-plaintext highlighter-rouge">aomaker</code>提供了三种分配模式，颗粒度由细到粗分别是：</p>
+
+<ol>
+  <li>按标记分配</li>
+</ol>
+
+<p>即按照<code class="language-plaintext highlighter-rouge">pytest</code>提供的<code class="language-plaintext highlighter-rouge">mark</code>功能来分配任务给子线程，比如说你希望将标记为<code class="language-plaintext highlighter-rouge">demo1</code>、<code class="language-plaintext highlighter-rouge">demo2</code>、<code class="language-plaintext highlighter-rouge">demo3</code>的三组case分配给三个不同子线程去跑，那么你需要做的就是：提前给用例打上对应<code class="language-plaintext highlighter-rouge">mark</code>，然后：</p>
+
+<ul>
+  <li>cli：<code class="language-plaintext highlighter-rouge">arun --mt --dist-mark demo1 demo2 demo3</code></li>
+  <li>run.py:</li>
+</ul>
+
+<p><em>run.py</em></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">login</span> <span class="kn">import</span> <span class="n">Login</span>
+
+<span class="kn">from</span> <span class="nn">aomaker.runner</span> <span class="kn">import</span> <span class="n">threads_run</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="c1"># 注意第一个参数传入的是列表
+</span>    <span class="n">threads_run</span><span class="p">([</span><span class="s">'-m demo1'</span><span class="p">,</span><span class="s">'-m demo2'</span><span class="p">,</span><span class="s">'-m demo3'</span><span class="p">],</span> <span class="n">login</span><span class="o">=</span><span class="n">Login</span><span class="p">())</span>
+</code></pre></div></div>
+
+<p>这样启动后，会开启三个子线程，去分别执行三组case。</p>
+
+<p><strong>注意：</strong></p>
+
+<p><strong>1.每组mark下的case，一定要保证是独立的！</strong></p>
+
+<p><strong>2.提供多少个mark，就开启多少个线程</strong></p>
+
+<ol>
+  <li>按测试模块分配</li>
+</ol>
+
+<p>即按照测试文件来分配任务给子线程，比如在<code class="language-plaintext highlighter-rouge">testcases\test_api</code>目录下有<code class="language-plaintext highlighter-rouge">test_demo1.py</code>、<code class="language-plaintext highlighter-rouge">test_demo2.py</code>、<code class="language-plaintext highlighter-rouge">test_demo3.py</code>三个测试模块，你希望这三个模块下的测试case分别由三个子线程接管执行，那么只需要：</p>
+
+<ul>
+  <li>cli：<code class="language-plaintext highlighter-rouge">arun --mt --dist-file testcases\test_api</code>，即告诉<code class="language-plaintext highlighter-rouge">aomaker</code>测试文件所在目录既可</li>
+  <li>run.py:</li>
+</ul>
+
+<p><em>run.py</em></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">login</span> <span class="kn">import</span> <span class="n">Login</span>
+
+<span class="kn">from</span> <span class="nn">aomaker.runner</span> <span class="kn">import</span> <span class="n">threads_run</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="c1"># 注意第一个参数传入的是key名为path的字典
+</span>    <span class="n">threads_run</span><span class="p">({</span><span class="s">"path"</span><span class="p">:</span><span class="s">"testcases/test_api"</span><span class="p">},</span> <span class="n">login</span><span class="o">=</span><span class="n">Login</span><span class="p">())</span>
+</code></pre></div></div>
+
+<p><strong>注意：</strong></p>
+
+<p><strong>1.每个测试模块下的case，一定要保证是独立的！</strong></p>
+
+<p><strong>2.指定目录下有多少个测试模块，就开启多少个线程</strong></p>
+
+<ol>
+  <li>按测试套件分配</li>
+</ol>
+
+<p>即按照测试目录来分配任务给子线程，比如在<code class="language-plaintext highlighter-rouge">testcases\test_scenario</code>目录下，有<code class="language-plaintext highlighter-rouge">test_scenario1</code>、<code class="language-plaintext highlighter-rouge">test_scenario2</code>、<code class="language-plaintext highlighter-rouge">test_scenario3</code>等三个测试目录，每个目录下还有若干测试模块，你希望这三个目录下的所有测试case分别由三个子线程接管执行，那么只需要：</p>
+
+<ul>
+  <li>cli：<code class="language-plaintext highlighter-rouge">arun --mt --dist-suite testcases\test_scenario</code>，即告诉<code class="language-plaintext highlighter-rouge">aomaker</code>测试套件所在目录既可</li>
+  <li>run.py:</li>
+</ul>
+
+<p><em>run.py</em></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">login</span> <span class="kn">import</span> <span class="n">Login</span>
+
+<span class="kn">from</span> <span class="nn">aomaker.runner</span> <span class="kn">import</span> <span class="n">threads_run</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="c1"># 注意第一个参数传入的是字符串
+</span>    <span class="n">threads_run</span><span class="p">(</span><span class="s">"testcases/test_scenario"</span><span class="p">,</span> <span class="n">login</span><span class="o">=</span><span class="n">Login</span><span class="p">())</span>
+</code></pre></div></div>
+
+<p><strong>注意：</strong></p>
+
+<p><strong>1.每个测试模块下的case，一定要保证是独立的！</strong></p>
+
+<p><strong>2.指定目录下有多少个测试套件，就开启多少个线程</strong></p>
+
+<h1 id="多进程">多进程</h1>
+
+<p><code class="language-plaintext highlighter-rouge">aomaker</code>目前暂时不支持在windows上创建多进程，linux是完美支持的。</p>
+
+<h5 id="启动方式-1">启动方式</h5>
+
+<p><code class="language-plaintext highlighter-rouge">aomaker</code>同样提供了两种启动多进程：<strong>CLI</strong>和<strong>run.py</strong></p>
+
+<ol>
+  <li>cli</li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>multi-run:
+--mp, --multi-process
+specifies a multi-process running mode.
+--mt, --multi-thread  specifies a multi-thread running mode.
+--dist-suite DIST_SUITE
+specifies a dist mode for per worker.
+--dist-file DIST_FILE
+specifies a dist mode for per worker.
+--dist-mark DIST_MARK [DIST_MARK ...]
+specifies a dist mode for per worker.
+
+</code></pre></div></div>
+
+<p>命令行输入：<code class="language-plaintext highlighter-rouge">arun --mp --dist-xxx xxx</code>或者<code class="language-plaintext highlighter-rouge">aomaker run --mp --dist-xxx</code></p>
+
+<ol>
+  <li>run.py</li>
+</ol>
+
+<p><em>run.py</em></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">login</span> <span class="kn">import</span> <span class="n">Login</span>
+
+<span class="kn">from</span> <span class="nn">aomaker.runner</span> <span class="kn">import</span> <span class="n">processes_run</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">processes_run</span><span class="p">([</span><span class="s">'-m ehpc'</span><span class="p">,</span><span class="s">'-m hpc'</span><span class="p">],</span> <span class="n">login</span><span class="o">=</span><span class="n">Login</span><span class="p">())</span>
+</code></pre></div></div>
+
+<h5 id="分配模式-1">分配模式</h5>
+
+<p>分配模式和多线程是一样的，区别是任务是分配给子进程，而不是子线程，具体分配模式请参考多线程。</p>
+:ET

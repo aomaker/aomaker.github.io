@@ -1,360 +1,1255 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="http://localhost:4000/jekyll-gitbook/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/jekyll-gitbook/" rel="alternate" type="text/html" /><updated>2022-07-27T23:56:41+08:00</updated><id>http://localhost:4000/jekyll-gitbook/feed.xml</id><title type="html">Jekyll Gitbook</title><subtitle>Build Jekyll site with the GitBook style.
-</subtitle><author><name>HE Tao</name></author><entry><title type="html">Tips, Warnings, and Dangers</title><link href="http://localhost:4000/jekyll-gitbook/jekyll/2022-06-30-tips_warnings_dangers.html" rel="alternate" type="text/html" title="Tips, Warnings, and Dangers" /><published>2022-06-30T00:00:00+08:00</published><updated>2022-06-30T00:00:00+08:00</updated><id>http://localhost:4000/jekyll-gitbook/jekyll/tips_warnings_dangers</id><content type="html" xml:base="http://localhost:4000/jekyll-gitbook/jekyll/2022-06-30-tips_warnings_dangers.html"><![CDATA[<p>The jekyll-theme supports tips, warnings, and dangers blocks and the style is referred
-from <a href="https://discordjs.guide/popular-topics/canvas.html#setting-up-napi-rs-canvas">the discord.js website</a>.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-07-28T23:52:07+08:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">🦄AoMaker</title><subtitle>AoMaker guides.
+</subtitle><author><name>Ancient One</name></author><entry><title type="html">📢企业微信通知</title><link href="http://localhost:4000/jekyll/2022-07-15-%E4%BC%81%E4%B8%9A%E5%BE%AE%E4%BF%A1%E9%80%9A%E7%9F%A5.html" rel="alternate" type="text/html" title="📢企业微信通知" /><published>2022-07-15T00:00:00+08:00</published><updated>2022-07-15T00:00:00+08:00</updated><id>http://localhost:4000/jekyll/%E4%BC%81%E4%B8%9A%E5%BE%AE%E4%BF%A1%E9%80%9A%E7%9F%A5</id><content type="html" xml:base="http://localhost:4000/jekyll/2022-07-15-%E4%BC%81%E4%B8%9A%E5%BE%AE%E4%BF%A1%E9%80%9A%E7%9F%A5.html"><![CDATA[<p>当执行完测试任务后，<code class="language-plaintext highlighter-rouge">aomaker</code>提供直接将测试报告发送到企业微信的功能。</p>
 
-<p>You could have the following <a href="https://kramdown.gettalong.org/quickref.html#block-attributes">markdown attributes (supported by kramdown)</a>:</p>
+<h3 id="使用方法">使用方法</h3>
 
-<h3 id="tips">Tips</h3>
+<p>先在<code class="language-plaintext highlighter-rouge">conf\utils.yaml</code>下配置企业微信的<code class="language-plaintext highlighter-rouge">webhook</code></p>
 
-<p>Using a <code class="language-plaintext highlighter-rouge">{: .block-tip}</code> attribute:</p>
+<p><em>utils.yaml</em></p>
 
-<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gt">&gt; ##### TIP</span>
-<span class="gt">&gt;</span>
-<span class="gt">&gt; This guide is last tested with @napi-rs/canvas^0.1.20, so make sure you have</span>
-<span class="gt">&gt; this or a similar version after installation.</span>
-{: .block-tip }
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">wechat</span><span class="pi">:</span> 
+    <span class="na">webhook</span><span class="pi">:</span> <span class="s">https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=xxx</span>
 </code></pre></div></div>
 
-<blockquote class="block-tip">
-  <h5 id="tip">TIP</h5>
+<p>在<code class="language-plaintext highlighter-rouge">run.py</code>文件下，</p>
 
-  <p>This guide is last tested with @napi-rs/canvas^0.1.20, so make sure you have
-this or a similar version after installation.</p>
+<p><em>run.py</em></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">aomaker.runner</span> <span class="kn">import</span> <span class="n">run</span>
+<span class="c1"># 导入企业微信通知类
+</span><span class="kn">from</span> <span class="nn">aomaker.send_msg.wechat</span> <span class="kn">import</span> <span class="n">WeChatSend</span>
+
+<span class="kn">from</span> <span class="nn">login</span> <span class="kn">import</span> <span class="n">Login</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">run</span><span class="p">([</span><span class="s">'-m demo'</span><span class="p">],</span> <span class="n">login</span><span class="o">=</span><span class="n">Login</span><span class="p">())</span>
+    <span class="c1"># 发送测试报告到企业微信
+</span>    <span class="n">WeChatSend</span><span class="p">().</span><span class="n">send_msg</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">WeChatSend类</code>有几个可选实例属性：</p>
+
+<ul>
+  <li>tester：可设置测试负责人名称</li>
+  <li>title：可设置通知标题</li>
+  <li>report_address：可设置查看报告详情地址</li>
+</ul>
+
+<p>效果</p>
+
+<p><a href="https://imgtu.com/i/vCnrff"><img src="https://s1.ax1x.com/2022/07/28/vCnrff.png" alt="vCnrff.png" /></a></p>]]></content><author><name>Ancient One</name></author><category term="Jekyll" /><summary type="html"><![CDATA[当执行完测试任务后，aomaker提供直接将测试报告发送到企业微信的功能。]]></summary></entry><entry><title type="html">集成数据库操作</title><link href="http://localhost:4000/jekyll/2022-07-14-%E9%9B%86%E6%88%90%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C.html" rel="alternate" type="text/html" title="集成数据库操作" /><published>2022-07-14T00:00:00+08:00</published><updated>2022-07-14T00:00:00+08:00</updated><id>http://localhost:4000/jekyll/%E9%9B%86%E6%88%90%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C</id><content type="html" xml:base="http://localhost:4000/jekyll/2022-07-14-%E9%9B%86%E6%88%90%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C.html"><![CDATA[<p>在做接口测试时，有时我们需要去查询业务数据库，做一些数据相关的校验，所以<code class="language-plaintext highlighter-rouge">aomaker</code>集成了一些数据库的相关操作，目前支持 <code class="language-plaintext highlighter-rouge">sqlite</code>和<code class="language-plaintext highlighter-rouge">mysql</code>两种数据库的一些常规操作。</p>
+
+<h1 id="如何使用以mysql为例">如何使用？（以mysql为例）</h1>
+
+<p>先在配置文件<code class="language-plaintext highlighter-rouge">conf/config.yaml</code>中配置对应环境的数据库连接信息：</p>
+
+<p><em>config.yaml</em></p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">env</span><span class="pi">:</span> <span class="s">test</span>
+<span class="na">test</span><span class="pi">:</span>
+  <span class="na">account</span><span class="pi">:</span>
+    <span class="na">pwd</span><span class="pi">:</span> <span class="s">test01</span>
+    <span class="na">user</span><span class="pi">:</span> <span class="s">test01</span>
+  <span class="na">host</span><span class="pi">:</span> <span class="s">http://test.aomaker.com</span>
+  <span class="c1"># 配置数据库信息</span>
+  <span class="na">mysql</span><span class="pi">:</span>
+    <span class="na">host</span><span class="pi">:</span> <span class="s">localhost</span>
+    <span class="na">user</span><span class="pi">:</span> <span class="s">admin</span>
+    <span class="na">password</span><span class="pi">:</span> <span class="m">123456</span>
+    <span class="na">port</span><span class="pi">:</span> <span class="m">3306</span>
+</code></pre></div></div>
+
+<p>一般以<code class="language-plaintext highlighter-rouge">pytest</code>本地插件的方式去封装获取数据库连接对象的方法，在<code class="language-plaintext highlighter-rouge">conftest.py</code>下，封装一个mysql连接插件：</p>
+
+<p><em>conftest.py</em></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pytest</span>
+<span class="kn">from</span> <span class="nn">aomaker.database.mysql</span> <span class="kn">import</span> <span class="n">Mysql</span>
+<span class="kn">from</span> <span class="nn">aomaker.cache</span> <span class="kn">import</span> <span class="n">config</span>
+
+
+<span class="o">@</span><span class="n">pytest</span><span class="p">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s">"class"</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">connect_mysql</span><span class="p">():</span>
+    <span class="c1"># 读取数据库配置信息
+</span>    <span class="n">mysql_conf</span> <span class="o">=</span> <span class="n">config</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'mysql'</span><span class="p">)</span>
+    <span class="c1"># 创建mysql连接对象
+</span>    <span class="n">db</span> <span class="o">=</span> <span class="n">Mysql</span><span class="p">(</span><span class="o">**</span><span class="n">mysql_conf</span><span class="p">)</span>
+    <span class="k">yield</span> <span class="n">db</span>
+    <span class="c1"># 测试结束后，关闭游标对象和数据库连接
+</span>    <span class="n">db</span><span class="p">.</span><span class="n">close</span><span class="p">()</span>
+    
+</code></pre></div></div>
+
+<p>本地插件做好后，在用例层直接传入数据库连接对象：</p>
+
+<p><em>test_demo.py</em></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">TestDemo</span><span class="p">(</span><span class="n">BaseTestcase</span><span class="p">):</span>
+    <span class="c1"># 以参数形式传入数据库连接插件
+</span>    <span class="k">def</span> <span class="nf">test_demo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">connect_mysql</span><span class="p">):</span>
+        <span class="c1"># 获取数据库连接对象
+</span>        <span class="n">db</span> <span class="o">=</span> <span class="n">connect_mysql</span>
+        <span class="c1"># 通过数据连接对象操作数据库
+</span>        <span class="n">sql_res</span> <span class="o">=</span> <span class="n">db</span><span class="p">.</span><span class="n">get_all</span><span class="p">(</span><span class="s">"select * from xxx"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>aomaker内置的mysql：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Mysql</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="c1"># 连接到数据库
+</span>        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">con</span> <span class="o">=</span> <span class="n">pymysql</span><span class="p">.</span><span class="n">connect</span><span class="p">(</span><span class="n">charset</span><span class="o">=</span><span class="s">"utf8"</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">except</span> <span class="nb">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="p">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s">'数据库连接失败，连接参数：</span><span class="si">{</span><span class="n">kwargs</span><span class="si">}</span><span class="s">'</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">e</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># 创建一个游标
+</span>            <span class="bp">self</span><span class="p">.</span><span class="n">cur</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">con</span><span class="p">.</span><span class="n">cursor</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">get_one</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sql</span><span class="p">):</span>
+        <span class="s">"""获取查询到的第一条数据"""</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">con</span><span class="p">.</span><span class="n">commit</span><span class="p">()</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">cur</span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">cur</span><span class="p">.</span><span class="n">fetchone</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">get_all</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sql</span><span class="p">):</span>
+        <span class="s">"""获取sql语句查询到的所有数据"""</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">con</span><span class="p">.</span><span class="n">commit</span><span class="p">()</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">cur</span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">cur</span><span class="p">.</span><span class="n">fetchall</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">count</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sql</span><span class="p">):</span>
+        <span class="s">"""获取sql语句查询到的数量"""</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">con</span><span class="p">.</span><span class="n">commit</span><span class="p">()</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">cur</span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">res</span>
+
+    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># 关闭游标对象
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">cur</span><span class="p">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="c1"># 断开连接
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">con</span><span class="p">.</span><span class="n">close</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>如果有其它数据库需求，可以自行扩展，使用方式同上。</p>]]></content><author><name>Ancient One</name></author><category term="Jekyll" /><summary type="html"><![CDATA[在做接口测试时，有时我们需要去查询业务数据库，做一些数据相关的校验，所以aomaker集成了一些数据库的相关操作，目前支持 sqlite和mysql两种数据库的一些常规操作。]]></summary></entry><entry><title type="html">🌊断言扩展</title><link href="http://localhost:4000/jekyll/2022-07-13-%E6%96%AD%E8%A8%80%E6%89%A9%E5%B1%95.html" rel="alternate" type="text/html" title="🌊断言扩展" /><published>2022-07-13T00:00:00+08:00</published><updated>2022-07-13T00:00:00+08:00</updated><id>http://localhost:4000/jekyll/%E6%96%AD%E8%A8%80%E6%89%A9%E5%B1%95</id><content type="html" xml:base="http://localhost:4000/jekyll/2022-07-13-%E6%96%AD%E8%A8%80%E6%89%A9%E5%B1%95.html"><![CDATA[<h1 id="内置断言">内置断言</h1>
+
+<p><code class="language-plaintext highlighter-rouge">aomaker</code>的所有测试类，都继承于<code class="language-plaintext highlighter-rouge">aomaker</code>提供的<code class="language-plaintext highlighter-rouge">BaseTestcase</code>类，这个测试类内置了一些常见的断言方式：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">BaseTestcase</span><span class="p">:</span>
+
+    <span class="o">@</span><span class="nb">staticmethod</span>
+    <span class="k">def</span> <span class="nf">assert_eq</span><span class="p">(</span><span class="n">actual_value</span><span class="p">,</span> <span class="n">expected_value</span><span class="p">):</span>
+        <span class="s">"""
+        equals
+        """</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="n">actual_value</span> <span class="o">==</span> <span class="n">expected_value</span>
+        <span class="k">except</span> <span class="nb">AssertionError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="p">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s">"eq断言失败，预期结果：</span><span class="si">{</span><span class="n">expected_value</span><span class="si">}</span><span class="s">，实际结果：</span><span class="si">{</span><span class="n">actual_value</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">e</span>
+
+    <span class="o">@</span><span class="nb">staticmethod</span>
+    <span class="k">def</span> <span class="nf">assert_gt</span><span class="p">(</span><span class="n">actual_value</span><span class="p">,</span> <span class="n">expected_value</span><span class="p">):</span>
+        <span class="s">"""
+        greater than
+        """</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="n">actual_value</span> <span class="o">&gt;</span> <span class="n">expected_value</span>
+        <span class="k">except</span> <span class="nb">AssertionError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="p">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s">"gt断言失败，预期结果：</span><span class="si">{</span><span class="n">expected_value</span><span class="si">}</span><span class="s">，实际结果：</span><span class="si">{</span><span class="n">actual_value</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">e</span>
+
+    <span class="o">@</span><span class="nb">staticmethod</span>
+    <span class="k">def</span> <span class="nf">assert_lt</span><span class="p">(</span><span class="n">actual_value</span><span class="p">,</span> <span class="n">expected_value</span><span class="p">):</span>
+        <span class="s">"""
+        less than
+        """</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="n">actual_value</span> <span class="o">&lt;</span> <span class="n">expected_value</span>
+        <span class="k">except</span> <span class="nb">AssertionError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="p">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s">"lt断言失败，预期结果：</span><span class="si">{</span><span class="n">expected_value</span><span class="si">}</span><span class="s">，实际结果：</span><span class="si">{</span><span class="n">actual_value</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">e</span>
+
+    <span class="o">@</span><span class="nb">staticmethod</span>
+    <span class="k">def</span> <span class="nf">assert_neq</span><span class="p">(</span><span class="n">actual_value</span><span class="p">,</span> <span class="n">expected_value</span><span class="p">):</span>
+        <span class="s">"""
+        not equals
+        """</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="n">actual_value</span> <span class="o">!=</span> <span class="n">expected_value</span>
+        <span class="k">except</span> <span class="nb">AssertionError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="p">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s">"neq断言失败，预期结果：</span><span class="si">{</span><span class="n">expected_value</span><span class="si">}</span><span class="s">，实际结果：</span><span class="si">{</span><span class="n">actual_value</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">e</span>
+
+    <span class="o">@</span><span class="nb">staticmethod</span>
+    <span class="k">def</span> <span class="nf">assert_ge</span><span class="p">(</span><span class="n">actual_value</span><span class="p">,</span> <span class="n">expected_value</span><span class="p">):</span>
+        <span class="s">"""
+        greater than or equals
+        """</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="n">actual_value</span> <span class="o">&gt;=</span> <span class="n">expected_value</span>
+        <span class="k">except</span> <span class="nb">AssertionError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="p">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s">"ge断言失败，预期结果：</span><span class="si">{</span><span class="n">expected_value</span><span class="si">}</span><span class="s">，实际结果：</span><span class="si">{</span><span class="n">actual_value</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">e</span>
+
+    <span class="o">@</span><span class="nb">staticmethod</span>
+    <span class="k">def</span> <span class="nf">assert_le</span><span class="p">(</span><span class="n">actual_value</span><span class="p">,</span> <span class="n">expected_value</span><span class="p">):</span>
+        <span class="s">"""
+        less than or equals
+        """</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="n">actual_value</span> <span class="o">&lt;=</span> <span class="n">expected_value</span>
+        <span class="k">except</span> <span class="nb">AssertionError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="p">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s">"le断言失败，预期结果：</span><span class="si">{</span><span class="n">expected_value</span><span class="si">}</span><span class="s">，实际结果：</span><span class="si">{</span><span class="n">actual_value</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">e</span>
+
+    <span class="o">@</span><span class="nb">staticmethod</span>
+    <span class="k">def</span> <span class="nf">assert_contains</span><span class="p">(</span><span class="n">actual_value</span><span class="p">,</span> <span class="n">expected_value</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span>
+            <span class="n">expected_value</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">)</span>
+        <span class="p">),</span> <span class="s">"expect_value should be list/tuple/dict/str/bytes type"</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="n">expected_value</span> <span class="ow">in</span> <span class="n">actual_value</span>
+        <span class="k">except</span> <span class="nb">AssertionError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="p">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s">"contains断言失败，预期结果：</span><span class="si">{</span><span class="n">expected_value</span><span class="si">}</span><span class="s">，实际结果：</span><span class="si">{</span><span class="n">actual_value</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">e</span>
+</code></pre></div></div>
+
+<h1 id="jsonschema介绍">jsonschema介绍</h1>
+
+<p>此外，在2.0中还加入了<code class="language-plaintext highlighter-rouge">jsonschema</code>断言。</p>
+
+<p>有时，我们的接口响应数据体积会非常庞大，字段也非常多，我们常规的断言可能只会去关注某几个关键字段，但是这不够健壮，有时候后端“悄悄咪咪”加了某个字段或者删了某个字段或者改了某个字段的类型，我们可能很难察觉到，这就会导致一些隐藏的bug逃逸，所以我们需要加强断言的健壮度，要对整个响应内容结构有一个基本的把控。</p>
+
+<p>怎么做呢，这就需要用到<code class="language-plaintext highlighter-rouge">jsonschema</code>了。</p>
+
+<blockquote>
+  <p>JSON Schema是基于JSON格式，用于定义JSON数据结构以及校验JSON数据内容。 JSON Schema官网地址：<a href="https://link.zhihu.com/?target=http%3A//json-schema.org/">http://json-schema.org/</a></p>
 </blockquote>
 
-<h3 id="warnings">Warnings</h3>
+<p>比如有一个json字符串：</p>
 
-<p>Using a <code class="language-plaintext highlighter-rouge">{: .block-warning}</code> attribute:</p>
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"aomaker"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"age"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"desc"</span><span class="p">:</span><span class="w"> </span><span class="s2">"api framework"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
 
-<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gt">&gt; ##### WARNING</span>
-<span class="gt">&gt;</span>
-<span class="gt">&gt; Be sure that you're familiar with things like async/await and object destructuring</span>
-<span class="gt">&gt; before continuing, as we'll be making use of features like these.</span>
-{: .block-warning }
+<p>这其中<code class="language-plaintext highlighter-rouge">name</code>和<code class="language-plaintext highlighter-rouge">age</code>是必填字段，字段类型分别是<code class="language-plaintext highlighter-rouge">string</code>和<code class="language-plaintext highlighter-rouge">int</code>，可选字段是<code class="language-plaintext highlighter-rouge">desc</code>，字段类型是<code class="language-plaintext highlighter-rouge">string</code>，假如我想要每个这样的json字符串，都符合上面的约束，那我怎么自动去校验呢？这就需要安装<code class="language-plaintext highlighter-rouge">jsonschema</code>的语法去写约束条件。</p>
+
+<p><strong>jsonchema语法</strong></p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"$schema"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://json-schema.org/draft-04/schema#"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"title"</span><span class="p">:</span><span class="w"> </span><span class="s2">"TestInfo"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"some information about test"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"object"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"properties"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Name of the test"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"string"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nl">"age"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"age of test"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"integer"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"required"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="s2">"name"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"age"</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p><strong>开始校验</strong></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">jsonschema</span> <span class="kn">import</span> <span class="n">validate</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">"name"</span><span class="p">:</span> <span class="s">"aomaker"</span><span class="p">,</span>
+    <span class="s">"age"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="s">"desc"</span><span class="p">:</span> <span class="s">"api framework"</span>
+<span class="p">}</span>
+<span class="n">schema</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">"$schema"</span><span class="p">:</span> <span class="s">"http://json-schema.org/draft-04/schema#"</span><span class="p">,</span>
+    <span class="s">"title"</span><span class="p">:</span> <span class="s">"TestInfo"</span><span class="p">,</span>
+    <span class="s">"description"</span><span class="p">:</span> <span class="s">"some information about test"</span><span class="p">,</span>
+    <span class="s">"type"</span><span class="p">:</span> <span class="s">"object"</span><span class="p">,</span>
+    <span class="s">"properties"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s">"name"</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s">"description"</span><span class="p">:</span> <span class="s">"Name of the test"</span><span class="p">,</span>
+            <span class="s">"type"</span><span class="p">:</span> <span class="s">"string"</span>
+        <span class="p">},</span>
+        <span class="s">"age"</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s">"description"</span><span class="p">:</span> <span class="s">"age of test"</span><span class="p">,</span>
+            <span class="s">"type"</span><span class="p">:</span> <span class="s">"integer"</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="s">"required"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s">"name"</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+
+<span class="n">validate</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">schema</span><span class="p">)</span>
 </code></pre></div></div>
 
-<blockquote class="block-warning">
-  <h5 id="warning">WARNING</h5>
+<p>如果校验通过，会没有返回，也没有报错。</p>
 
-  <p>Be sure that you’re familiar with things like async/await and object destructuring
-before continuing, as we’ll be making use of features like these.</p>
-</blockquote>
+<p>假如不小心把<code class="language-plaintext highlighter-rouge">age</code>传成了字符串<code class="language-plaintext highlighter-rouge">"2"</code>，<code class="language-plaintext highlighter-rouge">jsonschema</code>检测到后，会立即报错</p>
 
-<h3 id="dangers">Dangers</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jsonschema.exceptions.ValidationError: '2' is not of type 'integer'
 
-<p>Using a <code class="language-plaintext highlighter-rouge">{: .block-danger}</code> attribute:</p>
+Failed validating 'type' in schema['properties']['age']:
+{'description': 'age of test', 'type': 'integer'}
 
-<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gt">&gt; ##### DANGER</span>
-<span class="gt">&gt;</span>
-<span class="gt">&gt; You cannot delete an ephemeral message.</span>
-{: .block-danger }
+On instance['age']:
+    '2'
 </code></pre></div></div>
 
-<blockquote class="block-danger">
-  <h5 id="danger">DANGER</h5>
+<p>假如不小心没有传必填字段<code class="language-plaintext highlighter-rouge">name</code>，也会立即报错</p>
 
-  <p>You cannot delete an ephemeral message.</p>
-</blockquote>]]></content><author><name>Tao He</name></author><category term="Jekyll" /><summary type="html"><![CDATA[The jekyll-theme supports tips, warnings, and dangers blocks and the style is referred from the discord.js website.]]></summary></entry><entry><title type="html">Wide tables</title><link href="http://localhost:4000/jekyll-gitbook/jekyll/2022-06-26-wide_tables.html" rel="alternate" type="text/html" title="Wide tables" /><published>2022-06-26T00:00:00+08:00</published><updated>2022-06-26T00:00:00+08:00</updated><id>http://localhost:4000/jekyll-gitbook/jekyll/wide_tables</id><content type="html" xml:base="http://localhost:4000/jekyll-gitbook/jekyll/2022-06-26-wide_tables.html"><![CDATA[<p>A wide tables needs to be wrapped into a <code class="language-plaintext highlighter-rouge">div</code> with class <code class="language-plaintext highlighter-rouge">table-wrapper</code>
-to make sure it displayed as expected on mobile devices. For example,</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jsonschema.exceptions.ValidationError: 'name' is a required property
 
-<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"table-wrapper"</span> <span class="na">markdown=</span><span class="s">"block"</span><span class="nt">&gt;</span>
+Failed validating 'required' in schema:
+    {'$schema': 'http://json-schema.org/draft-04/schema#',
+     'description': 'some information about test',
+     'properties': {'age': {'description': 'age of test',
+                            'type': 'integer'},
+                    'name': {'description': 'Name of the test',
+                             'type': 'string'}},
+     'required': ['name', 'age'],
+     'title': 'TestInfo',
+     'type': 'object'}
 
-|title1|title2|title3|title4|title5|title6|title7|title8|
-|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
-|1|2|3|4|5|6|7|8|
-|1|2|3|4|5|6|7|8|
-|1|2|3|4|5|6|7|8|
-|1|2|3|4|5|6|7|8|
-
-<span class="nt">&lt;/div&gt;</span>
+On instance:
+    {'age': 2, 'desc': 'api framework'}
 </code></pre></div></div>
 
-<p>Will be rendered as</p>
+<p>通过这种手段是不是对我们测试过的接口更有信心了？</p>
 
-<div class="table-wrapper">
+<h1 id="扩展jsonschema断言">扩展jsonschema断言</h1>
 
-  <table>
-    <thead>
-      <tr>
-        <th style="text-align: center">title1</th>
-        <th style="text-align: center">title2</th>
-        <th style="text-align: center">title3</th>
-        <th style="text-align: center">title4</th>
-        <th style="text-align: center">title5</th>
-        <th style="text-align: center">title6</th>
-        <th style="text-align: center">title7</th>
-        <th style="text-align: center">title8</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td style="text-align: center">1</td>
-        <td style="text-align: center">2</td>
-        <td style="text-align: center">3</td>
-        <td style="text-align: center">4</td>
-        <td style="text-align: center">5</td>
-        <td style="text-align: center">6</td>
-        <td style="text-align: center">7</td>
-        <td style="text-align: center">8</td>
-      </tr>
-      <tr>
-        <td style="text-align: center">1</td>
-        <td style="text-align: center">2</td>
-        <td style="text-align: center">3</td>
-        <td style="text-align: center">4</td>
-        <td style="text-align: center">5</td>
-        <td style="text-align: center">6</td>
-        <td style="text-align: center">7</td>
-        <td style="text-align: center">8</td>
-      </tr>
-      <tr>
-        <td style="text-align: center">1</td>
-        <td style="text-align: center">2</td>
-        <td style="text-align: center">3</td>
-        <td style="text-align: center">4</td>
-        <td style="text-align: center">5</td>
-        <td style="text-align: center">6</td>
-        <td style="text-align: center">7</td>
-        <td style="text-align: center">8</td>
-      </tr>
-      <tr>
-        <td style="text-align: center">1</td>
-        <td style="text-align: center">2</td>
-        <td style="text-align: center">3</td>
-        <td style="text-align: center">4</td>
-        <td style="text-align: center">5</td>
-        <td style="text-align: center">6</td>
-        <td style="text-align: center">7</td>
-        <td style="text-align: center">8</td>
-      </tr>
-    </tbody>
-  </table>
+<p><strong>但是~</strong>有没有发现，<code class="language-plaintext highlighter-rouge">jsonschema</code>虽然很好，但是你得手动去写<code class="language-plaintext highlighter-rouge">jsonschema</code>校验语法，上面的示例还好，只有几个字段，但实际业务中，响应的字段可能要比这个多得多得多吧？那每个接口这么去写，成本也太高了！</p>
 
-</div>]]></content><author><name>Tao He</name></author><category term="Jekyll" /><summary type="html"><![CDATA[A wide tables needs to be wrapped into a div with class table-wrapper to make sure it displayed as expected on mobile devices. For example,]]></summary></entry><entry><title type="html">Page with cover image</title><link href="http://localhost:4000/jekyll-gitbook/jekyll/2022-05-24-page_cover.html" rel="alternate" type="text/html" title="Page with cover image" /><published>2022-05-24T00:00:00+08:00</published><updated>2022-05-24T00:00:00+08:00</updated><id>http://localhost:4000/jekyll-gitbook/jekyll/page_cover</id><content type="html" xml:base="http://localhost:4000/jekyll-gitbook/jekyll/2022-05-24-page_cover.html"><![CDATA[<p>The jekyll-gitbook theme supports adding a cover image to a specific page by adding
-a <code class="language-plaintext highlighter-rouge">cover</code> field to the page metadata:</p>
+<p><strong>所以，</strong> <code class="language-plaintext highlighter-rouge">aomaker</code>提供了一种手段，可以自动去生成<code class="language-plaintext highlighter-rouge">jsonschema</code>校验语法~其实上文有提到过，<code class="language-plaintext highlighter-rouge">aomaker.db</code>数据库中，有一张表叫<code class="language-plaintext highlighter-rouge">schema</code>，其实它就是存放请求过的每个接口响应的<code class="language-plaintext highlighter-rouge">jsonschema</code>校验语法的。<code class="language-plaintext highlighter-rouge">aomaker</code>会自动记录每个请求第一次返回响应时的<code class="language-plaintext highlighter-rouge">jsonschema</code>，当在case层去做断言时，<code class="language-plaintext highlighter-rouge">aomaker</code>提供了一个<code class="language-plaintext highlighter-rouge">jsonschema</code>的断言在<code class="language-plaintext highlighter-rouge">BaseTestcase</code>中：</p>
 
-<div class="language-diff highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  ---
-  title: Page with cover image
-  author: Tao He
-  date: 2022-05-24
-  category: Jekyll
-  layout: post
-<span class="gi">+ cover: /assets/jekyll-gitbook/dinosaur.gif
-</span>  ---
-</code></pre></div></div>]]></content><author><name>Tao He</name></author><category term="Jekyll" /><summary type="html"><![CDATA[The jekyll-gitbook theme supports adding a cover image to a specific page by adding a cover field to the page metadata:]]></summary></entry><entry><title type="html">How to Generate TOC</title><link href="http://localhost:4000/jekyll-gitbook/jekyll/2021-08-10-toc.html" rel="alternate" type="text/html" title="How to Generate TOC" /><published>2021-08-10T00:00:00+08:00</published><updated>2021-08-10T00:00:00+08:00</updated><id>http://localhost:4000/jekyll-gitbook/jekyll/toc</id><content type="html" xml:base="http://localhost:4000/jekyll-gitbook/jekyll/2021-08-10-toc.html"><![CDATA[<p>The jekyll-gitbook theme leverages <a href="https://github.com/allejo/jekyll-toc">jekyll-toc</a> to generate the <em>Contents</em> for the page.
-The TOC feature is not enabled by default. To use the TOC feature, modify the TOC
-configuration in <code class="language-plaintext highlighter-rouge">_config.yml</code>:</p>
-
-<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">toc</span><span class="pi">:</span>
-    <span class="na">enabled</span><span class="pi">:</span> <span class="no">true</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">BaseTestcase</span><span class="p">:</span>
+    <span class="p">...</span>
+    <span class="o">@</span><span class="nb">staticmethod</span>
+    <span class="k">def</span> <span class="nf">assert_schema</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="n">api_name</span><span class="p">):</span>
+        <span class="s">"""
+        Assert JSON Schema
+        :param instance: 请求响应结果
+        :param api_name: 存放在schema表中的对应key名
+        :return: 
+        """</span>
+        <span class="n">json_schema</span> <span class="o">=</span> <span class="n">Schema</span><span class="p">().</span><span class="n">get</span><span class="p">(</span><span class="n">api_name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">json_schema</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">logger</span><span class="p">.</span><span class="n">error</span><span class="p">(</span><span class="s">'jsonschema未找到！'</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">SchemaNotFound</span><span class="p">(</span><span class="n">api_name</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">validate</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="n">json_schema</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">msg</span><span class="p">:</span>
+            <span class="n">logger</span><span class="p">.</span><span class="n">error</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="nb">AssertionError</span>
 </code></pre></div></div>
 
-<h2 id="why-this-repo">Why this repo</h2>
+<p>在case层进行断言：</p>
 
-<p>long contents …..</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">TestJob</span><span class="p">(</span><span class="n">BaseTestcase</span><span class="p">):</span>
 
-<ol>
-  <li>a</li>
-  <li>b</li>
-  <li>c</li>
-  <li>d</li>
-</ol>
+    <span class="k">def</span> <span class="nf">test_hpc_submit_job</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="n">job</span><span class="p">.</span><span class="n">submit_hpc_job</span><span class="p">()</span>
+        <span class="n">ret_code</span> <span class="o">=</span> <span class="n">resp</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">"ret_code"</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">assert_eq</span><span class="p">(</span><span class="n">ret_code</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="c1"># schema断言
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">assert_schema</span><span class="p">(</span><span class="n">resp</span><span class="p">,</span> <span class="s">'submit_hpc_job'</span><span class="p">)</span>
 
-<h2 id="why-this-repo-1">Why this repo</h2>
-
-<p>long contents …..</p>
-
-<ul>
-  <li>1</li>
-  <li>2</li>
-  <li>3</li>
-  <li>4</li>
-</ul>
-
-<h2 id="why-this-repo-2">Why this repo</h2>
-
-<p>long contents …..</p>
-
-<ol>
-  <li>e</li>
-  <li>f</li>
-  <li>g</li>
-  <li>h</li>
-</ol>
-
-<h2 id="why-this-repo-3">Why this repo</h2>
-
-<ul>
-  <li>5</li>
-  <li>6</li>
-  <li>7</li>
-  <li>8</li>
-</ul>
-
-<h2 id="why-this-repo-4">Why this repo</h2>
-
-<p>long contents …..</p>
-
-<ol>
-  <li>a</li>
-  <li>b</li>
-  <li>c</li>
-  <li>d</li>
-</ol>
-
-<h2 id="why-this-repo-5">Why this repo</h2>
-
-<p>long contents …..</p>
-
-<ul>
-  <li>1</li>
-  <li>2</li>
-  <li>3</li>
-  <li>4</li>
-</ul>
-
-<h2 id="why-this-repo-6">Why this repo</h2>
-
-<p>long contents …..</p>
-
-<ol>
-  <li>e</li>
-  <li>f</li>
-  <li>g</li>
-  <li>h</li>
-</ol>
-
-<h2 id="why-this-repo-7">Why this repo</h2>
-
-<ul>
-  <li>5</li>
-  <li>6</li>
-  <li>7</li>
-  <li>8</li>
-</ul>
-
-<h2 id="why-this-repo-8">Why this repo</h2>
-
-<p>long contents …..</p>
-
-<ol>
-  <li>a</li>
-  <li>b</li>
-  <li>c</li>
-  <li>d</li>
-</ol>
-
-<h2 id="why-this-repo-9">Why this repo</h2>
-
-<p>long contents …..</p>
-
-<ul>
-  <li>1</li>
-  <li>2</li>
-  <li>3</li>
-  <li>4</li>
-</ul>
-
-<h2 id="why-this-repo-10">Why this repo</h2>
-
-<p>long contents …..</p>
-
-<ol>
-  <li>e</li>
-  <li>f</li>
-  <li>g</li>
-  <li>h</li>
-</ol>
-
-<h2 id="why-this-repo-11">Why this repo</h2>
-
-<ul>
-  <li>5</li>
-  <li>6</li>
-  <li>7</li>
-  <li>8</li>
-</ul>
-
-<h2 id="why-this-repo-12">Why this repo</h2>
-
-<p>long contents …..</p>
-
-<ol>
-  <li>a</li>
-  <li>b</li>
-  <li>c</li>
-  <li>d</li>
-</ol>
-
-<h2 id="why-this-repo-13">Why this repo</h2>
-
-<p>long contents …..</p>
-
-<ul>
-  <li>1</li>
-  <li>2</li>
-  <li>3</li>
-  <li>4</li>
-</ul>
-
-<h2 id="why-this-repo-14">Why this repo</h2>
-
-<p>long contents …..</p>
-
-<ol>
-  <li>e</li>
-  <li>f</li>
-  <li>g</li>
-  <li>h</li>
-</ol>
-
-<h2 id="why-this-repo-15">Why this repo</h2>
-
-<ul>
-  <li>5</li>
-  <li>6</li>
-  <li>7</li>
-  <li>8</li>
-</ul>]]></content><author><name>Tao He</name></author><category term="Jekyll" /><summary type="html"><![CDATA[The jekyll-gitbook theme leverages jekyll-toc to generate the Contents for the page. The TOC feature is not enabled by default. To use the TOC feature, modify the TOC configuration in _config.yml:]]></summary></entry><entry><title type="html">License</title><link href="http://localhost:4000/jekyll-gitbook/jekyll/2019-04-29-license.html" rel="alternate" type="text/html" title="License" /><published>2019-04-29T00:00:00+08:00</published><updated>2019-04-29T00:00:00+08:00</updated><id>http://localhost:4000/jekyll-gitbook/jekyll/license</id><content type="html" xml:base="http://localhost:4000/jekyll-gitbook/jekyll/2019-04-29-license.html"><![CDATA[<p>This work is open sourced under the Apache License, Version 2.0, using the
-same license as the original <a href="https://github.com/GitbookIO/gitbook">GitBook</a> repository.</p>
-
-<p>Copyright 2019 Tao He.</p>]]></content><author><name>Tao He</name></author><category term="Jekyll" /><summary type="html"><![CDATA[This work is open sourced under the Apache License, Version 2.0, using the same license as the original GitBook repository.]]></summary></entry><entry><title type="html">How to Get Started</title><link href="http://localhost:4000/jekyll-gitbook/jekyll/2019-04-28-howto.html" rel="alternate" type="text/html" title="How to Get Started" /><published>2019-04-28T00:00:00+08:00</published><updated>2019-04-28T00:00:00+08:00</updated><id>http://localhost:4000/jekyll-gitbook/jekyll/howto</id><content type="html" xml:base="http://localhost:4000/jekyll-gitbook/jekyll/2019-04-28-howto.html"><![CDATA[<p>The jekyll-gitbook theme can be used just as other <a href="https://pages.github.com/themes">Jekyll themes</a> and
-support <a href="https://github.com/sighingnow/jekyll-gitbook/fork">remote theme</a> on <a href="https://pages.github.com">Github Pages</a>, see <a href="https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/adding-a-theme-to-your-github-pages-site-using-jekyll">the official guide</a>
-as well.</p>
-
-<p>You can introduce this jekyll theme into your own site by either</p>
-
-<ul>
-  <li><a href="https://github.com/sighingnow/jekyll-gitbook/fork">Fork</a> this repository and add your markdown posts to the <code class="language-plaintext highlighter-rouge">_posts</code> folder, then
-push to your own Github repository.</li>
-  <li>Use as a remote theme in your <a href="https://github.com/sighingnow/jekyll-gitbook/blob/master/_config.yml"><code class="language-plaintext highlighter-rouge">_config.yml</code></a>(just like what we do for this
-site itself),</li>
-</ul>
-
-<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Configurations</span>
-<span class="na">title</span><span class="pi">:</span>            <span class="s">Jekyll Gitbook</span>
-<span class="na">longtitle</span><span class="pi">:</span>        <span class="s">Jekyll Gitbook</span>
-
-<span class="na">remote_theme</span><span class="pi">:</span>     <span class="s">sighingnow/jekyll-gitbook</span>
 </code></pre></div></div>
 
-<blockquote class="block-tip">
-  <h5 id="tip">TIP</h5>
+<p>会根据第二个参数，去<code class="language-plaintext highlighter-rouge">schema</code>表中取对应key的<code class="language-plaintext highlighter-rouge">jsonschema</code></p>
 
-  <p>No need to push generated HTML bundle.</p>
-</blockquote>]]></content><author><name>Tao He</name></author><category term="Jekyll" /><summary type="html"><![CDATA[The jekyll-gitbook theme can be used just as other Jekyll themes and support remote theme on Github Pages, see the official guide as well.]]></summary></entry><entry><title type="html">Why Jekyll with GitBook</title><link href="http://localhost:4000/jekyll-gitbook/jekyll/2019-04-27-why.html" rel="alternate" type="text/html" title="Why Jekyll with GitBook" /><published>2019-04-27T00:00:00+08:00</published><updated>2019-04-27T00:00:00+08:00</updated><id>http://localhost:4000/jekyll-gitbook/jekyll/why</id><content type="html" xml:base="http://localhost:4000/jekyll-gitbook/jekyll/2019-04-27-why.html"><![CDATA[<p>GitBook is an amazing frontend style to present and organize contents (such as book chapters
-and blogs) on Web. The typical to deploy GitBook at <a href="https://pages.github.com">Github Pages</a>
-is building HTML files locally and then push to Github repository, usually to the <code class="language-plaintext highlighter-rouge">gh-pages</code>
-branch. However, it’s quite annoying to repeat such workload and make it hard for people do
-version control via git for when there are generated HTML files to be staged in and out.</p>
+<p><em>schema表</em></p>
 
-<p>This theme takes style definition out of generated GitBook site and provided the template
-for Jekyll to rendering markdown documents to HTML, thus the whole site can be deployed
-to <a href="https://pages.github.com">Github Pages</a> without generating and uploading HTML bundle every time when there are
-changes to the original repository.</p>
+<p><a href="https://imgtu.com/i/jROZuT"><img src="https://s1.ax1x.com/2022/07/13/jROZuT.md.png" alt="jROZuT.md.png" /></a></p>
 
-<h1 id="哈哈哈">💌哈哈哈</h1>
+<p>需要注意的是，<code class="language-plaintext highlighter-rouge">schema</code>表中的<code class="language-plaintext highlighter-rouge">jsonschema</code>是在接口被调用的时候自动存储的，所以不需要手动操作，但是也是因为这个原因，有可能会存储接口异常时的响应的结构体，所以当要做jsonschema断言时，请检查该表，确保该表对应接口的jsonschema是符合预期的，当然，aomaker也提供了一个<code class="language-plaintext highlighter-rouge">genson()</code>方法，你可以通过该方法手动获取预期的<code class="language-plaintext highlighter-rouge">jsonschema</code>，然后自己存储到<code class="language-plaintext highlighter-rouge">schema</code>表中，<code class="language-plaintext highlighter-rouge">schema</code>表是固化不会自动清理的，你可以持续校正和维护该表。</p>
 
-<h2 id="2级">2级</h2>
+<h1 id="如何使用genson">如何使用<code class="language-plaintext highlighter-rouge">genson</code></h1>
 
-<h3 id="三急">三急</h3>]]></content><author><name>Tao He</name></author><category term="Jekyll" /><summary type="html"><![CDATA[GitBook is an amazing frontend style to present and organize contents (such as book chapters and blogs) on Web. The typical to deploy GitBook at Github Pages is building HTML files locally and then push to Github repository, usually to the gh-pages branch. However, it’s quite annoying to repeat such workload and make it hard for people do version control via git for when there are generated HTML files to be staged in and out.]]></summary></entry></feed>
+<p>只需要传入json字符串，<code class="language-plaintext highlighter-rouge">genson</code> 会自动返回其<code class="language-plaintext highlighter-rouge">jsonschema</code>。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 导入genson
+</span><span class="kn">from</span> <span class="nn">aomaker.aomaker</span> <span class="kn">import</span> <span class="n">genson</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">"age"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="s">"desc"</span><span class="p">:</span> <span class="s">"api framework"</span>
+<span class="p">}</span>
+
+<span class="n">schema</span> <span class="o">=</span> <span class="n">genson</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">schema</span><span class="p">)</span>
+
+<span class="c1"># 输出：
+# {'$schema': 'http://json-schema.org/schema#', 'type': 'object', 'properties': {'age': {'type': 'integer'}, 'desc': {'type': 'string'}}, 'required': ['age', 'desc']}
+</span></code></pre></div></div>]]></content><author><name>Ancient One</name></author><category term="Jekyll" /><summary type="html"><![CDATA[内置断言]]></summary></entry><entry><title type="html">👻Allure报告优化</title><link href="http://localhost:4000/jekyll/2022-07-12-allure%E6%8A%A5%E5%91%8A%E4%BC%98%E5%8C%96.html" rel="alternate" type="text/html" title="👻Allure报告优化" /><published>2022-07-12T00:00:00+08:00</published><updated>2022-07-12T00:00:00+08:00</updated><id>http://localhost:4000/jekyll/allure%E6%8A%A5%E5%91%8A%E4%BC%98%E5%8C%96</id><content type="html" xml:base="http://localhost:4000/jekyll/2022-07-12-allure%E6%8A%A5%E5%91%8A%E4%BC%98%E5%8C%96.html"><![CDATA[<h1 id="自动收集allure报告">自动收集allure报告</h1>
+
+<p>在每次执行完测试任务后，<code class="language-plaintext highlighter-rouge">aomaker</code>会自动收集<code class="language-plaintext highlighter-rouge">allure</code>的测试报告，报告位置在项目根目录下的<code class="language-plaintext highlighter-rouge">reports\html</code>下，只需要打开该目录下的<code class="language-plaintext highlighter-rouge">index.html</code>文件即可。</p>
+
+<h1 id="自动记录用例的依赖调用信息">自动记录用例的依赖调用信息</h1>
+
+<p>在查看allure报告时，可以看到每个case的测试步骤，即该case调用了哪些接口，并记录每个接口的请求、响应和响应时间等信息：</p>
+
+<p><a href="https://imgtu.com/i/jROk3q"><img src="https://s1.ax1x.com/2022/07/13/jROk3q.md.png" alt="jROk3q.md.png" /></a></p>
+
+<p><a href="https://imgtu.com/i/jROAg0"><img src="https://s1.ax1x.com/2022/07/13/jROAg0.md.png" alt="jROAg0.md.png" /></a></p>
+
+<h1 id="自动记录每个case的日志信息">自动记录每个case的日志信息</h1>
+
+<p><code class="language-plaintext highlighter-rouge">aomaker</code>会自动记录该case的所有相关日志信息</p>
+
+<p><img src="https://s1.ax1x.com/2022/07/13/jROEvV.md.png" alt="jROEvV.md.png" /></p>]]></content><author><name>Ancient One</name></author><category term="Jekyll" /><summary type="html"><![CDATA[自动收集allure报告]]></summary></entry><entry><title type="html">📘日志系统</title><link href="http://localhost:4000/jekyll/2022-07-11-%E6%97%A5%E5%BF%97%E7%B3%BB%E7%BB%9F.html" rel="alternate" type="text/html" title="📘日志系统" /><published>2022-07-11T00:00:00+08:00</published><updated>2022-07-11T00:00:00+08:00</updated><id>http://localhost:4000/jekyll/%E6%97%A5%E5%BF%97%E7%B3%BB%E7%BB%9F</id><content type="html" xml:base="http://localhost:4000/jekyll/2022-07-11-%E6%97%A5%E5%BF%97%E7%B3%BB%E7%BB%9F.html"><![CDATA[<p><code class="language-plaintext highlighter-rouge">aomaker</code>提供了一套全新日志系统，这套日志系统将会记录<code class="language-plaintext highlighter-rouge">aomaker</code>所有关键节点信息，比如：</p>
+
+<p>测试任务开始前的初始化配置</p>
+
+<p><a href="https://imgtu.com/i/jRO9EQ"><img src="https://s1.ax1x.com/2022/07/13/jRO9EQ.md.png" alt="jRO9EQ.md.png" /></a></p>
+
+<p>每个接口的入参、出参以及该接口的依赖调用信息和后置异步接口处理信息</p>
+
+<p><a href="https://imgtu.com/i/jROCNj"><img src="https://s1.ax1x.com/2022/07/13/jROCNj.md.png" alt="jROCNj.md.png" /></a></p>
+
+<p>多线程/进程模式下的每个子线程/进程的woker名称，线程/进程数量，每个线程/进程的启动参数</p>
+
+<p><a href="https://imgtu.com/i/jROFCn"><img src="https://s1.ax1x.com/2022/07/13/jROFCn.md.png" alt="jROFCn.md.png" /></a></p>
+
+<p>测试结束后，后置清理信息</p>
+
+<p><a href="https://imgtu.com/i/jROP4s"><img src="https://s1.ax1x.com/2022/07/13/jROP4s.md.png" alt="jROP4s.md.png" /></a></p>
+
+<p>此外，所有日志会同时分别输出到三个地方：</p>
+
+<ul>
+  <li>控制台</li>
+  <li>日志文件，所有日志会被记录到项目根目录下<code class="language-plaintext highlighter-rouge">logs\log.log</code>中，记录级别为<code class="language-plaintext highlighter-rouge">debug</code>，<code class="language-plaintext highlighter-rouge">rotation=10MB</code></li>
+  <li>allure报告，每个接口请求的相关日志都会被记录且展示到<code class="language-plaintext highlighter-rouge">allure</code>报告中，详见下文</li>
+</ul>
+
+<p><strong>如果你需要在工程项目中记录一些自己需要的日志信息</strong>，直接导入<code class="language-plaintext highlighter-rouge">aomaker</code>提供的日志<code class="language-plaintext highlighter-rouge">handler</code>即可：<code class="language-plaintext highlighter-rouge">from aomaker.log import logger</code>，这个<code class="language-plaintext highlighter-rouge">logger</code>的用法和<code class="language-plaintext highlighter-rouge">loguru</code>完全一样。</p>
+
+<p><strong>控制台打印的日志级别默认为</strong><code class="language-plaintext highlighter-rouge">debug</code><strong>，如果你想改变默认级别，</strong>在命令行使用<code class="language-plaintext highlighter-rouge">arun</code>命令时，加上<code class="language-plaintext highlighter-rouge">-l level</code>即可，比如只想打印<code class="language-plaintext highlighter-rouge">info</code>及其以上的日志，使用<code class="language-plaintext highlighter-rouge">arun -l info</code>即可。</p>
+
+<p>支持的级别：</p>
+
+<ul>
+  <li>trace</li>
+  <li>debug</li>
+  <li>info</li>
+  <li>success</li>
+  <li>warning</li>
+  <li>error</li>
+  <li>critical</li>
+</ul>]]></content><author><name>Ancient One</name></author><category term="Jekyll" /><summary type="html"><![CDATA[aomaker提供了一套全新日志系统，这套日志系统将会记录aomaker所有关键节点信息，比如：]]></summary></entry><entry><title type="html">🐼一键切换运行环境</title><link href="http://localhost:4000/jekyll/2022-07-11-%E4%B8%80%E9%94%AE%E5%88%87%E6%8D%A2%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83.html" rel="alternate" type="text/html" title="🐼一键切换运行环境" /><published>2022-07-11T00:00:00+08:00</published><updated>2022-07-11T00:00:00+08:00</updated><id>http://localhost:4000/jekyll/%E4%B8%80%E9%94%AE%E5%88%87%E6%8D%A2%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83</id><content type="html" xml:base="http://localhost:4000/jekyll/2022-07-11-%E4%B8%80%E9%94%AE%E5%88%87%E6%8D%A2%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83.html"><![CDATA[<p>测试环境一般会有多套，但是每套环境上的测试代码基本上是不会变的，所以我们需要有一个入口来控制切换当前测试代码的环境，这个入口在配置文件<code class="language-plaintext highlighter-rouge">config.yaml</code>中的<code class="language-plaintext highlighter-rouge">env</code>字段。</p>
+
+<p><em>config.yaml</em></p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 控制环境切换入口</span>
+<span class="na">env</span><span class="pi">:</span> <span class="s">test</span>
+<span class="na">test</span><span class="pi">:</span>
+  <span class="na">account</span><span class="pi">:</span>
+    <span class="na">pwd</span><span class="pi">:</span> <span class="s">test01</span>
+    <span class="na">user</span><span class="pi">:</span> <span class="s">test01</span>
+  <span class="na">host</span><span class="pi">:</span> <span class="s">http://test.aomaker.com</span>
+<span class="na">release</span><span class="pi">:</span>
+  <span class="na">account</span><span class="pi">:</span>
+    <span class="na">pwd</span><span class="pi">:</span> <span class="s">test02</span>
+    <span class="na">user</span><span class="pi">:</span> <span class="s">test02</span>
+  <span class="na">host</span><span class="pi">:</span> <span class="s">http://release.aomaker.com</span>
+</code></pre></div></div>
+
+<p>比如当前的测试环境是<code class="language-plaintext highlighter-rouge">test</code>，我现在想切换到<code class="language-plaintext highlighter-rouge">release</code>环境，那我只需要改<code class="language-plaintext highlighter-rouge">env:release</code>即可。</p>
+
+<p>此外，<code class="language-plaintext highlighter-rouge">aomaker</code>还提供了<code class="language-plaintext highlighter-rouge">cli</code>命令来切换环境，用法：</p>
+
+<p><code class="language-plaintext highlighter-rouge">arun -e release</code>或者<code class="language-plaintext highlighter-rouge">aomaker run -e release</code>，即通过<code class="language-plaintext highlighter-rouge">-e env_name</code>来切换</p>]]></content><author><name>Ancient One</name></author><category term="Jekyll" /><summary type="html"><![CDATA[测试环境一般会有多套，但是每套环境上的测试代码基本上是不会变的，所以我们需要有一个入口来控制切换当前测试代码的环境，这个入口在配置文件config.yaml中的env字段。]]></summary></entry><entry><title type="html">🚀多任务</title><link href="http://localhost:4000/jekyll/2022-07-10-%E5%A4%9A%E4%BB%BB%E5%8A%A1.html" rel="alternate" type="text/html" title="🚀多任务" /><published>2022-07-10T00:00:00+08:00</published><updated>2022-07-10T00:00:00+08:00</updated><id>http://localhost:4000/jekyll/%E5%A4%9A%E4%BB%BB%E5%8A%A1</id><content type="html" xml:base="http://localhost:4000/jekyll/2022-07-10-%E5%A4%9A%E4%BB%BB%E5%8A%A1.html"><![CDATA[<p><code class="language-plaintext highlighter-rouge">aomaker</code> 提供了多线程和多进程两种方式来加速用例运行速度，提供了三种粒度来合理控制线程/进程worker，此外，多线程模式下，对<code class="language-plaintext highlighter-rouge">allure</code> 报告也做了完美兼容。</p>
+
+<p><img src="https://s1.ax1x.com/2022/07/13/jRLzDS.md.png" alt="jRLzDS.md.png" /></p>
+
+<h1 id="多线程推荐">多线程（推荐）</h1>
+
+<h5 id="启动方式">启动方式</h5>
+
+<p><code class="language-plaintext highlighter-rouge">aomaker</code>提供了两种启动多线程：<strong>CLI</strong>和<strong>run.py</strong></p>
+
+<ol>
+  <li>cli</li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>multi-run:
+--mp, --multi-process
+specifies a multi-process running mode.
+--mt, --multi-thread  specifies a multi-thread running mode.
+--dist-suite DIST_SUITE
+specifies a dist mode for per worker.
+--dist-file DIST_FILE
+specifies a dist mode for per worker.
+--dist-mark DIST_MARK [DIST_MARK ...]
+specifies a dist mode for per worker.
+
+</code></pre></div></div>
+
+<p>命令行输入：<code class="language-plaintext highlighter-rouge">arun --mt --dist-xxx xxx</code>或者<code class="language-plaintext highlighter-rouge">aomaker run --mt --dist-xxx</code></p>
+
+<ol>
+  <li>run.py</li>
+</ol>
+
+<p><em>run.py</em></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">login</span> <span class="kn">import</span> <span class="n">Login</span>
+
+<span class="kn">from</span> <span class="nn">aomaker.runner</span> <span class="kn">import</span> <span class="n">threads_run</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">threads_run</span><span class="p">([</span><span class="s">'-m ehpc'</span><span class="p">,</span><span class="s">'-m hpc'</span><span class="p">],</span> <span class="n">login</span><span class="o">=</span><span class="n">Login</span><span class="p">())</span>
+</code></pre></div></div>
+
+<h5 id="分配模式">分配模式</h5>
+
+<p>为了更加精细和合理的去分配任务给子线程，<code class="language-plaintext highlighter-rouge">aomaker</code>提供了三种分配模式，颗粒度由细到粗分别是：</p>
+
+<ol>
+  <li>按标记分配</li>
+</ol>
+
+<p>即按照<code class="language-plaintext highlighter-rouge">pytest</code>提供的<code class="language-plaintext highlighter-rouge">mark</code>功能来分配任务给子线程，比如说你希望将标记为<code class="language-plaintext highlighter-rouge">demo1</code>、<code class="language-plaintext highlighter-rouge">demo2</code>、<code class="language-plaintext highlighter-rouge">demo3</code>的三组case分配给三个不同子线程去跑，那么你需要做的就是：提前给用例打上对应<code class="language-plaintext highlighter-rouge">mark</code>，然后：</p>
+
+<ul>
+  <li>cli：<code class="language-plaintext highlighter-rouge">arun --mt --dist-mark demo1 demo2 demo3</code></li>
+  <li>run.py:</li>
+</ul>
+
+<p><em>run.py</em></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">login</span> <span class="kn">import</span> <span class="n">Login</span>
+
+<span class="kn">from</span> <span class="nn">aomaker.runner</span> <span class="kn">import</span> <span class="n">threads_run</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="c1"># 注意第一个参数传入的是列表
+</span>    <span class="n">threads_run</span><span class="p">([</span><span class="s">'-m demo1'</span><span class="p">,</span><span class="s">'-m demo2'</span><span class="p">,</span><span class="s">'-m demo3'</span><span class="p">],</span> <span class="n">login</span><span class="o">=</span><span class="n">Login</span><span class="p">())</span>
+</code></pre></div></div>
+
+<p>这样启动后，会开启三个子线程，去分别执行三组case。</p>
+
+<p><strong>注意：</strong></p>
+
+<p><strong>1.每组mark下的case，一定要保证是独立的！</strong></p>
+
+<p><strong>2.提供多少个mark，就开启多少个线程</strong></p>
+
+<ol>
+  <li>按测试模块分配</li>
+</ol>
+
+<p>即按照测试文件来分配任务给子线程，比如在<code class="language-plaintext highlighter-rouge">testcases\test_api</code>目录下有<code class="language-plaintext highlighter-rouge">test_demo1.py</code>、<code class="language-plaintext highlighter-rouge">test_demo2.py</code>、<code class="language-plaintext highlighter-rouge">test_demo3.py</code>三个测试模块，你希望这三个模块下的测试case分别由三个子线程接管执行，那么只需要：</p>
+
+<ul>
+  <li>cli：<code class="language-plaintext highlighter-rouge">arun --mt --dist-file testcases\test_api</code>，即告诉<code class="language-plaintext highlighter-rouge">aomaker</code>测试文件所在目录既可</li>
+  <li>run.py:</li>
+</ul>
+
+<p><em>run.py</em></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">login</span> <span class="kn">import</span> <span class="n">Login</span>
+
+<span class="kn">from</span> <span class="nn">aomaker.runner</span> <span class="kn">import</span> <span class="n">threads_run</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="c1"># 注意第一个参数传入的是key名为path的字典
+</span>    <span class="n">threads_run</span><span class="p">({</span><span class="s">"path"</span><span class="p">:</span><span class="s">"testcases/test_api"</span><span class="p">},</span> <span class="n">login</span><span class="o">=</span><span class="n">Login</span><span class="p">())</span>
+</code></pre></div></div>
+
+<p><strong>注意：</strong></p>
+
+<p><strong>1.每个测试模块下的case，一定要保证是独立的！</strong></p>
+
+<p><strong>2.指定目录下有多少个测试模块，就开启多少个线程</strong></p>
+
+<ol>
+  <li>按测试套件分配</li>
+</ol>
+
+<p>即按照测试目录来分配任务给子线程，比如在<code class="language-plaintext highlighter-rouge">testcases\test_scenario</code>目录下，有<code class="language-plaintext highlighter-rouge">test_scenario1</code>、<code class="language-plaintext highlighter-rouge">test_scenario2</code>、<code class="language-plaintext highlighter-rouge">test_scenario3</code>等三个测试目录，每个目录下还有若干测试模块，你希望这三个目录下的所有测试case分别由三个子线程接管执行，那么只需要：</p>
+
+<ul>
+  <li>cli：<code class="language-plaintext highlighter-rouge">arun --mt --dist-suite testcases\test_scenario</code>，即告诉<code class="language-plaintext highlighter-rouge">aomaker</code>测试套件所在目录既可</li>
+  <li>run.py:</li>
+</ul>
+
+<p><em>run.py</em></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">login</span> <span class="kn">import</span> <span class="n">Login</span>
+
+<span class="kn">from</span> <span class="nn">aomaker.runner</span> <span class="kn">import</span> <span class="n">threads_run</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="c1"># 注意第一个参数传入的是字符串
+</span>    <span class="n">threads_run</span><span class="p">(</span><span class="s">"testcases/test_scenario"</span><span class="p">,</span> <span class="n">login</span><span class="o">=</span><span class="n">Login</span><span class="p">())</span>
+</code></pre></div></div>
+
+<p><strong>注意：</strong></p>
+
+<p><strong>1.每个测试模块下的case，一定要保证是独立的！</strong></p>
+
+<p><strong>2.指定目录下有多少个测试套件，就开启多少个线程</strong></p>
+
+<h1 id="多进程">多进程</h1>
+
+<p><code class="language-plaintext highlighter-rouge">aomaker</code>目前暂时不支持在windows上创建多进程，linux是完美支持的。</p>
+
+<h5 id="启动方式-1">启动方式</h5>
+
+<p><code class="language-plaintext highlighter-rouge">aomaker</code>同样提供了两种启动多进程：<strong>CLI</strong>和<strong>run.py</strong></p>
+
+<ol>
+  <li>cli</li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>multi-run:
+--mp, --multi-process
+specifies a multi-process running mode.
+--mt, --multi-thread  specifies a multi-thread running mode.
+--dist-suite DIST_SUITE
+specifies a dist mode for per worker.
+--dist-file DIST_FILE
+specifies a dist mode for per worker.
+--dist-mark DIST_MARK [DIST_MARK ...]
+specifies a dist mode for per worker.
+
+</code></pre></div></div>
+
+<p>命令行输入：<code class="language-plaintext highlighter-rouge">arun --mp --dist-xxx xxx</code>或者<code class="language-plaintext highlighter-rouge">aomaker run --mp --dist-xxx</code></p>
+
+<ol>
+  <li>run.py</li>
+</ol>
+
+<p><em>run.py</em></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">login</span> <span class="kn">import</span> <span class="n">Login</span>
+
+<span class="kn">from</span> <span class="nn">aomaker.runner</span> <span class="kn">import</span> <span class="n">processes_run</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">processes_run</span><span class="p">([</span><span class="s">'-m ehpc'</span><span class="p">,</span><span class="s">'-m hpc'</span><span class="p">],</span> <span class="n">login</span><span class="o">=</span><span class="n">Login</span><span class="p">())</span>
+</code></pre></div></div>
+
+<h5 id="分配模式-1">分配模式</h5>
+
+<p>分配模式和多线程是一样的，区别是任务是分配给子进程，而不是子线程，具体分配模式请参考多线程。</p>]]></content><author><name>Ancient One</name></author><category term="Jekyll" /><summary type="html"><![CDATA[aomaker 提供了多线程和多进程两种方式来加速用例运行速度，提供了三种粒度来合理控制线程/进程worker，此外，多线程模式下，对allure 报告也做了完美兼容。]]></summary></entry><entry><title type="html">📽️流量录制</title><link href="http://localhost:4000/jekyll/2022-06-30-%E6%B5%81%E9%87%8F%E5%BD%95%E5%88%B6.html" rel="alternate" type="text/html" title="📽️流量录制" /><published>2022-06-30T00:00:00+08:00</published><updated>2022-06-30T00:00:00+08:00</updated><id>http://localhost:4000/jekyll/%E6%B5%81%E9%87%8F%E5%BD%95%E5%88%B6</id><content type="html" xml:base="http://localhost:4000/jekyll/2022-06-30-%E6%B5%81%E9%87%8F%E5%BD%95%E5%88%B6.html"><![CDATA[<p>如果不想写代码，也不想<code class="language-plaintext highlighter-rouge">YAML</code> ，那么用流量录制吧。</p>
+
+<p><code class="language-plaintext highlighter-rouge">aomaker</code>提供<code class="language-plaintext highlighter-rouge">aomaker record</code>或者<code class="language-plaintext highlighter-rouge">arec</code>来录制浏览器上的流量，录制完成后，会自动在<code class="language-plaintext highlighter-rouge">yamlcase</code>目录下生成一份<code class="language-plaintext highlighter-rouge">xxx.yaml</code>文件，其中记录了请求调用信息，因为记录的是原始流量，如果你想让case固化，则需要按照<code class="language-plaintext highlighter-rouge">aomaker</code>提供的<code class="language-plaintext highlighter-rouge">YAML语法</code>去将必要的参数进行参数化改造。</p>
+
+<h1 id="流量录制">流量录制</h1>
+
+<p>1.打开浏览器（以<code class="language-plaintext highlighter-rouge">Chrome</code>为例），修改浏览器代理，将代理改为<code class="language-plaintext highlighter-rouge">aomaker</code>代理的端口地址。</p>
+
+<p>有两种方式：</p>
+
+<ul>
+  <li>在浏览器设置中，修改浏览器代理为127.0.0.0:8082（不推荐）</li>
+  <li>安装浏览器插件<strong>Proxy SwitchyOmega</strong>，在插件中配置<code class="language-plaintext highlighter-rouge">aomaker</code>代理，并将代理切换为<code class="language-plaintext highlighter-rouge">aomaker</code>。</li>
+</ul>
+
+<p><img src="https://cdn.jsdelivr.net/gh/ae86sen/mypic2/am.png" alt="" /></p>
+
+<p>该插件可以非常轻松的管理代理并切换多个代理，非常方便好用，强烈推荐~</p>
+
+<p>2.<strong>进入到工程根目录下</strong>，执行<code class="language-plaintext highlighter-rouge">aomaker record</code>命令</p>
+
+<p>格式：</p>
+
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">aomaker</span><span class="w"> </span><span class="nx">record</span><span class="w"> </span><span class="p">[</span><span class="nt">-h</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="nt">-f</span><span class="w"> </span><span class="p">[</span><span class="n">FILTER_STR</span><span class="p">]]</span><span class="w"> </span><span class="p">[</span><span class="nt">-p</span><span class="w"> </span><span class="p">[</span><span class="n">PORT</span><span class="p">]]</span><span class="w"> </span><span class="p">[</span><span class="nt">--flow-detail</span><span class="w"> </span><span class="p">[</span><span class="n">LEVEL</span><span class="p">]]</span><span class="w"> </span><span class="p">[</span><span class="nt">--save_response</span><span class="w"> </span><span class="p">[</span><span class="n">SAVE_RESPONSE</span><span class="p">]]</span><span class="w"> </span><span class="p">[</span><span class="nt">--save_headers</span><span class="w"> </span><span class="p">[</span><span class="n">SAVE_HEADERS</span><span class="p">]]</span><span class="w"> </span><span class="p">[</span><span class="n">file_name</span><span class="p">]</span><span class="w">
+</span></code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">aomaker record</code>有一个简写命令，<code class="language-plaintext highlighter-rouge">arec</code>，两者等效。</p>
+
+<p>执行<code class="language-plaintext highlighter-rouge">aomaker record xxx.yaml</code>后，<code class="language-plaintext highlighter-rouge">aomaker</code>将开始录制，此时只需要在浏览器中去操作需要转化成的自动化用例的业务场景即可。</p>
+
+<p><img src="https://cdn.jsdelivr.net/gh/ae86sen/mypic2/rec.png" alt="" /></p>
+
+<p>录制完成后，在控制台按<code class="language-plaintext highlighter-rouge">ctrl+c</code>即可退出录制，输出的文件将放在工程根目录下的<code class="language-plaintext highlighter-rouge">yamlcase</code>目录中。</p>
+
+<p>参数说明：</p>
+
+<ul>
+  <li><strong>-f, –filter_str</strong></li>
+</ul>
+
+<p>指定过滤字段，如<code class="language-plaintext highlighter-rouge">-f "console.shanhe.com"</code>，即表示代理只捕获url中含有<code class="language-plaintext highlighter-rouge">"console.shanhe.com"</code>的请求。</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>也可以同时指定多个过滤字段（过滤表达式参考下面），用”</td>
+      <td>“分割即可，多个条件直接是”and”关系，如<code class="language-plaintext highlighter-rouge">-f "console.shanhe.com | ~hq method:/alarm"</code>，表示代理只捕获url中含有<code class="language-plaintext highlighter-rouge">"console.shanhe.com"</code>和请求头中有<code class="language-plaintext highlighter-rouge">"method:/alarm"</code>的请求。</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>附支持的过滤表达式：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">The</span> <span class="n">following</span> <span class="n">operators</span> <span class="n">are</span> <span class="n">understood</span><span class="p">:</span>
+
+        <span class="o">~</span><span class="n">q</span>          <span class="n">Request</span>
+        <span class="o">~</span><span class="n">s</span>          <span class="n">Response</span>
+
+    <span class="n">Headers</span><span class="p">:</span>
+
+        <span class="n">Patterns</span> <span class="n">are</span> <span class="n">matched</span> <span class="n">against</span> <span class="s">"name: value"</span> <span class="n">strings</span><span class="p">.</span> <span class="n">Field</span> <span class="n">names</span> <span class="n">are</span>
+        <span class="nb">all</span><span class="o">-</span><span class="n">lowercase</span><span class="p">.</span>
+
+        <span class="o">~</span><span class="n">a</span>          <span class="n">Asset</span> <span class="n">content</span><span class="o">-</span><span class="nb">type</span> <span class="ow">in</span> <span class="n">response</span><span class="p">.</span> <span class="n">Asset</span> <span class="n">content</span> <span class="n">types</span> <span class="n">are</span><span class="p">:</span>
+                        <span class="n">text</span><span class="o">/</span><span class="n">javascript</span>
+                        <span class="n">application</span><span class="o">/</span><span class="n">x</span><span class="o">-</span><span class="n">javascript</span>
+                        <span class="n">application</span><span class="o">/</span><span class="n">javascript</span>
+                        <span class="n">text</span><span class="o">/</span><span class="n">css</span>
+                        <span class="n">image</span><span class="o">/*</span>
+                        <span class="n">application</span><span class="o">/</span><span class="n">x</span><span class="o">-</span><span class="n">shockwave</span><span class="o">-</span><span class="n">flash</span>
+        <span class="o">~</span><span class="n">h</span> <span class="n">rex</span>      <span class="n">Header</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">either</span> <span class="n">request</span> <span class="ow">or</span> <span class="n">response</span>
+        <span class="o">~</span><span class="n">hq</span> <span class="n">rex</span>     <span class="n">Header</span> <span class="ow">in</span> <span class="n">request</span>
+        <span class="o">~</span><span class="n">hs</span> <span class="n">rex</span>     <span class="n">Header</span> <span class="ow">in</span> <span class="n">response</span>
+
+        <span class="o">~</span><span class="n">b</span> <span class="n">rex</span>      <span class="n">Expression</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">body</span> <span class="n">of</span> <span class="n">either</span> <span class="n">request</span> <span class="ow">or</span> <span class="n">response</span>
+        <span class="o">~</span><span class="n">bq</span> <span class="n">rex</span>     <span class="n">Expression</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">body</span> <span class="n">of</span> <span class="n">request</span>
+        <span class="o">~</span><span class="n">bs</span> <span class="n">rex</span>     <span class="n">Expression</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">body</span> <span class="n">of</span> <span class="n">response</span>
+        <span class="o">~</span><span class="n">t</span> <span class="n">rex</span>      <span class="n">Shortcut</span> <span class="k">for</span> <span class="n">content</span><span class="o">-</span><span class="nb">type</span> <span class="n">header</span><span class="p">.</span>
+
+        <span class="o">~</span><span class="n">d</span> <span class="n">rex</span>      <span class="n">Request</span> <span class="n">domain</span>
+        <span class="o">~</span><span class="n">m</span> <span class="n">rex</span>      <span class="n">Method</span>
+        <span class="o">~</span><span class="n">u</span> <span class="n">rex</span>      <span class="n">URL</span>
+        <span class="o">~</span><span class="n">c</span> <span class="n">CODE</span>     <span class="n">Response</span> <span class="n">code</span><span class="p">.</span>
+        <span class="n">rex</span>         <span class="n">Equivalent</span> <span class="n">to</span> <span class="o">~</span><span class="n">u</span> <span class="n">rex</span>
+</code></pre></div></div>
+
+<ul>
+  <li><strong>-p,–port</strong></li>
+</ul>
+
+<p>指定<code class="language-plaintext highlighter-rouge">aomaker</code>代理端口，默认为8082。</p>
+
+<ul>
+  <li><strong>–flow-detail</strong></li>
+</ul>
+
+<p>指定代理录制时记录日志信息的详细程度，一共0~4五个等级，详细程度依次递增，默认为0。</p>
+
+<ul>
+  <li><strong>–save_response</strong></li>
+</ul>
+
+<p>指定录制流量时，是否保存响应结果，0为保存，1为不保存，默认为0。</p>
+
+<ul>
+  <li><strong>–save_headers</strong></li>
+</ul>
+
+<p>指定录制流量时，是否保存请求头，0为保存，1为不保存，默认为1。</p>
+
+<ul>
+  <li><strong>file_name</strong></li>
+</ul>
+
+<p>该参数为<strong>必填</strong>参数，指定录制流量的输出文件（YAML格式），需要注意指定文件名是需要添加后缀”.yaml”或”.yml”，文件将保存在项目根目录的<code class="language-plaintext highlighter-rouge">yamlcase</code>目录下。</p>
+
+<p><strong>har文件解析</strong></p>
+
+<p>如果不使用流量录制的方式，也可以通过浏览器<code class="language-plaintext highlighter-rouge">F12</code>，<code class="language-plaintext highlighter-rouge">fiddler</code>，<code class="language-plaintext highlighter-rouge">Charles</code>等场景抓包工具导出的<code class="language-plaintext highlighter-rouge">.har</code>文件，<code class="language-plaintext highlighter-rouge">aomaker</code>支持将<code class="language-plaintext highlighter-rouge">har</code>文件解析为<code class="language-plaintext highlighter-rouge">YAML</code>格式的功能，使用命令<code class="language-plaintext highlighter-rouge">aomaker har2y</code>即可。</p>
+
+<p><strong>参数说明：</strong></p>
+
+<ul>
+  <li><strong>har_path</strong></li>
+</ul>
+
+<p>指定.har文件位置</p>
+
+<ul>
+  <li><strong>yaml_path</strong></li>
+</ul>
+
+<p>指定转化的.yaml文件输出位置</p>
+
+<ul>
+  <li><strong>–filter_str</strong></li>
+</ul>
+
+<p>har文件转化为yaml文件时，所需要筛选的字段</p>
+
+<ul>
+  <li><strong>–exclude_str</strong></li>
+</ul>
+
+<p>har文件转化为yaml文件时，所需要排除的字段</p>
+
+<ul>
+  <li><strong>–save_response</strong></li>
+</ul>
+
+<p>指定har文件转化为yaml文件时，是否保存响应结果，0为保存，1为不保存，默认为0。</p>
+
+<ul>
+  <li><strong>–save_headers</strong></li>
+</ul>
+
+<p>指定har文件转化为yaml文件时，是否保存请求头，0为保存，1为不保存，默认为1。</p>
+
+<h1 id="修改yaml文件">修改YAML文件</h1>
+
+<p>录制的流量将保存在项目根目录的<code class="language-plaintext highlighter-rouge">yamlcase</code>目录下。</p>
+
+<p>具体修改方法参考上一章。</p>]]></content><author><name>Ancient One</name></author><category term="Jekyll" /><summary type="html"><![CDATA[如果不想写代码，也不想YAML ，那么用流量录制吧。]]></summary></entry><entry><title type="html">📝编写YAML自动生成用例</title><link href="http://localhost:4000/jekyll/2022-06-26-YAML.html" rel="alternate" type="text/html" title="📝编写YAML自动生成用例" /><published>2022-06-26T00:00:00+08:00</published><updated>2022-06-26T00:00:00+08:00</updated><id>http://localhost:4000/jekyll/YAML</id><content type="html" xml:base="http://localhost:4000/jekyll/2022-06-26-YAML.html"><![CDATA[<p><code class="language-plaintext highlighter-rouge">aomaker</code>提供了一套<code class="language-plaintext highlighter-rouge">YAML</code>模板语法，只要遵循规定语法，就可以不用写代码，直接通过<code class="language-plaintext highlighter-rouge">YAML</code>文件直接翻译为<code class="language-plaintext highlighter-rouge">pytest</code>风格的代码文件。</p>
+
+<p><strong>YAML语法介绍示例：</strong></p>
+
+<ul>
+  <li><strong>testcase_class_name（必填）</strong>:指定测试类名称</li>
+  <li><strong>description（可选）</strong>：用例描述</li>
+  <li><strong>testcase_name（必填</strong>）：指定测试类下的测试方法名称</li>
+  <li><strong>config（可选）</strong>：配置全局变量（配置文件中的全局变量），采用锚点标记的方式，下文可以直接引用</li>
+</ul>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 示例</span>
+<span class="c1"># 标记锚点</span>
+<span class="na">config</span><span class="pi">:</span> <span class="nl">&amp;config</span>
+  <span class="na">zone</span><span class="pi">:</span> <span class="s2">"</span><span class="s">self.config.get('zone')"</span>
+<span class="na">steps</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">class_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">job'</span>
+    <span class="na">method_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">submit_job'</span>
+    <span class="na">request</span><span class="pi">:</span>
+      <span class="s">...</span>
+      <span class="s">data</span><span class="err">:</span>
+        <span class="na">params</span><span class="pi">:</span>
+          <span class="na">service</span><span class="pi">:</span> <span class="s">hpc</span>
+          <span class="s">...</span>
+          <span class="c1"># 引用锚点</span>
+          <span class="na">&lt;&lt;</span><span class="pi">:</span> <span class="nv">*config</span> <span class="c1"># 等同于 zone："self.config.get('zone')"</span>
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p><strong>steps</strong>：测试场景所包含的所有接口列表，列表中每一个元素即代表一个接口请求信息。（先后顺序代表接口请求顺序）steps中每个元素中至少有3个字段：</p>
+
+    <ul>
+      <li>
+        <p><strong>class_name（必填）</strong>：指定ao的类名</p>
+      </li>
+      <li>
+        <p><strong>method_name（必填）</strong>：指定ao类下的方法名，即接口名称</p>
+      </li>
+      <li>
+        <p><strong>request（必填）</strong>: 接口请求信息</p>
+      </li>
+      <li>
+        <p><strong>dependent_api（可选）</strong>：指明该接口的依赖接口，以列表形式接收，可以接收多个依赖，按先后顺序调用，每个依赖需要指明的参数如下：</p>
+
+        <ul>
+          <li>
+            <p><em>module</em>（必填）: 依赖接口的所在模块，从<code class="language-plaintext highlighter-rouge">apis</code>模块导入，如<code class="language-plaintext highlighter-rouge">apis.cluster</code></p>
+          </li>
+          <li>
+            <p><em>api（必填）</em>: 依赖接口的方法名称，如<code class="language-plaintext highlighter-rouge">list</code></p>
+          </li>
+          <li>
+            <p><em>extract（必填）</em>: 需要从依赖接口中提取的参数</p>
+          </li>
+          <li>
+            <p><em>api_params（可选）</em>：依赖接口所需要的参数，以字典形式接收</p>
+
+            <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cluster_type: 'ehpc'
+</code></pre></div>            </div>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 示例</span>
+<span class="nn">...</span>
+<span class="na">steps</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">class_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">job'</span>
+    <span class="na">method_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">submit_job'</span>
+    <span class="na">dependent_api</span><span class="pi">:</span>
+      <span class="c1"># 指明依赖apis.cluster模块下的list方法</span>
+      <span class="pi">-</span> <span class="na">module</span><span class="pi">:</span> <span class="s">apis.cluster</span>
+        <span class="na">api</span><span class="pi">:</span> <span class="s">list</span>
+        <span class="na">extract</span><span class="pi">:</span> <span class="s2">"</span><span class="s">cluster_id"</span> <span class="c1"># 提取的参数名</span>
+        <span class="na">api_params</span><span class="pi">:</span> 
+          <span class="na">cluster_type</span><span class="pi">:</span> <span class="s1">'</span><span class="s">ehpc'</span> <span class="c1"># 依赖接口所需要外部传入的参数</span>
+      <span class="c1"># 指明依赖apis.queue模块下的get_queue_list方法</span>
+      <span class="pi">-</span> <span class="na">module</span><span class="pi">:</span> <span class="s">apis.queue</span>
+        <span class="na">api</span><span class="pi">:</span> <span class="s">get_queue_list</span>
+        <span class="na">extract</span><span class="pi">:</span> <span class="s2">"</span><span class="s">ehpc_queue_id"</span>
+</code></pre></div></div>
+
+<ul>
+  <li><strong>dependent_params（可选）</strong>：指明该接口，需要从依赖接口中引用什么变量，并以什么<code class="language-plaintext highlighter-rouge">jsonpath</code>表达式提取。以列表形式接收（注意：当指明dependent_params，就必须同时指明dependent_api），每个依赖参数需要指明的参数如下：
+    <ul>
+      <li><em>params（必填）</em>：指明需要提取的依赖参数名</li>
+      <li><em>jsonpath（必填）</em>：指明提取依赖参数的<code class="language-plaintext highlighter-rouge">jsonpath</code>表达式</li>
+      <li><em>index（可选</em>）：<code class="language-plaintext highlighter-rouge">jsonpath</code>表达式提取出的值是<code class="language-plaintext highlighter-rouge">list</code>，可以根据自身需求指明需要提取哪个，默认值为<code class="language-plaintext highlighter-rouge">0</code></li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 示例</span>
+<span class="nn">...</span>
+<span class="na">steps</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">class_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">job'</span>
+    <span class="na">method_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">submit_job'</span>
+    <span class="na">dependent_api</span><span class="pi">:</span>
+      <span class="s">...</span>
+    <span class="na">dependent_params</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">params</span><span class="pi">:</span> <span class="s2">"</span><span class="s">hpc_cluster_id"</span> <span class="c1"># 依赖的参数名，注意下面引用时，就是用该名称</span>
+        <span class="na">jsonpath</span><span class="pi">:</span> <span class="s2">"</span><span class="s">$..cluster_id"</span> <span class="c1"># 从依赖接口的响应中根据该表达式提取依赖参数</span>
+      <span class="pi">-</span> <span class="na">params</span><span class="pi">:</span> <span class="s2">"</span><span class="s">hpcqueue_id"</span> 
+        <span class="na">jsonpath</span><span class="pi">:</span> <span class="s2">"</span><span class="s">$..hpcqueue_id"</span>
+<span class="err"> </span><span class="na">request</span><span class="pi">:</span>
+      <span class="s">...</span>
+      <span class="s">data</span><span class="err">:</span>
+        <span class="na">params</span><span class="pi">:</span>
+          <span class="s">...</span>
+          <span class="s">cluster_id</span><span class="err">:</span> <span class="s2">"</span><span class="s">$hpc_cluster_id$"</span> <span class="c1"># 通过$dependent_params中的params$进行引用</span>
+          <span class="na">hpcqueue_id</span><span class="pi">:</span> <span class="s2">"</span><span class="s">$hpcqueue_id$"</span>
+</code></pre></div></div>
+
+<ul>
+  <li><strong>data_driven（可选）</strong>：若该接口需要做数据驱动，可以通过该参数指明。 一个业务场景中，若多个接口都有data_driven参数，那么会自动进行参数组合，生成多条这个业务场景的测试数据。 不仅如此，凡是接口中带有<code class="language-plaintext highlighter-rouge">data_driven</code>，<strong>同时还会生成单接口测试数据。</strong></li>
+</ul>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 示例</span>
+<span class="nn">...</span>
+<span class="na">steps</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">class_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">job'</span>
+    <span class="na">method_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">submit_job'</span>
+    <span class="na">data_driven</span><span class="pi">:</span> <span class="c1"># 指明需要数据驱动的参数</span>
+      <span class="na">cmd_line</span><span class="pi">:</span> <span class="pi">[</span><span class="s2">"</span><span class="s">sleep</span><span class="nv"> </span><span class="s">10</span><span class="nv"> </span><span class="s">"</span><span class="pi">,</span><span class="s2">"</span><span class="s">sleep</span><span class="nv"> </span><span class="s">15</span><span class="nv"> </span><span class="s">"</span><span class="pi">,</span><span class="s2">"</span><span class="s">sleep</span><span class="nv"> </span><span class="s">30</span><span class="nv"> </span><span class="s">"</span><span class="pi">,</span><span class="nv">....</span><span class="pi">]</span> <span class="c1"># 参数名：参数组</span>
+    <span class="s">...</span>
+    <span class="na">request</span><span class="pi">:</span>
+      <span class="s">...</span>
+      <span class="s">data</span><span class="err">:</span>
+        <span class="na">params</span><span class="pi">:</span>
+          <span class="s">...</span>
+          <span class="s"># test_data['cmd_line']的方式标记该参数是需要数据驱动的参数</span>
+          <span class="s">cmd_line</span><span class="err">:</span> <span class="s2">"</span><span class="s">test_data['cmd_line']"</span>
+</code></pre></div></div>
+
+<ul>
+  <li><strong>assert（可选）</strong>：若需要对该接口的响应结果进行断言，可添加此参数，以列表形式接收。</li>
+</ul>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 示例</span>
+<span class="nn">...</span>
+<span class="na">steps</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">class_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">job'</span>
+    <span class="na">method_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">submit_job'</span>
+    <span class="s">...</span>
+    <span class="na">request</span><span class="pi">:</span>
+      <span class="s">...</span>
+    <span class="na">assert</span><span class="pi">:</span> 
+      <span class="pi">-</span> <span class="na">eq</span><span class="pi">:</span> <span class="pi">[</span> <span class="s1">'</span><span class="s">ret_code'</span><span class="pi">,</span><span class="nv">0</span> <span class="pi">]</span> <span class="c1"># [jsonpath表达式（实际结果）,jsonpath索引(可不写，默认为0),预期结果]</span>
+      <span class="pi">-</span> <span class="na">neq</span><span class="pi">:</span> <span class="pi">[</span> <span class="s1">'</span><span class="s">$..hpcjob_uuid'</span><span class="pi">,</span><span class="nv">null</span> <span class="pi">]</span> 
+</code></pre></div></div>
+
+<p><em>ps：支持的断言器可在</em><code class="language-plaintext highlighter-rouge">_aomaker.base.base_testcase_</code><em>中查看。</em></p>
+
+<p><strong>YAML完整实例</strong></p>
+
+<p><em>demo.yaml</em></p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">testcase_class_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">smoke2'</span>
+<span class="na">description</span><span class="pi">:</span> <span class="s1">'</span><span class="s">hpc冒烟'</span>
+<span class="na">testcase_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">hpc_smoke'</span>
+<span class="na">config</span><span class="pi">:</span> <span class="nl">&amp;config</span>
+  <span class="na">zone</span><span class="pi">:</span> <span class="s2">"</span><span class="s">self.config.get('zone')"</span>
+  <span class="na">owner</span><span class="pi">:</span> <span class="s2">"</span><span class="s">self.config.get('owner')"</span>
+  <span class="na">user_id</span><span class="pi">:</span> <span class="s2">"</span><span class="s">self.config.get('owner')"</span>
+  <span class="na">run_user</span><span class="pi">:</span> <span class="s2">"</span><span class="s">self.config.get('owner')"</span>
+<span class="na">steps</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">class_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">cluster'</span>
+    <span class="na">method_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">list'</span>
+    <span class="na">request</span><span class="pi">:</span>
+      <span class="na">api_path</span><span class="pi">:</span> <span class="s">/portal_api/</span>
+      <span class="na">method</span><span class="pi">:</span> <span class="s">POST</span>
+      <span class="na">params</span><span class="pi">:</span>
+        <span class="na">action</span><span class="pi">:</span> <span class="s">cluster/list</span>
+      <span class="na">data</span><span class="pi">:</span>
+        <span class="na">params</span><span class="pi">:</span>
+          <span class="na">service</span><span class="pi">:</span> <span class="s">hpc</span>
+          <span class="na">action</span><span class="pi">:</span> <span class="s">cluster/list</span>
+          <span class="na">status</span><span class="pi">:</span> <span class="pi">[</span> <span class="s2">"</span><span class="s">active"</span> <span class="pi">]</span>
+          <span class="na">sort_key</span><span class="pi">:</span> <span class="s2">"</span><span class="s">create_time"</span>
+          <span class="na">verbose</span><span class="pi">:</span> <span class="m">1</span>
+          <span class="na">limit</span><span class="pi">:</span> <span class="m">10</span>
+          <span class="na">offset</span><span class="pi">:</span> <span class="m">0</span>
+          <span class="na">reverse</span><span class="pi">:</span> <span class="m">1</span>
+          <span class="na">cluster_type</span><span class="pi">:</span> <span class="s2">"</span><span class="s">ehpc"</span>
+          <span class="na">&lt;&lt;</span><span class="pi">:</span> <span class="nv">*config</span>
+        <span class="na">method</span><span class="pi">:</span> <span class="s">GET</span>
+    <span class="na">assert</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">ge</span><span class="pi">:</span> <span class="pi">[</span> <span class="s1">'</span><span class="s">$..total_count'</span><span class="pi">,</span><span class="nv">0</span> <span class="pi">]</span>
+
+  <span class="pi">-</span> <span class="na">class_name</span><span class="pi">:</span> <span class="s">cluster</span>
+    <span class="na">method_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">list_node'</span>
+    <span class="na">dependent_params</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">params</span><span class="pi">:</span> <span class="s2">"</span><span class="s">hpc_cluster_id"</span>
+        <span class="na">jsonpath</span><span class="pi">:</span> <span class="s2">"</span><span class="s">$..cluster_id"</span>
+        <span class="na">index</span><span class="pi">:</span> <span class="m">0</span>
+    <span class="na">request</span><span class="pi">:</span>
+      <span class="na">api_path</span><span class="pi">:</span> <span class="s">/portal_api/</span>
+      <span class="na">method</span><span class="pi">:</span> <span class="s">POST</span>
+      <span class="na">params</span><span class="pi">:</span>
+        <span class="na">action</span><span class="pi">:</span> <span class="s">cluster/listNodes</span>
+      <span class="na">data</span><span class="pi">:</span>
+        <span class="na">params</span><span class="pi">:</span>
+          <span class="na">action</span><span class="pi">:</span> <span class="s">cluster/listNodes</span>
+          <span class="na">service</span><span class="pi">:</span> <span class="s">hpc</span>
+          <span class="na">status</span><span class="pi">:</span>
+            <span class="pi">-</span> <span class="s">active</span>
+            <span class="pi">-</span> <span class="s">stopped</span>
+            <span class="pi">-</span> <span class="s">pending</span>
+          <span class="na">sort_key</span><span class="pi">:</span> <span class="s">role</span>
+          <span class="na">reverse</span><span class="pi">:</span> <span class="m">1</span>
+          <span class="na">verbose</span><span class="pi">:</span> <span class="m">1</span>
+          <span class="na">limit</span><span class="pi">:</span> <span class="m">10</span>
+          <span class="na">offset</span><span class="pi">:</span> <span class="m">0</span>
+          <span class="na">cluster_id</span><span class="pi">:</span> <span class="s2">"</span><span class="s">$hpc_cluster_id$"</span>
+          <span class="na">&lt;&lt;</span><span class="pi">:</span> <span class="nv">*config</span>
+        <span class="na">method</span><span class="pi">:</span> <span class="s">GET</span>
+  <span class="pi">-</span> <span class="na">class_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">user'</span>
+    <span class="na">method_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">user_list'</span>
+    <span class="na">dependent_params</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">params</span><span class="pi">:</span> <span class="s2">"</span><span class="s">hpc_cluster_id"</span>
+        <span class="na">jsonpath</span><span class="pi">:</span> <span class="s2">"</span><span class="s">$..cluster_id"</span>
+        <span class="na">index</span><span class="pi">:</span> <span class="m">0</span>
+    <span class="na">request</span><span class="pi">:</span>
+      <span class="na">api_path</span><span class="pi">:</span> <span class="s">/portal_api/</span>
+      <span class="na">method</span><span class="pi">:</span> <span class="s">POST</span>
+      <span class="na">params</span><span class="pi">:</span>
+        <span class="na">action</span><span class="pi">:</span> <span class="s">user</span>
+      <span class="na">data</span><span class="pi">:</span>
+        <span class="na">params</span><span class="pi">:</span>
+          <span class="na">service</span><span class="pi">:</span> <span class="s">hpc</span>
+          <span class="na">action</span><span class="pi">:</span> <span class="s">user/list</span>
+          <span class="na">limit</span><span class="pi">:</span> <span class="m">10</span>
+          <span class="na">offset</span><span class="pi">:</span> <span class="m">0</span>
+          <span class="na">sort_key</span><span class="pi">:</span> <span class="s1">'</span><span class="s">create_time'</span>
+          <span class="na">reverse</span><span class="pi">:</span> <span class="m">1</span>
+          <span class="na">cluster_id</span><span class="pi">:</span> <span class="s2">"</span><span class="s">$hpc_cluster_id$"</span>
+          <span class="na">&lt;&lt;</span><span class="pi">:</span> <span class="nv">*config</span>
+        <span class="na">method</span><span class="pi">:</span> <span class="s">GET</span>
+  <span class="pi">-</span> <span class="na">class_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">user'</span>
+    <span class="na">method_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">add_user'</span>
+    <span class="na">dependent_params</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">params</span><span class="pi">:</span> <span class="s2">"</span><span class="s">hpc_cluster_id"</span>
+        <span class="na">jsonpath</span><span class="pi">:</span> <span class="s2">"</span><span class="s">$..cluster_id"</span>
+        <span class="na">index</span><span class="pi">:</span> <span class="m">0</span>
+    <span class="na">data_driven</span><span class="pi">:</span>
+      <span class="na">username</span><span class="pi">:</span> <span class="pi">[</span> <span class="nv">admin7</span><span class="pi">,</span><span class="nv">admin8</span><span class="pi">,</span><span class="nv">admin9</span> <span class="pi">]</span>
+      <span class="na">password</span><span class="pi">:</span> <span class="pi">[</span> <span class="nv">zhu!!jie</span><span class="pi">,</span><span class="nv">zhu@@jie</span><span class="pi">,</span><span class="nv">zhu@10jie</span> <span class="pi">]</span>
+    <span class="na">request</span><span class="pi">:</span>
+      <span class="na">api_path</span><span class="pi">:</span> <span class="s">/portal_api/</span>
+      <span class="na">method</span><span class="pi">:</span> <span class="s">POST</span>
+      <span class="na">params</span><span class="pi">:</span>
+        <span class="na">action</span><span class="pi">:</span> <span class="s">user/addUser</span>
+      <span class="na">data</span><span class="pi">:</span>
+        <span class="na">params</span><span class="pi">:</span>
+          <span class="na">service</span><span class="pi">:</span> <span class="s">hpc</span>
+          <span class="na">action</span><span class="pi">:</span> <span class="s">user/addUser</span>
+          <span class="na">mod</span><span class="pi">:</span> <span class="s1">'</span><span class="s">755'</span>
+          <span class="na">username</span><span class="pi">:</span> <span class="s2">"</span><span class="s">test_data['username']"</span>
+          <span class="na">password</span><span class="pi">:</span> <span class="s2">"</span><span class="s">test_data['password']"</span>
+          <span class="na">cluster_id</span><span class="pi">:</span> <span class="s2">"</span><span class="s">$hpc_cluster_id$"</span>
+          <span class="na">&lt;&lt;</span><span class="pi">:</span> <span class="nv">*config</span>
+    <span class="na">assert</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">eq</span><span class="pi">:</span> <span class="pi">[</span> <span class="s1">'</span><span class="s">ret_code'</span><span class="pi">,</span><span class="nv">0</span> <span class="pi">]</span>
+  <span class="pi">-</span> <span class="na">class_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">user'</span>
+    <span class="na">method_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">modify_user'</span>
+    <span class="na">dependent_params</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">params</span><span class="pi">:</span> <span class="s2">"</span><span class="s">hpc_cluster_id"</span>
+        <span class="na">jsonpath</span><span class="pi">:</span> <span class="s2">"</span><span class="s">$..cluster_id"</span>
+        <span class="na">index</span><span class="pi">:</span> <span class="m">0</span>
+    <span class="na">data_driven</span><span class="pi">:</span>
+      <span class="na">username</span><span class="pi">:</span> <span class="pi">[</span> <span class="nv">admin7</span><span class="pi">,</span><span class="nv">admin8</span><span class="pi">,</span><span class="nv">admin9</span> <span class="pi">]</span>
+    <span class="na">request</span><span class="pi">:</span>
+      <span class="na">api_path</span><span class="pi">:</span> <span class="s">/portal_api/</span>
+      <span class="na">method</span><span class="pi">:</span> <span class="s">POST</span>
+      <span class="na">params</span><span class="pi">:</span>
+        <span class="na">action</span><span class="pi">:</span> <span class="s">user/modifyUser</span>
+      <span class="na">data</span><span class="pi">:</span>
+        <span class="na">params</span><span class="pi">:</span>
+          <span class="na">service</span><span class="pi">:</span> <span class="s">hpc</span>
+          <span class="na">action</span><span class="pi">:</span> <span class="s">user/modifyUser</span>
+          <span class="na">new_password</span><span class="pi">:</span> <span class="s">Zhu@@@88jie</span>
+          <span class="na">username</span><span class="pi">:</span> <span class="s2">"</span><span class="s">test_data['username']"</span>
+          <span class="na">cluster_id</span><span class="pi">:</span> <span class="s2">"</span><span class="s">$hpc_cluster_id$"</span>
+          <span class="na">&lt;&lt;</span><span class="pi">:</span> <span class="nv">*config</span>
+    <span class="na">assert</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">eq</span><span class="pi">:</span> <span class="pi">[</span> <span class="s1">'</span><span class="s">ret_code'</span><span class="pi">,</span><span class="nv">0</span> <span class="pi">]</span>
+  <span class="pi">-</span> <span class="na">class_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">user'</span>
+    <span class="na">method_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">delete_user'</span>
+    <span class="na">dependent_params</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">params</span><span class="pi">:</span> <span class="s2">"</span><span class="s">hpc_cluster_id"</span>
+        <span class="na">jsonpath</span><span class="pi">:</span> <span class="s2">"</span><span class="s">$..cluster_id"</span>
+        <span class="na">index</span><span class="pi">:</span> <span class="m">0</span>
+    <span class="na">data_driven</span><span class="pi">:</span>
+      <span class="na">username</span><span class="pi">:</span> <span class="pi">[</span> <span class="nv">admin7</span><span class="pi">,</span><span class="nv">admin8</span><span class="pi">,</span><span class="nv">admin9</span> <span class="pi">]</span>
+    <span class="na">request</span><span class="pi">:</span>
+      <span class="na">api_path</span><span class="pi">:</span> <span class="s">/portal_api/</span>
+      <span class="na">method</span><span class="pi">:</span> <span class="s">POST</span>
+      <span class="na">params</span><span class="pi">:</span>
+        <span class="na">action</span><span class="pi">:</span> <span class="s">user/deleteUser</span>
+      <span class="na">data</span><span class="pi">:</span>
+        <span class="na">params</span><span class="pi">:</span>
+          <span class="na">service</span><span class="pi">:</span> <span class="s">hpc</span>
+          <span class="na">action</span><span class="pi">:</span> <span class="s">user/deleteUser</span>
+          <span class="na">username</span><span class="pi">:</span> <span class="s2">"</span><span class="s">test_data['username']"</span>
+          <span class="na">cluster_id</span><span class="pi">:</span> <span class="s2">"</span><span class="s">$hpc_cluster_id$"</span>
+          <span class="na">&lt;&lt;</span><span class="pi">:</span> <span class="nv">*config</span>
+    <span class="na">assert</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">eq</span><span class="pi">:</span> <span class="pi">[</span> <span class="s1">'</span><span class="s">ret_code'</span><span class="pi">,</span><span class="nv">0</span> <span class="pi">]</span>
+
+  <span class="pi">-</span> <span class="na">class_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">queue'</span>
+    <span class="na">method_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">get_queue_list'</span>
+    <span class="na">dependent_params</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">params</span><span class="pi">:</span> <span class="s2">"</span><span class="s">hpc_cluster_id"</span>
+        <span class="na">jsonpath</span><span class="pi">:</span> <span class="s2">"</span><span class="s">$..cluster_id"</span>
+        <span class="na">index</span><span class="pi">:</span> <span class="m">0</span>
+    <span class="na">request</span><span class="pi">:</span>
+      <span class="na">api_path</span><span class="pi">:</span> <span class="s">/portal_api/</span>
+      <span class="na">method</span><span class="pi">:</span> <span class="s">POST</span>
+      <span class="na">params</span><span class="pi">:</span>
+        <span class="na">action</span><span class="pi">:</span> <span class="s">queue/ehpc/getQueueList</span>
+      <span class="na">data</span><span class="pi">:</span>
+        <span class="na">params</span><span class="pi">:</span>
+          <span class="na">service</span><span class="pi">:</span> <span class="s">hpc</span>
+          <span class="na">action</span><span class="pi">:</span> <span class="s">queue/ehpc/getQueueList</span>
+          <span class="na">limit</span><span class="pi">:</span> <span class="m">10</span>
+          <span class="na">offset</span><span class="pi">:</span> <span class="m">0</span>
+          <span class="na">sort_key</span><span class="pi">:</span> <span class="s">create_time</span>
+          <span class="na">reverse</span><span class="pi">:</span> <span class="m">1</span>
+          <span class="na">pageSize</span><span class="pi">:</span> <span class="m">100</span>
+          <span class="na">is_active</span><span class="pi">:</span> <span class="m">1</span>
+          <span class="na">cluster_id</span><span class="pi">:</span> <span class="s2">"</span><span class="s">$hpc_cluster_id$"</span>
+          <span class="na">&lt;&lt;</span><span class="pi">:</span> <span class="nv">*config</span>
+        <span class="na">method</span><span class="pi">:</span> <span class="s">GET</span>
+    <span class="na">assert</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">eq</span><span class="pi">:</span> <span class="pi">[</span> <span class="s1">'</span><span class="s">ret_code'</span><span class="pi">,</span><span class="nv">0</span> <span class="pi">]</span>
+
+  <span class="pi">-</span> <span class="na">class_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">job'</span>
+    <span class="na">method_name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">submit_ehpc_job'</span>
+    <span class="na">dependent_api</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">module</span><span class="pi">:</span> <span class="s">apis.cluster</span>
+        <span class="na">api</span><span class="pi">:</span> <span class="s">list</span>
+        <span class="na">extract</span><span class="pi">:</span> <span class="s2">"</span><span class="s">cluster_id"</span>
+        <span class="na">api_params</span><span class="pi">:</span>
+          <span class="na">cluster_type</span><span class="pi">:</span> <span class="s1">'</span><span class="s">ehpc'</span>
+      <span class="pi">-</span> <span class="na">module</span><span class="pi">:</span> <span class="s">apis.queue</span>
+        <span class="na">api</span><span class="pi">:</span> <span class="s">get_queue_list</span>
+        <span class="na">extract</span><span class="pi">:</span> <span class="s2">"</span><span class="s">ehpc_queue_id"</span>
+    <span class="na">dependent_params</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">params</span><span class="pi">:</span> <span class="s2">"</span><span class="s">hpc_cluster_id"</span>
+        <span class="na">jsonpath</span><span class="pi">:</span> <span class="s2">"</span><span class="s">$..cluster_id"</span>
+      <span class="pi">-</span> <span class="na">params</span><span class="pi">:</span> <span class="s2">"</span><span class="s">hpcqueue_id"</span>
+        <span class="na">jsonpath</span><span class="pi">:</span> <span class="s2">"</span><span class="s">$..hpcqueue_id"</span>
+    <span class="na">data_driven</span><span class="pi">:</span>
+      <span class="na">cmd_line</span><span class="pi">:</span> <span class="pi">[</span> <span class="s1">'</span><span class="s">sleep</span><span class="nv"> </span><span class="s">10'</span><span class="pi">,</span><span class="s1">'</span><span class="s">sleep</span><span class="nv"> </span><span class="s">5'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">sleep</span><span class="nv"> </span><span class="s">15'</span> <span class="pi">]</span>
+    <span class="na">request</span><span class="pi">:</span>
+      <span class="na">api_path</span><span class="pi">:</span> <span class="s">/portal_api/</span>
+      <span class="na">method</span><span class="pi">:</span> <span class="s">POST</span>
+      <span class="na">params</span><span class="pi">:</span>
+        <span class="na">action</span><span class="pi">:</span> <span class="s">job/submitJob</span>
+      <span class="na">data</span><span class="pi">:</span>
+        <span class="na">params</span><span class="pi">:</span>
+          <span class="na">service</span><span class="pi">:</span> <span class="s">hpc</span>
+          <span class="na">action</span><span class="pi">:</span> <span class="s">job/submitJob</span>
+          <span class="na">cmd_line_type</span><span class="pi">:</span> <span class="s">input</span>
+          <span class="na">name</span><span class="pi">:</span> <span class="s1">'</span><span class="s">mitm</span><span class="nv"> </span><span class="s">work'</span>
+          <span class="na">priority</span><span class="pi">:</span> <span class="m">1</span>
+          <span class="na">cmd_line</span><span class="pi">:</span> <span class="s2">"</span><span class="s">test_data['cmd_line']"</span>
+          <span class="na">cluster_id</span><span class="pi">:</span> <span class="s2">"</span><span class="s">$hpc_cluster_id$"</span>
+          <span class="na">hpcqueue_id</span><span class="pi">:</span> <span class="s2">"</span><span class="s">$hpcqueue_id$"</span>
+          <span class="na">&lt;&lt;</span><span class="pi">:</span> <span class="nv">*config</span>
+    <span class="na">assert</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">eq</span><span class="pi">:</span> <span class="pi">[</span> <span class="s1">'</span><span class="s">ret_code'</span><span class="pi">,</span><span class="nv">0</span> <span class="pi">]</span>
+      <span class="pi">-</span> <span class="na">neq</span><span class="pi">:</span> <span class="pi">[</span> <span class="s1">'</span><span class="s">hpcjob_uuid'</span><span class="pi">,</span><span class="nv">null</span> <span class="pi">]</span>
+
+
+</code></pre></div></div>
+
+<p>将该<code class="language-plaintext highlighter-rouge">demo.yaml</code>文件放在工程根目录下的<code class="language-plaintext highlighter-rouge">yamlcase</code>文件夹下，然后命令行进入到工程根目录下，执行命令：</p>
+
+<p><code class="language-plaintext highlighter-rouge">aomaker mcase yamlcase\demo.yaml</code>后，<code class="language-plaintext highlighter-rouge">aomake</code>r会直接将yaml文件中的描述，转化为对应代码文件。</p>
+
+<p>在<code class="language-plaintext highlighter-rouge">apis</code>目录下生成接口文件：</p>
+
+<p><a href="https://imgtu.com/i/jRLHNd"><img src="https://s1.ax1x.com/2022/07/13/jRLHNd.png" alt="jRLHNd.png" /></a></p>
+
+<p><em>cluster.py</em></p>
+
+<p><a href="https://imgtu.com/i/jRLL9I"><img src="https://s1.ax1x.com/2022/07/13/jRLL9I.md.png" alt="jRLL9I.md.png" /></a></p>
+
+<p>数据文件包括单场景和业务场景：</p>
+
+<p><a href="https://imgtu.com/i/jRLO3t"><img src="https://s1.ax1x.com/2022/07/13/jRLO3t.png" alt="jRLO3t.png" /></a></p>
+
+<p><em>smoke2.yaml</em></p>
+
+<p><a href="https://imgtu.com/i/jRLXgP"><img src="https://s1.ax1x.com/2022/07/13/jRLXgP.png" alt="jRLXgP.png" /></a></p>
+
+<p>生成的测试文件，包括单接口和业务场景case：</p>
+
+<p><a href="https://imgtu.com/i/jRLjjf"><img src="https://s1.ax1x.com/2022/07/13/jRLjjf.png" alt="jRLjjf.png" /></a></p>
+
+<p><em>test_smoke2.py</em></p>
+
+<p><img src="https://s1.ax1x.com/2022/07/13/jRLxu8.md.png" alt="jRLxu8.md.png" /></p>]]></content><author><name>Ancient One</name></author><category term="Jekyll" /><summary type="html"><![CDATA[aomaker提供了一套YAML模板语法，只要遵循规定语法，就可以不用写代码，直接通过YAML文件直接翻译为pytest风格的代码文件。]]></summary></entry><entry><title type="html">👽async_api装饰器用法</title><link href="http://localhost:4000/jekyll/2022-05-24-async_api.html" rel="alternate" type="text/html" title="👽async_api装饰器用法" /><published>2022-05-24T00:00:00+08:00</published><updated>2022-05-24T00:00:00+08:00</updated><id>http://localhost:4000/jekyll/async_api</id><content type="html" xml:base="http://localhost:4000/jekyll/2022-05-24-async_api.html"><![CDATA[<h1 id="当接口是异步接口怎么做判断异步结果">当接口是异步接口，怎么做判断异步结果？</h1>
+
+<p><code class="language-plaintext highlighter-rouge">aomaker</code>提供了<code class="language-plaintext highlighter-rouge">@async_api</code>来标记异步接口，示例如下：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">aomaker.base.base_api</span> <span class="kn">import</span> <span class="n">BaseApi</span>
+<span class="kn">from</span> <span class="nn">aomaker.aomaker</span> <span class="kn">import</span> <span class="n">dependence</span><span class="p">,</span> <span class="n">async_api</span>
+
+<span class="kn">from</span> <span class="nn">apis.cluster</span> <span class="kn">import</span> <span class="n">cluster</span>
+
+<span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">wait_job</span>
+
+
+<span class="k">class</span> <span class="nc">Job</span><span class="p">(</span><span class="n">BaseApi</span><span class="p">):</span>
+
+    <span class="o">@</span><span class="n">async_api</span><span class="p">(</span><span class="n">wait_job</span><span class="p">,</span> <span class="s">'hpcjob_uuid'</span><span class="p">)</span>
+    <span class="o">@</span><span class="n">dependence</span><span class="p">(</span><span class="n">cluster</span><span class="p">.</span><span class="n">get_cluster_list</span><span class="p">,</span> <span class="s">'hpc_cluster_id'</span><span class="p">,</span> <span class="n">cluster_type</span><span class="o">=</span><span class="s">'hpc'</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">submit_hpc_job</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">test_data</span><span class="p">):</span>
+        <span class="p">...</span>
+        <span class="k">return</span> <span class="n">resp</span>
+</code></pre></div></div>
+
+<p><strong>使用步骤：</strong></p>
+
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">from aomaker.aomaker import async_api</code>导入<code class="language-plaintext highlighter-rouge">@async_api</code>装饰器</li>
+  <li><code class="language-plaintext highlighter-rouge">@async_api</code>装饰器接收两个必传参数：
+    <ol>
+      <li>第一个参数，自己编写的轮询函数</li>
+      <li>第二个参数，从目标接口的响应中根据jsonpath表达式提取异步任务id</li>
+      <li>非必填参数，<code class="language-plaintext highlighter-rouge">jsonpath</code>表达式提取出的值是<code class="language-plaintext highlighter-rouge">list</code>，可以根据自身需求指明需要提取哪个，默认值为<code class="language-plaintext highlighter-rouge">0</code></li>
+    </ol>
+  </li>
+</ol>
+
+<p>当一个接口被打上这个标记，那么会在接口被请求完成后，会开始执行自己编写的轮询函数，来判断该异步接口的异步任务结果是否得到预期结果。</p>]]></content><author><name>Ancient One</name></author><category term="Jekyll" /><summary type="html"><![CDATA[当接口是异步接口，怎么做判断异步结果？]]></summary></entry></feed>
