@@ -1,0 +1,13 @@
+I"ë<p>The jekyll-gitbook theme supports adding a cover image to a specific page by adding
+a <code class="language-plaintext highlighter-rouge">cover</code> field to the page metadata:</p>
+
+<div class="language-diff highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  ---
+  title: Page with cover image
+  author: Tao He
+  date: 2022-05-24
+  category: Jekyll
+  layout: post
+<span class="gi">+ cover: /assets/jekyll-gitbook/dinosaur.gif
+</span>  ---
+</code></pre></div></div>
+:ET

@@ -1,0 +1,3 @@
+I"<p>A wide tables needs to be wrapped into a <code class="language-plaintext highlighter-rouge">div</code> with class <code class="language-plaintext highlighter-rouge">table-wrapper</code>
+to make sure it displayed as expected on mobile devices. For example,</p>
+:ET
