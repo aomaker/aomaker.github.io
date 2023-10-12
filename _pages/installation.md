@@ -30,4 +30,4 @@ aomaker
 
 能看到`aomaker` logo即安装成功。
 
-![[Pasted image 20231010172600.png]]
+![](https://picgo2listen.oss-cn-beijing.aliyuncs.com/imgs/20231012164308.png)
