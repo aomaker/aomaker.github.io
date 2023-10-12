@@ -30,4 +30,4 @@ aomaker
 
 能看到`aomaker` logo即安装成功。
 
-[![v9vVkn.png](https://s1.ax1x.com/2022/07/28/v9vVkn.png)](https://imgtu.com/i/v9vVkn)
+![[Pasted image 20231010172600.png]]
